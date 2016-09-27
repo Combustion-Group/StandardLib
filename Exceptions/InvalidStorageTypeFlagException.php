@@ -1,5 +1,5 @@
 <?php
 
-namespace CombustionGroup\Std\Exceptions;
+namespace CombustionGroup\StandardLib\Exceptions;
 
 class InvalidStorageTypeFlagException extends \Exception {}

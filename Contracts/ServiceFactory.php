@@ -1,6 +1,6 @@
 <?php
 
-namespace CombustionGroup\Std\Contracts;
+namespace CombustionGroup\StandardLib\Contracts;
 
 interface ServiceFactory
 {

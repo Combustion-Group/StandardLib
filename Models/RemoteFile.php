@@ -1,6 +1,6 @@
 <?php
 
-namespace CombustionGroup\Std\Models;
+namespace CombustionGroup\StandardLib\Models;
 
 /**
  * Class RemoteFile

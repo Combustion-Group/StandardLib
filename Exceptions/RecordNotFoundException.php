@@ -1,7 +1,7 @@
 <?php
 
-namespace CombustionGroup\Std\Exceptions;
+namespace CombustionGroup\StandardLib\Exceptions;
 
-use CombustionGroup\Std\Traits\ClientReadable;
+use CombustionGroup\StandardLib\Traits\ClientReadable;
 
 class RecordNotFoundException extends \Exception { use ClientReadable; }

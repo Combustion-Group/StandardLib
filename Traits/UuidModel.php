@@ -1,6 +1,6 @@
 <?php
 
-namespace CombustionGroup\Std\Traits;
+namespace CombustionGroup\StandardLib\Traits;
 
 use Ramsey\Uuid\Uuid;
 use Illuminate\Database\Eloquent\Model;

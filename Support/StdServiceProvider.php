@@ -1,10 +1,10 @@
 <?php
 
-namespace CombustionGroup\Std\Support;
+namespace CombustionGroup\StandardLib\Support;
 
-use CombustionGroup\Std\Log;
+use CombustionGroup\StandardLib\Log;
 use Monolog\Logger as Monolog;
-use CombustionGroup\Std\UploadManager;
+use CombustionGroup\StandardLib\UploadManager;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Filesystem\FilesystemManager;

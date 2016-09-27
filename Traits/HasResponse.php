@@ -1,6 +1,6 @@
 <?php
 
-namespace CombustionGroup\Std\Traits;
+namespace CombustionGroup\StandardLib\Traits;
 
 /**
  * Trait HasResponse

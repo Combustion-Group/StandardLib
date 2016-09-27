@@ -1,0 +1,25 @@
+{
+  "name": "combustion-group/standard-lib",
+  "homepage": "https://github.com/Combustion-Group/StandardLib",
+  "description": "The Combustion Group package of common tools and services.",
+  "keywords": ["common", "tools", "services"],
+  "type": "library",
+  "license": "proprietary",
+  "authors": [
+    {
+      "name": "Combustion Group Corp",
+      "homepage": "http://combustiongroup.com"
+    }
+  ],
+  "require": {
+
+  },
+  "require-dev": {
+
+  },
+  "autoload": {
+    "psr-4": {
+      "CombustionGroup\\StandardLib": ""
+    }
+  }
+}

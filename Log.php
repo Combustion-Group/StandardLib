@@ -1,6 +1,6 @@
 <?php
 
-namespace CombustionGroup\Std;
+namespace CombustionGroup\StandardLib;
 
 use Illuminate\Log\Writer;
 
