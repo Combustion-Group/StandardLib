@@ -152,6 +152,10 @@ abstract class AbstractInstaller extends Command
     private function setup()
     {
         $this->database->beginTransaction();
+
+        if (is_string($this->migrations)) {
+            $this->migrations = $this->filesystem->allFiles($this->migrations);
+        }
     }
 
     private function finish()
@@ -174,6 +178,8 @@ abstract class AbstractInstaller extends Command
 
         // After the migrations are exported we want to call the migrator.
         $this->after('export', function () {
+            if (!count($this->migrations)) return;
+
             $this->info('Migrating...');
             $this->call('migrate');
         });
@@ -230,8 +236,9 @@ abstract class AbstractInstaller extends Command
     {
         $bar = $this->createProgressBar(count($this->seeders));
 
-        foreach ($this->seeders as $table => $seeder) {
-            $bar->setMessage('Seeding table: ' . $table);
+        foreach ($this->seeders as $seeder) {
+            $bar->setMessage('Seeding: ' . class_basename($seeder));
+            $this->call($seeder);
             $bar->advance();
         }
 
