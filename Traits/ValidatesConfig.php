@@ -7,7 +7,7 @@ use Combustion\StandardLib\Exceptions\ConfigNotFoundException;
 /**
  * Class ValidatesConfig
  *
- * @package App\Lib\Support
+ * @package Combustion\StandardLib\Traits
  * @author Carlos Granados <cgranados@combustiongroup.com>
  */
 trait ValidatesConfig

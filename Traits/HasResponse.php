@@ -4,7 +4,7 @@ namespace Combustion\StandardLib\Traits;
 
 /**
  * Trait HasResponse
- * @package App\Lib\Support
+ * @package Combustion\StandardLib\Traits
  * @author Carlos Granados <cgranados@combustiongroup.com>
  */
 trait HasResponse

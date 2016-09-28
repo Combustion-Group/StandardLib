@@ -16,10 +16,10 @@ use Symfony\Component\Console\Helper\ProgressBar;
 /**
  * Class Installer
  *
- * Utility for facilitating the installation of an in-house
+ * Utility for facilitating the installation of a proprietary
  * software package for laravel.
  *
- * @package CombustionGroup\StandardLib\Support
+ * @package Combustion\StandardLib\Support\Installer
  * @author Carlos Granados <cgranados@combustiongroup.com>
  */
 abstract class AbstractInstaller extends Command
@@ -77,6 +77,11 @@ abstract class AbstractInstaller extends Command
     /**
      * @var array
      */
+    private $exported = [];
+
+    /**
+     * @var array
+     */
     private $stack = [
         'boot',
         'setup',
@@ -129,23 +134,22 @@ abstract class AbstractInstaller extends Command
      */
     private function runStack(array $stack)
     {
-        foreach ($stack as $operation)
-        {
-            if ($operation instanceof \Closure) {
-                $operation();
-            } elseif (method_exists($this, $operation)) {
-                if (isset($this->beforeCallbacks[$operation])) {
-                    $this->beforeCallbacks[$operation]();
-                }
+        try {
+            foreach ($stack as $operation) {
+                if ($operation instanceof \Closure) {
+                    $operation();
+                } elseif (method_exists($this, $operation)) {
+                    $this->runBeforeCallbacks($operation);
+                    $this->{$operation}();
+                    $this->runAfterCallbacks($operation);
 
-                $this->{$operation}();
-
-                if (isset($this->afterCallbacks[$operation])) {
-                    $this->beforeCallbacks[$operation]();
+                } else {
+                    throw new InvalidOperationException("Cannot execute item in stack: " . serialize($operation));
                 }
-            } else {
-                throw new InvalidOperationException("Cannot execute item in stack: " . serialize($operation));
             }
+        } catch (\Exception $e) {
+            $this->rollback();
+            throw new $e;
         }
     }
 
@@ -158,9 +162,40 @@ abstract class AbstractInstaller extends Command
         }
     }
 
+    private function rollback()
+    {
+        $this->database->rollBack();
+        $this->undoExports();
+    }
+
     private function finish()
     {
         $this->database->commit();
+    }
+
+    private function undoExports()
+    {
+        $this->filesystem->delete($this->exported);
+    }
+
+    /**
+     * @param string $nextOperation
+     */
+    private function runBeforeCallbacks(string $nextOperation)
+    {
+        if (isset($this->beforeCallbacks[$nextOperation])) {
+            $this->beforeCallbacks[$nextOperation]();
+        }
+    }
+
+    /**
+     * @param string $lastOperation
+     */
+    private function runAfterCallbacks(string $lastOperation)
+    {
+        if (isset($this->afterCallbacks[$lastOperation])) {
+            $this->beforeCallbacks[$lastOperation]();
+        }
     }
 
     /**
@@ -223,6 +258,7 @@ abstract class AbstractInstaller extends Command
         foreach ($this->exports as $origin => $destination)
         {
             $this->filesystem->copy($origin, $destination);
+            $this->exported[] = $destination;
             $bar->advance();
         }
 

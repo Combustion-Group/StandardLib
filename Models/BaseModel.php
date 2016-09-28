@@ -4,7 +4,7 @@ namespace Combustion\StandardLib\Models;
 
 /**
  * Class BaseModel
- * @package App\Lib\Std\Models
+ * @package Combustion\StandardLib\Models
  * @author Carlos Granados <cgranadso@combustiongroup.com>
  */
 abstract class BaseModel extends \Eloquent

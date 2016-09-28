@@ -3,18 +3,19 @@
 namespace Combustion\StandardLib;
 
 use Illuminate\Http\JsonResponse;
-use Combustion\StandardLib\Exceptions\ErrorBag;
 use Illuminate\Validation\Validator;
-use Combustion\StandardLib\Traits\ClientReadable;
-use App\Lib\Account\Models\MerchantAccount;
 use Illuminate\Foundation\Bus\DispatchesJobs;
+use Combustion\StandardLib\Exceptions\ErrorBag;
+use Combustion\StandardLib\Traits\ClientReadable;
+use Combustion\StandardLib\Contracts\UserInterface;
 use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
+use Combustion\StandardLib\Support\Installer\Exceptions\InvalidOperationException;
 
 /**
  * Class Controller
- * @package App\Http\Controllers
+ * @package Combustion\StandardLib
  * @author Carlos Granados <cgranados@combustiongroup.com>
  */
 abstract class Controller extends BaseController
@@ -91,11 +92,20 @@ abstract class Controller extends BaseController
     }
 
     /**
-     * @return \App\User|MerchantAccount
+     * @return UserInterface
+     * @throws InvalidOperationException
      */
-    public static function getAuthenticatedUser()
+    public static function getAuthenticatedUser() : UserInterface
     {
-        return \JWTAuth::parseToken()->authenticate();
+        $cb = \Config::get("standardlib.user-fetch");
+
+        if ($cb instanceof \Closure) {
+            return $cb();
+        } elseif (method_exists((new static), $cb)) {
+            return (new static)->{$cb}();
+        }
+
+        throw new InvalidOperationException("Unable to fetch user. Configuration standardlib.user-fetch is not callable or existing controller method");
     }
 
     /**

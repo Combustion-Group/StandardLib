@@ -6,7 +6,7 @@ use Illuminate\Log\Writer;
 
 /**
  * Class Log
- * @package App\Lib\Std
+ * @package Combustion\StandardLib
  * @author Carlos Granados <cgranadso@combustiongroup.com>
  */
 class Log extends Writer

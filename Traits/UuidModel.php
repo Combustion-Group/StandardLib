@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 /**
  * Class UuidModel
  *
- * @package     Lib\Packages\Tools\Traits
+ * @package     Combustion\StandardLib\Traits
  * @author      Carlos Granados <cgranados@combustiongroup.com>
  */
 trait UuidModel

@@ -6,7 +6,7 @@ use Combustion\StandardLib\Exceptions\RecordNotFoundException;
 
 /**
  * Class HandlesNotFound
- * @package App\Lib\Std\Traits
+ * @package Combustion\StandardLib\Traits
  * @property array $config
  */
 trait HandlesNotFound

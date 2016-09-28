@@ -10,7 +10,7 @@ use Combustion\StandardLib\Traits\ClientReadable;
  *
  * A bag of errors.
  *
- * @package App\Lib\Menu\Exceptions
+ * @package Combustion\StandardLib\Exceptions
  * @author Carlos Granados <cgranados@combustiongroup.com>
  * @method array all()
  * @method void mergeWith(string $key, array $messages)

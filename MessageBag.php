@@ -4,6 +4,10 @@ namespace Combustion\StandardLib;
 
 use Illuminate\Support\MessageBag as LaravelMessageBag;
 
+/**
+ * Class MessageBag
+ * @package Combustion\StandardLib
+ */
 class MessageBag extends LaravelMessageBag
 {
     /**

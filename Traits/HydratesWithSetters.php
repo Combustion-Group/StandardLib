@@ -6,7 +6,7 @@ use Combustion\StandardLib\Exceptions\UnresolvableSetterException;
 
 /**
  * Class HydratesWithASetters
- * @package App\Lib\Std\Traits
+ * @package Combustion\StandardLib\Traits
  * @author Carlos Granados <cgranados@combustiongroup.com>
  */
 trait HydratesWithSetters

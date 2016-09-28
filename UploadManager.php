@@ -10,7 +10,7 @@ use Combustion\StandardLib\Exceptions\InvalidStorageTypeFlagException;
 
 /**
  * Class UploadManager
- * @package App\Lib\Std
+ * @package Combustion\StandardLib
  * @author Carlos Granados <cgranados@combustiongroup.com>
  */
 class UploadManager
