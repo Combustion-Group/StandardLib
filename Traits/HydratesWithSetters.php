@@ -1,8 +1,8 @@
 <?php
 
-namespace CombustionGroup\StandardLib\Traits;
+namespace Combustion\StandardLib\Traits;
 
-use CombustionGroup\StandardLib\Exceptions\UnresolvableSetterException;
+use Combustion\StandardLib\Exceptions\UnresolvableSetterException;
 
 /**
  * Class HydratesWithASetters

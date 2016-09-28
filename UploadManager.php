@@ -1,13 +1,12 @@
 <?php
 
-namespace CombustionGroup\StandardLib;
+namespace Combustion\StandardLib;
 
-use CombustionGroup\StandardLib\Log;
 use Illuminate\Http\UploadedFile;
-use CombustionGroup\StandardLib\Models\RemoteFile;
-use CombustionGroup\StandardLib\Traits\ValidatesConfig;
+use Combustion\StandardLib\Models\RemoteFile;
+use Combustion\StandardLib\Traits\ValidatesConfig;
 use Illuminate\Contracts\Filesystem\Filesystem;
-use CombustionGroup\StandardLib\Exceptions\InvalidStorageTypeFlagException;
+use Combustion\StandardLib\Exceptions\InvalidStorageTypeFlagException;
 
 /**
  * Class UploadManager

@@ -1,11 +1,11 @@
 <?php
 
-namespace CombustionGroup\StandardLib;
+namespace Combustion\StandardLib;
 
 use Illuminate\Http\JsonResponse;
-use CombustionGroup\StandardLib\Exceptions\ErrorBag;
+use Combustion\StandardLib\Exceptions\ErrorBag;
 use Illuminate\Validation\Validator;
-use CombustionGroup\StandardLib\Traits\ClientReadable;
+use Combustion\StandardLib\Traits\ClientReadable;
 use App\Lib\Account\Models\MerchantAccount;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Routing\Controller as BaseController;

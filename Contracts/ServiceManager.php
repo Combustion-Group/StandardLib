@@ -1,6 +1,6 @@
 <?php
 
-namespace CombustionGroup\StandardLib\Contracts;
+namespace Combustion\StandardLib\Contracts;
 
 use Illuminate\Foundation\Application;
 use InvalidArgumentException;

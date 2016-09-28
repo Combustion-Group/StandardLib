@@ -1,6 +1,6 @@
 <?php
 
-namespace CombustionGroup\StandardLib\Exceptions;
+namespace Combustion\StandardLib\Exceptions;
 
 class MissingRequiredDataException extends \Exception {
 

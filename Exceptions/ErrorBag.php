@@ -1,9 +1,9 @@
 <?php
 
-namespace CombustionGroup\StandardLib\Exceptions;
+namespace Combustion\StandardLib\Exceptions;
 
-use CombustionGroup\StandardLib\MessageBag;
-use CombustionGroup\StandardLib\Traits\ClientReadable;
+use Combustion\StandardLib\MessageBag;
+use Combustion\StandardLib\Traits\ClientReadable;
 
 /**
  * Class ErrorBag

@@ -1,8 +1,8 @@
 <?php
 
-namespace CombustionGroup\StandardLib\Traits;
+namespace Combustion\StandardLib\Traits;
 
-use CombustionGroup\StandardLib\Exceptions\RecordNotFoundException;
+use Combustion\StandardLib\Exceptions\RecordNotFoundException;
 
 /**
  * Class HandlesNotFound

@@ -1,6 +1,6 @@
 <?php
 
-namespace CombustionGroup\StandardLib\Models;
+namespace Combustion\StandardLib\Models;
 
 /**
  * Class BaseModel
