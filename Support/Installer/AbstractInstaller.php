@@ -2,16 +2,14 @@
 
 namespace Combustion\StandardLib\Support\Installer;
 
-
 use Combustion\StandardLib\Log;
-use Combustion\StandardLib\Support\Installer\Exceptions\InvalidOperationException;
-use Combustion\StandardLib\Support\Installer\Exceptions\MigrationNotFoundException;
 use Illuminate\Console\Command;
-use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Database\Connection;
 use Illuminate\Filesystem\Filesystem;
-use Illuminate\Support\Facades\Artisan;
+use Illuminate\Contracts\Foundation\Application;
 use Symfony\Component\Console\Helper\ProgressBar;
+use Combustion\StandardLib\Support\Installer\Exceptions\InvalidOperationException;
+use Combustion\StandardLib\Support\Installer\Exceptions\MigrationNotFoundException;
 
 /**
  * Class Installer
@@ -103,8 +101,8 @@ abstract class AbstractInstaller extends Command
         Application $application,
         Log $log,
         Filesystem $filesystem,
-        Connection $database)
-    {
+        Connection $database
+    ) {
         parent::__construct();
 
         $this->kernel       = $application;

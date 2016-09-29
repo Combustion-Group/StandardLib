@@ -3,11 +3,11 @@
 namespace Combustion\StandardLib\Models;
 
 /**
- * Class BaseModel
+ * Class Model
  * @package Combustion\StandardLib\Models
  * @author Carlos Granados <cgranadso@combustiongroup.com>
  */
-abstract class BaseModel extends \Eloquent
+abstract class Model extends \Eloquent
 {
     /**
      * @var string
