@@ -4,8 +4,8 @@ namespace Combustion\StandardLib;
 
 use Illuminate\Http\UploadedFile;
 use Combustion\StandardLib\Models\RemoteFile;
-use Combustion\StandardLib\Traits\ValidatesConfig;
 use Illuminate\Contracts\Filesystem\Filesystem;
+use Combustion\StandardLib\Traits\ValidatesConfig;
 use Combustion\StandardLib\Exceptions\InvalidStorageTypeFlagException;
 
 /**

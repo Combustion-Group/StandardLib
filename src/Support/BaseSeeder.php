@@ -17,7 +17,7 @@ abstract class BaseSeeder extends Seeder
      * @param string $column Column to unique on in the $data array
      * @return array
      */
-    protected function arrayFilterDictionary(array $source, array $data, string $column) : array
+    protected function dictionaryFilterList(array $source, array $data, string $column) : array
     {
         $new 	= array_column($data, $column);
         $keep 	= array_diff($new, $source);

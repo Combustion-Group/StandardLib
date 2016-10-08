@@ -13,4 +13,14 @@ interface UserInterface {
      * @return string
      */
     public function getEmail() : string;
+
+    /**
+     * @return string
+     */
+    public function getFirstName() : string;
+
+    /**
+     * @return string
+     */
+    public function getLastName() : string;
 }
