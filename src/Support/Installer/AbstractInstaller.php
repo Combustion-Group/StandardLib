@@ -151,7 +151,7 @@ abstract class AbstractInstaller extends Command
         }
     }
 
-    private function setup()
+    protected function setup()
     {
         $this->database->beginTransaction();
 
@@ -166,7 +166,7 @@ abstract class AbstractInstaller extends Command
         $this->undoExports();
     }
 
-    private function finish()
+    protected function finish()
     {
         $this->database->commit();
     }
@@ -200,7 +200,7 @@ abstract class AbstractInstaller extends Command
      * @return $this
      * @throws MigrationNotFoundException
      */
-    private function migrate()
+    protected function migrate()
     {
         $appPath = $this->kernel->basePath();
 
@@ -225,7 +225,7 @@ abstract class AbstractInstaller extends Command
      * @return $this
      * @throws MigrationNotFoundException
      */
-    private function export(array $files = null)
+    protected function export(array $files = null)
     {
         $missing = [];
         $bar     = $this->createProgressBar(count($this->exports));
@@ -266,7 +266,7 @@ abstract class AbstractInstaller extends Command
     /**
      * @return $this
      */
-    private function seed()
+    protected function seed()
     {
         $bar = $this->createProgressBar(count($this->seeders));
 
