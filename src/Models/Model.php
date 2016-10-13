@@ -12,7 +12,7 @@ abstract class Model extends \Eloquent
     /**
      * @var string
      */
-    private static $tableName;
+    public static $tableName;
 
     /**
      * @return string

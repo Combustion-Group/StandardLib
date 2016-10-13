@@ -23,4 +23,9 @@ interface UserInterface {
      * @return string
      */
     public function getLastName() : string;
+
+    /**
+     * @return string
+     */
+    public function getFullName() : string;
 }
