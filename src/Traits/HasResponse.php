@@ -9,7 +9,6 @@ namespace Combustion\StandardLib\Traits;
  */
 trait HasResponse
 {
-
     /**
      * @var array
      */
@@ -45,8 +44,8 @@ trait HasResponse
      */
     public function response($body, $status, $message, $code) : self
     {
-        $this->hasResponse = true;
-        $this->response = [
+        $this->hasResponse  = true;
+        $this->response     = [
             'body'      => $body,
             'status'    => $status,
             'message'   => $message,

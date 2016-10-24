@@ -1,14 +1,43 @@
 <?php
 
 namespace Combustion\StandardLib\Traits;
+use Combustion\StandardLib\Exceptions\BadConfigurationException;
 
 /**
  * Class Sorts
  * @package Combustion\StandardLib\Traits
- * @author Carlos Granados <cgranadso@combusiongroup.com>
+ * @author Carlos Granados <cgranados@combusiongroup.com>
+ *
+ * Sort algorithms in this class:
+ *
+ * - Quick Sort: "quickSort()" Calls the PHP sort() function
+ * - Heap Sort: "heapSort()"
+ * - Radix Sort: "radixSort()"
  */
 trait Sorts
 {
+    protected abstract function getConfig() : array;
+
+    /**
+     * @param array & $data
+     * @throws BadConfigurationException
+     */
+    protected function sort(array &$data)
+    {
+        $config = $this->getConfig();
+
+        if (isset($config['sort-algo'])) {
+            $algorithm = $config['sort-algo'];
+            if (!method_exists($this, $algorithm)) {
+                throw new BadConfigurationException("Sort algorithm {$config['sort-algo']} does not exist.");
+            }
+
+            $this->{$algorithm}($data);
+        }
+
+        $this->quickSort($data);
+    }
+
     /**
      * In the order of O(n log(n))
      * @param array $array
