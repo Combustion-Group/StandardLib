@@ -16,7 +16,7 @@ use Combustion\StandardLib\Exceptions\BadConfigurationException;
  */
 trait Sorts
 {
-    protected abstract function getConfig() : array;
+    use HasConfig;
 
     /**
      * @param array & $data
@@ -28,7 +28,7 @@ trait Sorts
 
         if (isset($config['sort-algo'])) {
             $algorithm = $config['sort-algo'];
-            if (!method_exists($this, $algorithm)) {
+            if (!method_exists($this, $algorithm) || $algorithm == __FUNCTION__) {
                 throw new BadConfigurationException("Sort algorithm {$config['sort-algo']} does not exist.");
             }
 
