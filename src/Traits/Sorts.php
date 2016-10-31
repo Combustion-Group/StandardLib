@@ -10,9 +10,9 @@ use Combustion\StandardLib\Exceptions\BadConfigurationException;
  *
  * Sort algorithms in this class:
  *
- * - Quick Sort: "quickSort()" Calls the PHP sort() function
- * - Heap Sort: "heapSort()"
- * - Radix Sort: "radixSort()"
+ * - Quick Sort:    "quickSort()"   Calls the PHP sort() function
+ * - Heap Sort:     "heapSort()"
+ * - Radix Sort:    "radixSort()"
  */
 trait Sorts
 {
