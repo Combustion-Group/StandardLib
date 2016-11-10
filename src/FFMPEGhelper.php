@@ -80,7 +80,7 @@ class FFMPEGhelper
     public function convertVideo($path)
     {
         $videoName = $this -> getVideoName($path);
-        $ffmpeg = FFMpeg::create([
+        $ffmpeg = ::create([
             'ffmpeg.binaries'  => exec('which ffmpeg'),
             'ffprobe.binaries' => exec('which ffprobe')
         ]);
