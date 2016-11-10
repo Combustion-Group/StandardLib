@@ -9,6 +9,8 @@
 namespace Combustion\StandardLib;
 
 
+use FFMpeg\Coordinate\TimeCode;
+use FFMpeg\FFMpeg;
 use Illuminate\Support\Facades\Storage;
 
 class FFMPEGhelper
@@ -16,12 +18,17 @@ class FFMPEGhelper
     /**
      * @var string
      */
-    public $disk = 's3';
+    public $disk;
 
     /**
      * FFMPEGhelper constructor.
      */
     public function __construct()
+    {
+
+    }
+
+    public function video($path)
     {
 
     }
@@ -60,7 +67,7 @@ class FFMPEGhelper
             'ffprobe.binaries' => exec('which ffprobe')
         ));
         // folder in the app
-        $basePath = '/var/www/kaplan-api/storage/app/';
+        $basePath = storage_path().'/app/';
         $tempFilePath = '/var/www/kaplan-api/storage/app/';
         $video = $ffmpeg -> open($basePath.$path);
         // get frame image
@@ -80,7 +87,7 @@ class FFMPEGhelper
     public function convertVideo($path)
     {
         $videoName = $this -> getVideoName($path);
-        $ffmpeg = ::create([
+        $ffmpeg = FFMpeg::create([
             'ffmpeg.binaries'  => exec('which ffmpeg'),
             'ffprobe.binaries' => exec('which ffprobe')
         ]);
