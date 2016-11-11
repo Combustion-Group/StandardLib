@@ -48,7 +48,8 @@ class UploadManager
     const   MERCHANT_IMAGE      = 'STORAGE_MERCHANT_IMAGE',
             MENU_ITEM_IMAGE     = 'STORAGE_MENU_ITEM_IMAGE',
             USER_PROFILE_IMAGE  = 'STORAGE_USER_PROFILE_IMAGE',
-            DRIVERS_LICENSE     = 'DRIVERS_LICENSE';
+            DRIVERS_LICENSE     = 'DRIVERS_LICENSE',
+            TRUCK_IMAGES        = 'TRUCK_IMAGES';
 
     /**
      * UploadManager constructor.

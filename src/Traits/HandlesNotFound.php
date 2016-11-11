@@ -11,10 +11,7 @@ use Combustion\StandardLib\Exceptions\RecordNotFoundException;
  */
 trait HandlesNotFound
 {
-    /**
-     * @return array
-     */
-    protected abstract function getConfig() : array;
+    use HasConfig;
 
     /**
      * @param string $message
