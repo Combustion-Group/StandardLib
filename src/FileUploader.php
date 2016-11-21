@@ -48,6 +48,8 @@ class FileUploader
 
     // get the upload path that was provided by the user
     // e.g. documents/videos
+    // testing a theory of mine
+
     function getUploadPath(){
         return $this->upload_path;
     }
