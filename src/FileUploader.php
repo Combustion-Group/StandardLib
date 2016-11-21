@@ -6,6 +6,7 @@ namespace Combustion\StandardLib;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Contracts\Filesystem\Filesystem;
 use Illuminate\Support\Facades\Storage;
+use Symfony\Component\HttpFoundation\File\File;
 
 class FileUploader
 {
@@ -19,10 +20,8 @@ class FileUploader
     // e.g. /media/videos
     public $upload_path = '';
 
-    public $file_upload_name;
 
-
-    public function __construct(UploadedFile $file, $disk_type = 's3') {
+    public function __construct(File $file, $disk_type = 's3') {
         // A file must be passed
         if(empty($file)) {
             throw new \Exception('Must provide a valid file');
@@ -30,13 +29,11 @@ class FileUploader
         // Set FileUploader properties
         $this->file = $file;
         $this->disk = Storage::disk($disk_type);
-        // Set default file upload name to original name
-        $this->file_upload_name = $this->file->getClientOriginalName();
     }
 
     // upload the file
     // set the disk upload path and permission
-    function uploadFile($upload_path = '', $file_upload_name = '', $permission = 'public') {
+    function uploadFile($upload_path = '') {
         // if no upload path was given, use the class's upload path value
         // otherwise set the class's upload path value
         if(empty($upload_path)) {
@@ -45,13 +42,8 @@ class FileUploader
             $this->upload_path = $upload_path;
         }
 
-        if( !empty($file_upload_name) ) {
-            $this->file_upload_name = $file_upload_name;
-        }
-
         // upload the file to the disk
-        $file_path = "$upload_path/$this->file_upload_name";
-        $this->disk->put($file_path, file_get_contents($this->file), $permission);
+        $this->disk->put($upload_path, file_get_contents($this->file));
     }
 
     // get the upload path that was provided by the user
@@ -69,7 +61,7 @@ class FileUploader
 
     // clear out the local disk after the file has been uploaded to the target disk
     function clearLocalDisk() {
-        $local_file_url = $this->file->getRealPath() . '/' . $this->file->getClientOriginalName();
+        $local_file_url = $this->file->getRealPath();
         Storage::disk('local')->delete($local_file_url);
     }
 
@@ -81,17 +73,7 @@ class FileUploader
     // get the full path to the file on the Disk
     // e.g. https://s3.amazonaws.com/kassir/documents/videos/health_tips.mp4
     function getFileUrlOnDisk() {
-        return $this->disk->url("$this->upload_path/$this->file_upload_name");
-    }
-    
-    function renameFileOnDisk($name) {
-        $old_file_path = "$this->upload_path/$this->file_upload_name";
-        $new_file_path = "$this->upload_path/$name";
-        $this->disk->move($old_file_path, $new_file_path);
-    }
-    
-    function getFileUploadName() {
-        return $this->file_upload_name;
+        return $this->disk->url("$this->upload_path");
     }
 
 
