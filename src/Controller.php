@@ -140,13 +140,13 @@ abstract class Controller extends BaseController
         $out        = [];
 
         // Laravel sends back its errors as an associative array, the key being the
-        // field that failed that validate and the value an array of error message strings.
+        // field that failed and the value an array of error message strings.
         //
         // We use this function to format the Laravel validator messages
         // into a list of strings, as per the API response specifications. The new
         // format looks like this:
         //
-        // List<String>   ->   ["Error on field {field_name}: {error_message}"]
+        // String[]  ->   ["Error on field {field_name}: {error_message}"]
 
         foreach ($failures as $field => $messages) {
             $out = array_merge($out, array_map(function ($message) use ($field) {

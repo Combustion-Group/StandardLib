@@ -35,4 +35,22 @@ abstract class Model extends \Eloquent
 
         return array_intersect_key($data, array_flip($cols));
     }
+
+    /**
+     * @param $date
+     * @return string
+     */
+    public function extractDate($date) : string
+    {
+        return (string) ($date instanceof \DateTime ? $date->format("Y-m-d") : $date);
+    }
+
+    /**
+     * @param $dateTime
+     * @return string
+     */
+    public function extractDateTime($dateTime)
+    {
+
+    }
 }
