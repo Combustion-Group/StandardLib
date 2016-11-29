@@ -46,6 +46,15 @@ abstract class Model extends \Eloquent
     }
 
     /**
+     * @param $time
+     * @return \DateTime
+     */
+    public function exportDateTime($time)
+    {
+        return new \DateTime($time);
+    }
+
+    /**
      * @param $dateTime
      * @return string
      */
