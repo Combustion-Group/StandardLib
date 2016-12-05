@@ -25,7 +25,7 @@ class LinkedListIterator implements \Iterator
     /**
      * @var bool
      */
-    private $hasChild = true;
+    private $hasChild;
 
     /**
      * TransactionIterator constructor.
@@ -59,9 +59,9 @@ class LinkedListIterator implements \Iterator
 
     public function next()
     {
-        if (!$this->current->hasChild()) {
-            $this->hasChild = false;
-        } else {
+        $this->hasChild = $this->current()->hasChild();
+
+        if ($this->hasChild) {
             $this->current = $this->current->getChildNode();
         }
     }
