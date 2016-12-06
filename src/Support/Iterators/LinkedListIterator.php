@@ -79,7 +79,7 @@ class LinkedListIterator implements \Iterator
      */
     public function key()
     {
-        return $this->current->getId();
+        return spl_object_hash($this->current);
     }
 
     /**

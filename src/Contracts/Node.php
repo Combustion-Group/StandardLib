@@ -22,11 +22,6 @@ interface Node extends IteratorAggregate
     public function getChildNode() : Node;
 
     /**
-     * @return int
-     */
-    public function getId() : int;
-
-    /**
      * @return bool
      */
     public function hasParent() : bool;
