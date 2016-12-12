@@ -10,7 +10,7 @@ use Illuminate\Support\ServiceProvider as LaravelServiceProvider;
  * @package Combustion\StandardLib\Support
  * @author Carlos Granados <cgranados@combustiongroup.com>
  */
-abstract class ServiceProvider extends LaravelServiceProvider
+abstract class BaseServiceProvider extends LaravelServiceProvider
 {
     /**
      * @var array
