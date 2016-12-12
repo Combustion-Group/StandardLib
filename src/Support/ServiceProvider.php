@@ -49,9 +49,9 @@ abstract class ServiceProvider extends LaravelServiceProvider
      * @param array $recursive
      * @return array
      */
-    public static function config(array $runtimeConfig, array $recursive = true)
+    public static function config(array $runtimeConfig, array $recursive = null)
     {
-        if ($recursive) {
+        if ($recursive !== null) {
             return array_merge_recursive($runtimeConfig, static::$configuration);
         }
 
