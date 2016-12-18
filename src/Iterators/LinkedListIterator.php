@@ -1,6 +1,6 @@
 <?php
 
-namespace Combustion\StandardLib\Support\Iterators;
+namespace Combustion\StandardLib\Iterators;
 
 use Combustion\StandardLib\Support;
 use Combustion\StandardLib\Contracts\Node;

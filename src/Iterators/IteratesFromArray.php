@@ -1,6 +1,6 @@
 <?php
 
-namespace Combustion\StandardLib\Support\Iterators;
+namespace Combustion\StandardLib\Iterators;
 
 trait IteratesFromArray
 {
