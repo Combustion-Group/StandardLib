@@ -10,7 +10,7 @@ use Illuminate\Support\ServiceProvider as LaravelServiceProvider;
  * @package Combustion\StandardLib\Support
  * @author Carlos Granados <cgranados@combustiongroup.com>
  */
-abstract class ServiceProvider extends LaravelServiceProvider
+abstract class BaseServiceProvider extends LaravelServiceProvider
 {
     /**
      * @var array
@@ -46,10 +46,10 @@ abstract class ServiceProvider extends LaravelServiceProvider
 
     /**
      * @param array $runtimeConfig
-     * @param array $recursive
+     * @param bool $recursive
      * @return array
      */
-    public static function config(array $runtimeConfig, array $recursive = true)
+    public static function config(array $runtimeConfig, bool $recursive = false)
     {
         if ($recursive) {
             return array_merge_recursive($runtimeConfig, static::$configuration);
