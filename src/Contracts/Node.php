@@ -3,7 +3,7 @@
 namespace Combustion\StandardLib\Contracts;
 
 use \IteratorAggregate;
-use Combustion\Billing\Contracts\Prototype;
+use Combustion\StandardLib\Contracts\Prototype;
 
 /**
  * Interface Node
