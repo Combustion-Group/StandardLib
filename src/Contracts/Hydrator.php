@@ -14,7 +14,7 @@ interface Hydrator
      * @param array $data
      * @param string $generate
      * @param \Closure $callback
-     * @return mixed
+     * @return array|\Generator
      */
-    public function hydrate(string $prototype, array $data, string $generate = true, \Closure $callback = null);
+    public function hydrate(string $prototype, array $data, \Closure $callback, string $generate = true);
 }
