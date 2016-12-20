@@ -32,7 +32,7 @@ class LinkedListHydrator implements Hydrator
 
         if (!in_array(Node::class, $implements))
         {
-            throw new InvalidOperationException("Linked list hydrator cannot continue. Prototype give does not implement Node. The following interfaces found: " . implode(', ', $implements));
+            throw new InvalidOperationException("Linked list hydrator cannot continue. Prototype given does not implement Node. The following interfaces found: " . implode(', ', $implements));
         }
 
         $first      = $this->getPrototype($prototype);
