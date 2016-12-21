@@ -29,11 +29,12 @@ trait ValidatesConfig
         // If the required param is null we'll use the $requiredConfig array.
         // In the child class you should add the keys you are looking for in
         // your config.
+        $received = array_keys($config);
         $required = $required === null ? $this->getRequiredConfig() : $required;
         $notFound = array_diff($required, array_keys($config));
 
         if (count($notFound)) {
-            throw new ConfigNotFoundException("Missing required configuration: [" . implode(',', $notFound) . "]\nReceived [" . implode(',', $config) . "]");
+            throw new ConfigNotFoundException("Missing required configuration: [" . implode(',', $notFound) . "]\nReceived [" . implode(',', $received) . "]");
         }
 
         return $config;
