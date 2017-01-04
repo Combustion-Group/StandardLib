@@ -45,10 +45,9 @@ class ErrorBag extends \Exception implements \Countable
      * @param $arguments
      * @return ErrorBag
      */
-    public function __call($name, $arguments) : ErrorBag
+    public function __call($name, $arguments)
     {
-        call_user_func_array([$this->errorBag, $name], $arguments);
-        return $this;
+        return call_user_func_array([$this->errorBag, $name], $arguments);
     }
 
     /**
