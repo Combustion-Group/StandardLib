@@ -14,15 +14,18 @@ trait ChecksArrayKeys
     /**
      * @param array $needles
      * @param array $haystack
+     * @param string $message
      * @return $this
      * @throws InvalidOperationException
      */
-    public function hasKeys(array $needles, array $haystack)
+    public function hasKeys(array $needles, array $haystack, string $message = null)
     {
-        $diff = array_diff($needles, array_keys($haystack));
+        $diff       = array_diff($needles, array_keys($haystack));
+        $missing    = implode(',', $diff);
+        $message    = is_null($message) ? "Array is missing the following fields: :missing" : $message;
 
         if (count($diff)) {
-            throw new InvalidOperationException("Array is missing the following fields " . implode(',', $diff));
+            throw new InvalidOperationException(str_replace(':missing', $missing, $message));
         }
 
         return $this;
