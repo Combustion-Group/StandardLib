@@ -8,7 +8,8 @@ use Combustion\StandardLib\Traits\ClientReadable;
 /**
  * Class ErrorBag
  *
- * A bag of errors.
+ * A bag of errors. This is a strange wrapper but gets around the
+ * lack of multiple inheritance.
  *
  * @package Combustion\StandardLib\Exceptions
  * @author Carlos Granados <cgranados@combustiongroup.com>
@@ -31,14 +32,18 @@ class ErrorBag extends \Exception implements \Countable
      * @param int $code
      * @param \Exception $previous
      */
-    public function __construct(array $messages = [], $code = 0, \Exception $previous = null)
+    public function __construct($messages = [], $code = 0, \Exception $previous = null)
     {
         parent::__construct('', $code, $previous);
-        $this->errorBag = new MessageBag($messages);
+        if (is_array($messages)) {
+            $this->errorBag = new MessageBag($messages);
+        } elseif ($messages instanceof MessageBag) {
+            $this->errorBag = $messages;
+        }
     }
 
     /**
-     * This is sort of a pseudo multiple inheritance since we couldn't extend both
+     * This is sort of a pseudo multiple inheritance since I couldn't extend both
      * the base Exception class and the MessageBag class.
      *
      * @param $name
