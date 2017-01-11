@@ -165,7 +165,9 @@ abstract class Controller extends BaseController
     {
         // Exceptions that use the ClientReadable trait will have their
         // exception messages displayed in the API error response.
-        if ($e instanceof ClientReadable) {
+        $traits = class_uses($e);
+
+        if (in_array(ClientReadable::class, $traits)) {
             $messages =  ($e instanceof ErrorBag) ? $e->all() : [$e->getMessage()];
         } else {
             if (\Config::get('app.debug')) {
