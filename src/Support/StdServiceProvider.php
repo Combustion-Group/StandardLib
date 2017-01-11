@@ -8,6 +8,7 @@ use Combustion\StandardLib\UploadManager;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Filesystem\FilesystemManager;
+use Combustion\StandardLib\Services\SystemHooks\SystemEvents;
 
 class StdServiceProvider extends ServiceProvider
 {
@@ -22,6 +23,10 @@ class StdServiceProvider extends ServiceProvider
 
         $this->app->singleton(Log::class, function (Application $app, array $params = []) {
             return new Log(new Monolog($app->environment()), $app['events']);
+        });
+
+        $this->app->singleton(SystemEvents::class, function (Application $app, array $params) {
+            return new SystemEvents($app);
         });
     }
 }
