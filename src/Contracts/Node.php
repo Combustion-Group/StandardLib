@@ -10,7 +10,7 @@ use Combustion\StandardLib\Contracts\Prototype;
  * @package Combustion\StandardLib\Contracts
  * @author Carlos Granados <cgranados@combustiongroup.com<
  */
-interface Node extends IteratorAggregate, Prototype
+interface Node extends IteratorAggregate
 {
     /**
      * @return Node
