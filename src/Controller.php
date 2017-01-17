@@ -207,6 +207,10 @@ abstract class Controller extends BaseController
         return $messages;
     }
 
+    /**
+     * @param Paginator $paginationObject
+     * @return array
+     */
     public function extractPaginationData(Paginator $paginationObject):array
     {
 
