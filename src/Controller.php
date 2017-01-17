@@ -11,6 +11,7 @@ use Combustion\StandardLib\Contracts\UserInterface;
 use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
+use Combustion\StandardLib\Support\Responses\CustomResponse;
 use Combustion\StandardLib\Support\Installer\Exceptions\InvalidOperationException;
 
 /**
@@ -55,7 +56,29 @@ abstract class Controller extends BaseController
             'data'      => $data
         ];
 
-        return response()->json($response, $code);
+        return response()->json(self::buildResponse($response), $code);
+    }
+
+    /**
+     * @param array $response
+     * @return array
+     */
+    public static function buildResponse(array $response) : array
+    {
+        if (!(is_object($response['data']) && in_array(CustomResponse::class, class_implements($response['data']))))
+        {
+            return $response;
+        }
+
+        /**
+         * @var CustomResponse $customResponse
+         */
+        $customResponse = $response['data'];
+        $response       = array_merge($response, $customResponse->getTopLevel());
+
+        $response['data'] = $customResponse->getData();
+
+        return $response;
     }
 
     /**
