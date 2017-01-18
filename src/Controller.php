@@ -2,6 +2,7 @@
 
 namespace Combustion\StandardLib;
 
+use Illuminate\Contracts\Pagination\Paginator;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Validation\Validator;
 use Illuminate\Foundation\Bus\DispatchesJobs;
@@ -11,6 +12,7 @@ use Combustion\StandardLib\Contracts\UserInterface;
 use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
+use Combustion\StandardLib\Support\Responses\CustomResponse;
 use Combustion\StandardLib\Support\Installer\Exceptions\InvalidOperationException;
 
 /**
@@ -55,7 +57,29 @@ abstract class Controller extends BaseController
             'data'      => $data
         ];
 
-        return response()->json($response, $code);
+        return response()->json(self::buildResponse($response), $code);
+    }
+
+    /**
+     * @param array $response
+     * @return array
+     */
+    public static function buildResponse(array $response) : array
+    {
+        if (!(is_object($response['data']) && in_array(CustomResponse::class, class_implements($response['data']))))
+        {
+            return $response;
+        }
+
+        /**
+         * @var CustomResponse $customResponse
+         */
+        $customResponse = $response['data'];
+        $response       = array_merge($response, $customResponse->getTopLevel());
+
+        $response['data'] = $customResponse->getData();
+
+        return $response;
     }
 
     /**
@@ -181,5 +205,33 @@ abstract class Controller extends BaseController
         }
 
         return $messages;
+    }
+
+    /**
+     * @param Paginator $paginationObject
+     * @return array
+     */
+    public function extractPaginationData(Paginator $paginationObject):array
+    {
+
+        $total = 0;
+        // the Paginator contract odes not enforce total()
+        // some pagination classes will comeback without it
+        // this will prevent an exception but we lose the
+        // ability to know how many object we have in total
+        if(method_exists($paginationObject,'total'))
+        {
+            $total = $paginationObject -> total();
+        }
+        // make option array
+        $options = [
+            "total"=> $total,
+            "per_page"=> $paginationObject -> perPage(),
+            "current_page"=> $paginationObject -> currentPage(),
+            "last_page"=> ceil($total/$paginationObject -> perPage()),
+            "next_page_url"=> $paginationObject -> nextPageUrl(),
+            "prev_page_url"=> $paginationObject -> previousPageUrl()
+        ];
+        return $options;
     }
 }
