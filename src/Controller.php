@@ -206,32 +206,4 @@ abstract class Controller extends BaseController
 
         return $messages;
     }
-
-    /**
-     * @param Paginator $paginationObject
-     * @return array
-     */
-    public function extractPaginationData(Paginator $paginationObject):array
-    {
-
-        $total = 0;
-        // the Paginator contract odes not enforce total()
-        // some pagination classes will comeback without it
-        // this will prevent an exception but we lose the
-        // ability to know how many object we have in total
-        if(method_exists($paginationObject,'total'))
-        {
-            $total = $paginationObject -> total();
-        }
-        // make option array
-        $options = [
-            "total"=> $total,
-            "per_page"=> $paginationObject -> perPage(),
-            "current_page"=> $paginationObject -> currentPage(),
-            "last_page"=> ceil($total/$paginationObject -> perPage()),
-            "next_page_url"=> $paginationObject -> nextPageUrl(),
-            "prev_page_url"=> $paginationObject -> previousPageUrl()
-        ];
-        return $options;
-    }
 }
