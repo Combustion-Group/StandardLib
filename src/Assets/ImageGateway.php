@@ -20,6 +20,7 @@ class ImageGateway implements DocumentGatewayInterface
 {
     protected $config;
     protected $fileGateway;
+    const DOCUMENT_TYPE='image';
 
     public function __construct(array $config,FileGateway $fileGateway)
     {
@@ -44,7 +45,11 @@ class ImageGateway implements DocumentGatewayInterface
     }
     public function create(UploadedFile $image,array $options =[]): AssetDocumentInterface
     {
-        // TODO: Implement create() method.
+        $imageBag=$this->makeImageIntoCorrectSizes($image);
+        foreach ($imageBag as $size=>$imageData)
+        {
+
+        }
     }
 
 
@@ -56,23 +61,30 @@ class ImageGateway implements DocumentGatewayInterface
     public function moveFileToLocalFolder(string $localDestinationFolder,UploadedFile $file)
     {
         $localDisk=Storage::disk('local');
+        $localDisk->put($localDestinationFolder.$file->getClientOriginalName().$file->getExtension(),file_get_contents($file));
     }
 
     public function makeImageIntoCorrectSizes(UploadedFile $file):array
     {
+        // get name
+        $name=$file->getClientOriginalName();
+        $path=$file->getPath();
+        $extension=$file->getExtension();
         // create image bag and add original data
         $imageBag=[
-            'original'=>$file
+            'original'=>['folder'=>$path,'name'=>$name,'extension'=>$extension]
         ];
         $image=Image::make($file->path());
         foreach ($this->config['sizes'] as $size=>$imageSize)
         {
             // get name
             $name=md5($size.'-'.$file->getClientOriginalName());
+            $path=$file->path();
+            $extension=$file->getExtension();
             // append size to the name
-            $imagePath=$this->buildPath($this-,$name,$fileExtension);
+            $imagePath=$path.'/'.$name.'.'.$extension;
             // make data for array
-            $imageData=[$size=>['folder'=>$fileExtension,'name'=>$name,'extension'=>$fileExtension]];
+            $imageData=[$size=>['folder'=>$path,'name'=>$name,'extension'=>$extension]];
             // push data in
             array_push($imageBag,$imageData);
             // manipulate image

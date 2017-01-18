@@ -41,6 +41,11 @@ class Image extends Model implements AssetDocumentInterface
      * RELATIONSHIPS
      */
 
+    public function getId(): int
+    {
+        return (int)$this->id;
+    }
+
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasOne
      */

@@ -8,4 +8,5 @@ use Illuminate\Database\Eloquent\Relations\MorphMany;
 interface AssetDocumentInterface
 {
     public function asset():MorphMany;
+    public function getId():int;
 }
