@@ -22,6 +22,9 @@ trait HydratesWithSetters
     {
         foreach($data as $key => $value) {
             $setter = $this->resolveSetter($key, $strict);
+            if ($setter === false) {
+                continue;
+            }
             $this->{$setter}($value);
         }
     }
@@ -29,10 +32,10 @@ trait HydratesWithSetters
     /**
      * @param string $key
      * @param bool   $failIfNotFound
-     * @return string
+     * @return mixed
      * @throws UnresolvableSetterException
      */
-    protected function resolveSetter(string $key, bool $failIfNotFound) : string
+    protected function resolveSetter(string $key, bool $failIfNotFound)
     {
         $expectedSetter = camel_case($this->setterPrefix . '_' . $key);
 
@@ -43,5 +46,7 @@ trait HydratesWithSetters
         if ($failIfNotFound) {
             throw new UnresolvableSetterException("Cannot find a setter method for field '{$key}'");
         }
+
+        return false;
     }
 }
