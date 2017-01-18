@@ -3,7 +3,8 @@
 namespace Combustion\StandardLib\Support\Responses;
 
 use Combustion\StandardLib\Hydrators\HydratesWithSetters;
-use Illuminate\Pagination\Paginator;
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
+use Illuminate\Contracts\Pagination\Paginator;
 
 /**
  * Class PaginatedResponse
