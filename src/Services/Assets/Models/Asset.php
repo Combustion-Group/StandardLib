@@ -1,11 +1,15 @@
 <?php
 namespace Combustion\StandardLib\Services\Assets\Models;
 
-
-
 use Combustion\StandardLib\Models\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
+/**
+ * Class Asset
+ *
+ * @package Combustion\StandardLib\Services\Assets\Models
+ * @author Luis A. Perez <lperez@combustiongroup.com>
+ */
 class Asset extends Model
 {
     use SoftDeletes;
@@ -52,7 +56,11 @@ class Asset extends Model
     /*
      * SCOPES
      */
-    public function scopeOfType($query,$string)
+    /**
+     * @param $query
+     * @param $string
+     */
+    public function scopeOfType($query, $string)
     {
         $query->where('document_type',$string);
     }

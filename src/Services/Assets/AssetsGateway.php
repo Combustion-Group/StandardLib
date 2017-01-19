@@ -20,7 +20,7 @@ class AssetsGateway
      */
     protected $config;
     /**
-     * @var DocumentGatewayInterface array
+     * @var DocumentGatewayInterface[]
      */
     protected $drivers;
 

@@ -5,6 +5,12 @@ namespace Combustion\StandardLib\Services\Assets\Models;
 use Combustion\StandardLib\Models\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
+/**
+ * Class File
+ *
+ * @package Combustion\StandardLib\Services\Assets\Models
+ * @author Luis A. Perez <lperez@combustiongroup.com>
+ */
 class File extends Model
 {
     use SoftDeletes;
@@ -24,6 +30,9 @@ class File extends Model
         'url'
     ];
 
+    /**
+     * @return array
+     */
     public function validationRules() : array
     {
         return [
