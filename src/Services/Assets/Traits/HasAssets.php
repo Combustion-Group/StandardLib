@@ -43,23 +43,21 @@ trait HasAssets
      */
     public function attachAsset(Asset $asset,bool $primary = false) : HasAssetsInterface
     {
-        // pull resource
-        $resource = $this;
         // otherwise attach the asset to the resource
         if($primary)
         {
             // check if the current document can be adder as a primary asset
-            $resource->takeOutExistingPrimaryAsset();
+            $this->takeOutExistingPrimaryAsset();
             // take out existing primary asset if any and save new asset at primary
-            $resource->assets()->save($asset,['primary' => true]);
+            $this->assets()->save($asset,['primary' => true]);
             // once save as primary we can trigger the listener
-            $resource->bringPrimaryAssetUrlToTopLevelOfModel();
+            $this->bringPrimaryAssetUrlToTopLevelOfModel();
         }
         else
         {
-            $resource->assets()->save($asset);
+            $this->assets()->save($asset);
         }
-        return $resource;
+        return $this;
     }
 
     /**
@@ -67,10 +65,8 @@ trait HasAssets
      */
     private function takeOutExistingPrimaryAsset() : bool
     {
-        // get current model
-        $resource = $this;
         // fetch the primary asset
-        $primary_asset = $resource->primaryAsset()->first();
+        $primary_asset = $this->primaryAsset()->first();
         // if its found
         if($primary_asset)
         {
@@ -98,7 +94,7 @@ trait HasAssets
             $this->$fieldName = [
                 'original' => $this->primaryAsset()->get()->first()->document->image_file->url,
                 'small' => $this->primaryAsset()->get()->first()->document->small_file->url,
-//                'large' => $this->primaryAsset()->get()->first()->document->image_file->url,
+                'large' => $this->primaryAsset()->get()->first()->document->image_file->url,
                 'medium' => $this->primaryAsset()->get()->first()->document->medium_file->url,
             ];
         }
