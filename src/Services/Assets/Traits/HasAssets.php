@@ -93,8 +93,9 @@ trait HasAssets
         // if the model implementing hasAssetsInterface has primaryAssetsField
         if(isset($this->primaryAssetsField))
         {
+            $fieldName=$this->primaryAssetsField;
             // put all urls on the top level
-            $this->$this->primaryAssetsField = [
+            $this->$fieldName = [
                 'original' => $this->primaryAsset()->get()->first()->document->image_file->url,
                 'small' => $this->primaryAsset()->get()->first()->document->small_file->url,
 //                'large' => $this->primaryAsset()->get()->first()->document->image_file->url,
