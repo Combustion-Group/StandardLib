@@ -1,11 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: LaravelDude
- * Date: 11/10/16
- * Time: 11:13 AM
- */
-
 namespace Combustion\StandardLib;
 
 use Combustion\StandardLib\Exceptions\InvalidThumbnailFileFormat;
@@ -60,17 +53,17 @@ class FFMPEGhelper
     public function __construct($videosPath = null, $thumbnailsPath = null, $storagePath = null)
     {
         // build files array
-        $this -> buildFilesArray();
+        $this->buildFilesArray();
         // get binaries for ffmpeg and ffmprobe
-        $this -> ffmpeg = FFMpeg::create(array(
+        $this->ffmpeg = FFMpeg::create(array(
             'ffmpeg.binaries'  => exec('which ffmpeg'),
             'ffprobe.binaries' => exec('which ffprobe')
         ));
         // set storage to storage path give or make one in
-        $this -> storagePath = $storagePath ? $storagePath : storage_path();
-        $this -> videosPath = $storagePath ? $storagePath : $this -> storagePath.'/app/tmp/videos/';
-        $this -> thumbnailsPath = $storagePath ? $storagePath : $this -> storagePath.'/app/tmp/thumbnails/';
-        $this -> checkForPaths([$this -> storagePath,$this -> videosPath,$this -> thumbnailsPath]);
+        $this->storagePath = $storagePath ? $storagePath : storage_path();
+        $this->videosPath = $storagePath ? $storagePath : $this->storagePath.'/app/tmp/videos/';
+        $this->thumbnailsPath = $storagePath ? $storagePath : $this->storagePath.'/app/tmp/thumbnails/';
+        $this->checkForPaths([$this->storagePath,$this->videosPath,$this->thumbnailsPath]);
     }
 
     /**
@@ -98,9 +91,9 @@ class FFMPEGhelper
     public function video($path)
     {
         // open video with ffmpeg binary
-        $this -> video = $this -> ffmpeg -> open($path);
+        $this->video = $this->ffmpeg->open($path);
         // set current video to
-        $this -> setCurrentVideo($path);
+        $this->setCurrentVideo($path);
         // return class (Allows for chain)
         return $this;
     }
@@ -114,17 +107,17 @@ class FFMPEGhelper
      */
     public function convert($fileName , $finalPath = null, $format = null , $videoFormat = null)
     {
-        $this -> checkForCurrentVideo();
+        $this->checkForCurrentVideo();
         // check if video format is available for converting
-        $format = $this -> checkVideoFormat($format);
+        $format = $this->checkVideoFormat($format);
         // get current video
-        $videoCurrentPath = $this -> currentVideoPath;
+        $videoCurrentPath = $this->currentVideoPath;
         // make final path
         $finalPath = $finalPath ? $finalPath.$fileName.'.'.$format : $this->videosPath.$fileName.'.'.$format;
         // user ffmpeg CLI to convert video to mp4
         exec("ffmpeg -i $videoCurrentPath -vcodec copy -acodec copy $finalPath");
         // push data to files array
-        $this -> pushConvertedVideo($finalPath);
+        $this->pushConvertedVideo($finalPath);
         // return class (Allows for chain)
         return $this;
     }
@@ -138,15 +131,15 @@ class FFMPEGhelper
      */
     public function thumbnail($second , $fileName , $format = null , $size = null)
     {
-        $this -> checkForCurrentVideo();
+        $this->checkForCurrentVideo();
         // check image format
-        $format = $this -> checkImageFormat($format);
+        $format = $this->checkImageFormat($format);
         // make path of the thumbnail
-        $finalPath = $this -> thumbnailsPath.$fileName.'.'.$format;
+        $finalPath = $this->thumbnailsPath.$fileName.'.'.$format;
         // make video thumbnail
-        $this -> video -> frame(TimeCode::fromSeconds($second)) -> save($finalPath);
+        $this->video->frame(TimeCode::fromSeconds($second))->save($finalPath);
         // push to files array
-        $this -> pushThumbnail($finalPath);
+        $this->pushThumbnail($finalPath);
         // return class (Allows for chain)
         return $this;
     }
@@ -182,7 +175,7 @@ class FFMPEGhelper
      */
     public function files()
     {
-        return $this -> filesArray;
+        return $this->filesArray;
     }
 
     /**
@@ -191,33 +184,33 @@ class FFMPEGhelper
     public function cleanUp($original = false)
     {
         // clean all converted videos
-        foreach ($this -> filesArray['converted'] as $file)
+        foreach ($this->filesArray['converted'] as $file)
         {
-            $this -> deleteFile($file);
+            $this->deleteFile($file);
         }
         // clean reference array
-        $this -> cleanConverted();
+        $this->cleanConverted();
         // clean all converted thumbnails
-        foreach ($this -> filesArray['thumbnails'] as $file)
+        foreach ($this->filesArray['thumbnails'] as $file)
         {
-            $this -> deleteFile($file);
+            $this->deleteFile($file);
         }
         // clean reference array
-        $this -> cleanThumbnails();
+        $this->cleanThumbnails();
         // if original is set to be deleted
         if($original)
         {
             // clean all original videos
-            foreach ($this -> filesArray['videos'] as $file)
+            foreach ($this->filesArray['videos'] as $file)
             {
-                $this -> deleteFile($file);
+                $this->deleteFile($file);
             }
             // clean reference array
-            $this -> cleanVideos();
+            $this->cleanVideos();
             // clean up current video
-            $this -> cleanCurrent();
+            $this->cleanCurrent();
         }
-        $this -> buildFilesArray();
+        $this->buildFilesArray();
         return $this;
     }
 
@@ -234,7 +227,7 @@ class FFMPEGhelper
      */
     private function checkForCurrentVideo()
     {
-        if(!$this -> currentVideoPath)
+        if(!$this->currentVideoPath)
         {
             throw new MissingVideoException('Use the video function to add a video');
         }
@@ -245,10 +238,10 @@ class FFMPEGhelper
      */
     private function buildFilesArray()
     {
-        $this -> cleanCurrent();
-        $this -> cleanVideos();
-        $this -> cleanConverted();
-        $this -> cleanThumbnails();
+        $this->cleanCurrent();
+        $this->cleanVideos();
+        $this->cleanConverted();
+        $this->cleanThumbnails();
     }
 
     /**
@@ -256,8 +249,8 @@ class FFMPEGhelper
      */
     public function cleanCurrent()
     {
-        $this -> currentVideoPath = null;
-        $this -> filesArray['current'] = null;
+        $this->currentVideoPath = null;
+        $this->filesArray['current'] = null;
     }
 
     /**
@@ -265,7 +258,7 @@ class FFMPEGhelper
      */
     public function cleanVideos()
     {
-        $this -> filesArray['videos'] = [];
+        $this->filesArray['videos'] = [];
     }
 
     /**
@@ -273,7 +266,7 @@ class FFMPEGhelper
      */
     public function cleanConverted()
     {
-        $this -> filesArray['converted'] = [];
+        $this->filesArray['converted'] = [];
     }
 
     /**
@@ -281,7 +274,7 @@ class FFMPEGhelper
      */
     public function cleanThumbnails()
     {
-        $this -> filesArray['thumbnails'] = [];
+        $this->filesArray['thumbnails'] = [];
     }
 
     /**
@@ -289,9 +282,9 @@ class FFMPEGhelper
      */
     private function setCurrentVideo($path)
     {
-        $this -> currentVideoPath = $path;
-        $this -> filesArray['current'] = $path;
-        $this -> pushVideo($path);
+        $this->currentVideoPath = $path;
+        $this->filesArray['current'] = $path;
+        $this->pushVideo($path);
     }
 
     /**
@@ -299,7 +292,7 @@ class FFMPEGhelper
      */
     private function pushVideo($path)
     {
-        array_push($this -> filesArray['videos'], $path);
+        array_push($this->filesArray['videos'], $path);
     }
 
     /**
@@ -307,7 +300,7 @@ class FFMPEGhelper
      */
     private function pushThumbnail($path)
     {
-        array_push($this -> filesArray['thumbnails'], $path);
+        array_push($this->filesArray['thumbnails'], $path);
     }
 
     /**
@@ -315,6 +308,6 @@ class FFMPEGhelper
      */
     private function pushConvertedVideo($path)
     {
-        array_push($this -> filesArray['converted'], $path);
+        array_push($this->filesArray['converted'], $path);
     }
 }
