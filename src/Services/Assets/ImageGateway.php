@@ -6,7 +6,6 @@ use Combustion\StandardLib\Services\Assets\Contracts\DocumentGatewayInterface;
 use Combustion\StandardLib\Services\Assets\Exceptions\ValidationFailed;
 use Illuminate\Filesystem\FilesystemAdapter;
 use Illuminate\Http\UploadedFile;
-use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 use Intervention\Image\Constraint;
 use Intervention\Image\Facades\Image;
@@ -70,6 +69,7 @@ class ImageGateway implements DocumentGatewayInterface
             'title'      => $imageBag['original']['name'],
             'slug'       => time().$imageBag['original']['name'],
             'image_id'   => $imageBag['original']['model']->id,
+            'large_id'   => $imageBag['large']['model']->id,
             'small_id'   => $imageBag['small']['model']->id,
             'medium_id'  => $imageBag['medium']['model']->id,
         ];
