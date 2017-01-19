@@ -3,6 +3,8 @@
 namespace Combustion\StandardLib\Support\Responses;
 
 use Combustion\StandardLib\Hydrators\HydratesWithSetters;
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
+use Illuminate\Contracts\Pagination\Paginator;
 
 /**
  * Class PaginatedResponse
@@ -52,12 +54,40 @@ class PaginatedResponse implements CustomResponse
     /**
      * PaginatedResponse constructor.
      *
-     * @param array $data
+     * @param Paginator $paginationObject
      * @param bool $strict Will throw exception if a field in $data has no matching setter
      */
-    public function __construct(array $data, bool $strict = false)
+    public function __construct(Paginator $paginationObject, bool $strict = false)
     {
-        $this->fill($data, $strict);
+        $this->fill($this->extractPaginationData($paginationObject), $strict);
+    }
+
+    /**
+     * @param Paginator $paginationObject
+     * @return array
+     */
+    public function extractPaginationData(Paginator $paginationObject):array
+    {
+
+        $total = 0;
+        // the Paginator contract odes not enforce total()
+        // some pagination classes will comeback without it
+        // this will prevent an exception but we lose the
+        // ability to know how many object we have in total
+        if(method_exists($paginationObject,'total'))
+        {
+            $total = $paginationObject -> total();
+        }
+        // make option array
+        $options = [
+            "total"=> $total,
+            "per_page"=> $paginationObject -> perPage(),
+            "current_page"=> $paginationObject -> currentPage(),
+            "last_page"=> ceil($total/$paginationObject -> perPage()),
+            "next_page_url"=> $paginationObject -> nextPageUrl(),
+            "prev_page_url"=> $paginationObject -> previousPageUrl()
+        ];
+        return $options;
     }
 
     /**
