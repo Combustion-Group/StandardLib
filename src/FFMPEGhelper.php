@@ -1,11 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: LaravelDude
- * Date: 11/10/16
- * Time: 11:13 AM
- */
-
 namespace Combustion\StandardLib;
 
 use Combustion\StandardLib\Exceptions\InvalidThumbnailFileFormat;

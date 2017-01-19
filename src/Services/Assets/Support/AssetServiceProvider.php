@@ -4,6 +4,7 @@ namespace Combustion\StandardLib\Services\Assets\Support;
 use Combustion\StandardLib\Services\Assets\AssetsGateway;
 use Combustion\StandardLib\Services\Assets\FileGateway;
 use Combustion\StandardLib\Services\Assets\ImageGateway;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Foundation\Application;
 
@@ -24,7 +25,7 @@ class AssetServiceProvider extends ServiceProvider
             $config = $app['config']['core.packages'][AssetsGateway::class];
             // build drivers array
             $drivers = array();
-            foreach ($config['drivers'] as $driverName => $driverInfo) {
+            foreach ($config['drivers'] as $driverName  => $driverInfo) {
                 $drivers[$driverName] = $app->make($driverInfo['class']);
             }
             return new AssetsGateway(
@@ -36,13 +37,16 @@ class AssetServiceProvider extends ServiceProvider
             $config = $app['config']['core.packages'][AssetsGateway::class]['drivers'][ImageGateway::DOCUMENT_TYPE]['config'];
             return new ImageGateway(
                 $config,
-                $app->make(FileGateway::class)
+                $app->make(FileGateway::class),
+                Storage::disk($app['config']['core.packages'][FileGateway::class]['local_driver'])
             );
         });
         $this->app->singleton(FileGateway::class, function (Application $app, array $params = []) {
             $config = $app['config']['core.packages'][FileGateway::class];
             return new FileGateway(
-                $config
+                $config,
+                Storage::disk($config['local_driver']),
+                Storage::disk($config['cloud_driver'])
             );
         });
     }

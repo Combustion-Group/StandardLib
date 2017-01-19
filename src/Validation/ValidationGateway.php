@@ -1,11 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: LaravelDude
- * Date: 1/18/17
- * Time: 11:12 AM
- */
-
 namespace Combustion\StandardLib\Validation;
 
 

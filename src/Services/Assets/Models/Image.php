@@ -35,7 +35,7 @@ class Image extends Model implements AssetDocumentInterface
      * RELATIONSHIPS
      */
 
-    public function getId(): int
+    public function getId() :  int
     {
         return (int)$this->id;
     }

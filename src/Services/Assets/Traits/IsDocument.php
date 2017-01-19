@@ -16,7 +16,7 @@ trait IsDocument
     /**
      * Documents can belong to many assets
      */
-    public function asset():MorphMany
+    public function asset() : MorphMany
     {
         return $this->morphMany(Asset::class,'document','document_type');
     }
@@ -51,7 +51,7 @@ trait IsDocument
         foreach($resource->asset as $resource_asset)
         {
             // if it exists
-            if($resource_asset->id == $asset->id)
+            if($resource_asset->id  =  =  $asset->id)
             {
                 return true;
             }

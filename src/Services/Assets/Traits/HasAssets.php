@@ -41,7 +41,7 @@ trait HasAssets
      * @param bool $primary
      * @return HasAssetsInterface
      */
-    public function attachAsset(Asset $asset,bool $primary = false):HasAssetsInterface
+    public function attachAsset(Asset $asset,bool $primary = false) : HasAssetsInterface
     {
         // pull resource
         $resource = $this;
@@ -51,7 +51,7 @@ trait HasAssets
             // check if the current document can be adder as a primary asset
             $resource->takeOutExistingPrimaryAsset();
             // take out existing primary asset if any and save new asset at primary
-            $resource->assets()->save($asset,['primary'=>true]);
+            $resource->assets()->save($asset,['primary' => true]);
             // once save as primary we can trigger the listener
             $resource->bringPrimaryAssetUrlToTopLevelOfModel();
         }
@@ -65,7 +65,7 @@ trait HasAssets
     /**
      *
      */
-    private function takeOutExistingPrimaryAsset():bool
+    private function takeOutExistingPrimaryAsset() : bool
     {
         // get current model
         $resource = $this;
@@ -75,7 +75,7 @@ trait HasAssets
         if($primary_asset)
         {
             // take out primary
-            $primary_asset->pivot->primary=false;
+            $primary_asset->pivot->primary = false;
             // save
             $primary_asset->pivot->save();
         }
@@ -88,24 +88,24 @@ trait HasAssets
      * brings it to the to p level of the
      * model
      */
-    public function bringPrimaryAssetUrlToTopLevelOfModel():bool
+    public function bringPrimaryAssetUrlToTopLevelOfModel() : bool
     {
         // if the model implementing hasAssetsInterface has primaryAssetsField
         if(isset($this->primaryAssetsField))
         {
             // put all urls on the top level
-            $this->$this->primaryAssetsField=[
-                'original'=>$this->primaryAsset()->get()->first()->document->image_file->url,
-                'small'=>$this->primaryAsset()->get()->first()->document->small_file->url,
-//                'large'=>$this->primaryAsset()->get()->first()->document->image_file->url,
-                'medium'=>$this->primaryAsset()->get()->first()->document->medium_file->url,
+            $this->$this->primaryAssetsField = [
+                'original' => $this->primaryAsset()->get()->first()->document->image_file->url,
+                'small' => $this->primaryAsset()->get()->first()->document->small_file->url,
+//                'large' => $this->primaryAsset()->get()->first()->document->image_file->url,
+                'medium' => $this->primaryAsset()->get()->first()->document->medium_file->url,
             ];
         }
         // if the object has primary assetField
         if(isset($this->primaryAssetField))
         {
             // just place the original image
-            $this->$this->primaryAssetField=$this->primaryAsset()->get()->first()->document->image_file->url;
+            $this->$this->primaryAssetField = $this->primaryAsset()->get()->first()->document->image_file->url;
         }
         // save changes
         $this->save();

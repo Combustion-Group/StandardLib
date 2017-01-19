@@ -24,14 +24,14 @@ class File extends Model
         'url'
     ];
 
-    public function validationRules():array
+    public function validationRules() : array
     {
         return [
-            'mime'=>'required|string',
-            'size'=>'required|numeric',
-            'original_name'=>'required|string',
-            'extension'=>'required|string',
-            'url'=>'required|string',
+            'mime' => 'required|string',
+            'size' => 'required|numeric',
+            'original_name' => 'required|string',
+            'extension' => 'required|string',
+            'url' => 'required|string',
         ];
     }
 }
