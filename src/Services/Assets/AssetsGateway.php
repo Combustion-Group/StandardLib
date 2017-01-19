@@ -1,11 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: LaravelDude
- * Date: 1/18/17
- * Time: 9:57 AM
- */
-
 namespace Combustion\StandardLib\Services\Assets;
 use Combustion\StandardLib\Services\Assets\Contracts\DocumentGatewayInterface;
 use Combustion\StandardLib\Services\Assets\Contracts\HasAssetsInterface;

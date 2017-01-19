@@ -1,11 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: LaravelDude
- * Date: 1/18/17
- * Time: 10:08 AM
- */
-
 namespace Combustion\StandardLib\Services\Assets\Support;
 
 use Combustion\StandardLib\Services\Assets\AssetsGateway;

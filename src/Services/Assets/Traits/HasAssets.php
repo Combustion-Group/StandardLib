@@ -1,11 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: LaravelDude
- * Date: 1/18/17
- * Time: 5:41 PM
- */
-
 namespace Combustion\StandardLib\Services\Assets\Traits;
 
 
