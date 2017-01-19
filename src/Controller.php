@@ -2,6 +2,7 @@
 
 namespace Combustion\StandardLib;
 
+use Illuminate\Contracts\Pagination\Paginator;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Validation\Validator;
 use Illuminate\Foundation\Bus\DispatchesJobs;
@@ -169,7 +170,7 @@ abstract class Controller extends BaseController
         // into a list of strings, as per the API response specifications. The new
         // format looks like this:
         //
-        // String[]  ->   ["Error on field {field_name}: {error_message}"]
+        // String[] ->  ["Error on field {field_name}: {error_message}"]
 
         foreach ($failures as $field => $messages) {
             $out = array_merge($out, array_map(function ($message) use ($field) {
