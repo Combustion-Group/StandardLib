@@ -104,8 +104,9 @@ trait HasAssets
         // if the object has primary assetField
         if(isset($this->primaryAssetField))
         {
+            $fieldName=$this->primaryAssetField;
             // just place the original image
-            $this->$this->primaryAssetField = $this->primaryAsset()->get()->first()->document->image_file->url;
+            $this->$fieldName = $this->primaryAsset()->get()->first()->document->image_file->url;
         }
         // save changes
         $this->save();
