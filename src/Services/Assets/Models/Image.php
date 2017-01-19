@@ -6,21 +6,23 @@
  * Time: 9:59 AM
  */
 
-namespace Combustion\StandardLib\Assets\Models;
+namespace Combustion\StandardLib\Services\Assets\Models;
 
 
-use Combustion\StandardLib\Assets\Contracts\AssetDocumentInterface;
-use Combustion\StandardLib\Assets\Traits\IsDocument;
+use Combustion\StandardLib\Services\Assets\Contracts\AssetDocumentInterface;
+use Combustion\StandardLib\Services\Assets\Traits\IsDocument;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
  * Class Image
  *
- * @package Combustion\StandardLib\Assets\Models
+ * @package Combustion\StandardLib\Services\Assets\Models
+ * @author Luis A. Perez <lperez@combustiongroup.com>
  */
 class Image extends Model implements AssetDocumentInterface
 {
-    use IsDocument;
+    use IsDocument,SoftDeletes;
     /**
      * @var array
      */
@@ -28,9 +30,8 @@ class Image extends Model implements AssetDocumentInterface
         'image_id',
         'small_id',
         'medium_id',
+        'large_id',
         'title',
-        'slug',
-        'description'
     ];
 
     /**
@@ -51,7 +52,7 @@ class Image extends Model implements AssetDocumentInterface
      */
     public function image_file()
     {
-        return $this->hasOne('App\File','id','image_id');
+        return $this->hasOne(File::class,'id','image_id');
     }
 
     /**
@@ -59,7 +60,7 @@ class Image extends Model implements AssetDocumentInterface
      */
     public function small_file()
     {
-        return $this->hasOne('App\File','id','small_id');
+        return $this->hasOne(File::class,'id','small_id');
     }
 
     /**
@@ -67,7 +68,15 @@ class Image extends Model implements AssetDocumentInterface
      */
     public function medium_file()
     {
-        return $this->hasOne('App\File','id','medium_id');
+        return $this->hasOne(File::class,'id','medium_id');
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function large_file()
+    {
+        return $this->hasOne(File::class,'id','large_id');
     }
 
 }

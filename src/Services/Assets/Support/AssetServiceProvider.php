@@ -6,13 +6,20 @@
  * Time: 10:08 AM
  */
 
-namespace Combustion\StandardLib\Assets\Support;
+namespace Combustion\StandardLib\Services\Assets\Support;
 
-use Combustion\StandardLib\Assets\AssetsGateway;
-use Combustion\StandardLib\Assets\FileGateway;
-use Combustion\StandardLib\Assets\ImageGateway;
+use Combustion\StandardLib\Services\Assets\AssetsGateway;
+use Combustion\StandardLib\Services\Assets\FileGateway;
+use Combustion\StandardLib\Services\Assets\ImageGateway;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Foundation\Application;
+
+/**
+ * Class AssetServiceProvider
+ *
+ * @package Combustion\StandardLib\Services\Assets\Support
+ * @author Luis A. Perez <lperez@combustiongroup.com>
+ */
 class AssetServiceProvider extends ServiceProvider
 {
     /**
@@ -33,7 +40,7 @@ class AssetServiceProvider extends ServiceProvider
             );
         });
         $this->app->singleton(ImageGateway::class, function (Application $app, array $params = []) {
-            $config = $app['config']['core.packages'][ImageGateway::class]['drivers'][ImageGateway::DOCUMENT_TYPE]['config'];
+            $config = $app['config']['core.packages'][AssetsGateway::class]['drivers'][ImageGateway::DOCUMENT_TYPE]['config'];
             return new ImageGateway(
                 $config,
                 $app->make(FileGateway::class)

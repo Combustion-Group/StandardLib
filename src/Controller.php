@@ -170,7 +170,7 @@ abstract class Controller extends BaseController
         // into a list of strings, as per the API response specifications. The new
         // format looks like this:
         //
-        // String[]  ->   ["Error on field {field_name}: {error_message}"]
+        // String[] ->  ["Error on field {field_name}: {error_message}"]
 
         foreach ($failures as $field => $messages) {
             $out = array_merge($out, array_map(function ($message) use ($field) {
@@ -221,16 +221,16 @@ abstract class Controller extends BaseController
         // ability to know how many object we have in total
         if(method_exists($paginationObject,'total'))
         {
-            $total = $paginationObject -> total();
+            $total = $paginationObject->total();
         }
         // make option array
         $options = [
             "total"=> $total,
-            "per_page"=> $paginationObject -> perPage(),
-            "current_page"=> $paginationObject -> currentPage(),
-            "last_page"=> ceil($total/$paginationObject -> perPage()),
-            "next_page_url"=> $paginationObject -> nextPageUrl(),
-            "prev_page_url"=> $paginationObject -> previousPageUrl()
+            "per_page"=> $paginationObject->perPage(),
+            "current_page"=> $paginationObject->currentPage(),
+            "last_page"=> ceil($total/$paginationObject->perPage()),
+            "next_page_url"=> $paginationObject->nextPageUrl(),
+            "prev_page_url"=> $paginationObject->previousPageUrl()
         ];
         return $options;
     }

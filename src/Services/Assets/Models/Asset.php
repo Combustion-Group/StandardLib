@@ -6,14 +6,16 @@
  * Time: 9:58 AM
  */
 
-namespace Combustion\StandardLib\Assets\Models;
+namespace Combustion\StandardLib\Services\Assets\Models;
 
 
 
 use Combustion\StandardLib\Models\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Asset extends Model
 {
+    use SoftDeletes;
     /**
      * @var array
      */
@@ -47,7 +49,7 @@ class Asset extends Model
      */
     public function document()
     {
-        return $this -> morphTo();
+        return $this->morphTo();
     }
 
     /*
@@ -59,7 +61,7 @@ class Asset extends Model
      */
     public function scopeOfType($query,$string)
     {
-        $query -> where('document_type',$string);
+        $query->where('document_type',$string);
     }
     /*
      * SCOPES

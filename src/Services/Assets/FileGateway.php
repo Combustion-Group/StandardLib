@@ -6,11 +6,11 @@
  * Time: 10:21 AM
  */
 
-namespace Combustion\StandardLib\Assets;
+namespace Combustion\StandardLib\Services\Assets;
 
 
-use Combustion\StandardLib\Assets\Exceptions\FileCouldNotBeMovedToCloud;
-use Combustion\StandardLib\Assets\Models\File;
+use Combustion\StandardLib\Services\Assets\Exceptions\FileCouldNotBeMovedToCloud;
+use Combustion\StandardLib\Services\Assets\Models\File;
 use Combustion\StandardLib\Validation\ValidationGateway;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
@@ -18,7 +18,8 @@ use Illuminate\Support\Facades\Storage;
 /**
  * Class FileGateway
  *
- * @package Combustion\StandardLib\Assets
+ * @package Combustion\StandardLib\Services\Assets
+ * @author Luis A. Perez <lperez@combustiongroup.com>
  */
 class FileGateway
 {
@@ -40,20 +41,21 @@ class FileGateway
     /**
      * @param \Illuminate\Http\UploadedFile $file
      *
-     * @return \Combustion\StandardLib\Assets\Models\File
+     * @return \Combustion\StandardLib\Services\Assets\Models\File
      */
     public function createFile(UploadedFile $file):File
     {
-        $this->moveToS3($file);
         // extract information needed from file
         $file_information = [
             'mime' => $file->getMimeType(),
             'size' => $file->getSize(),
-            'original_name' => $file -> getClientOriginalName(),
-            'url' => $this->buildUrl($file->getExtension()),
-            'extension' => $file -> getExtension(),
+            'original_name' => $file->getClientOriginalName(),
+            'url' => $this->buildUrl($this->buildCloudPath($file->getClientOriginalName(),$file->getExtension())),
+            'extension' => $file->getExtension(),
         ];
-        $file=(new File())->fill($file_information)->save();
+        $this->moveToS3($file);
+        $file=new File();
+        $file->fill($file_information)->save();
         return $file;
     }
 
@@ -61,16 +63,20 @@ class FileGateway
      * @param \Illuminate\Http\UploadedFile $file
      *
      * @return bool
-     * @throws \Combustion\StandardLib\Assets\Exceptions\FileCouldNotBeMovedToCloud
+     * @throws \Combustion\StandardLib\Services\Assets\Exceptions\FileCouldNotBeMovedToCloud
      */
     protected function moveToS3(UploadedFile $file):bool
     {
         $disk=Storage::disk('s3');
         try{
-            $disk->put($this->buildCloudPath($file->getClientOriginalName(),$file->getExtension()));
+            $disk->put($this->buildCloudPath($file->getClientOriginalName(),$file->getExtension()),file_get_contents($file));
         }catch (\Exception $exception)
         {
             throw new FileCouldNotBeMovedToCloud($exception->getMessage(),$exception->getCode(),$exception);
+        }
+        if(isset($this->config['keep_local_copy']) && !$this->config['keep_local_copy'])
+        {
+            exec('rm '.$file->getRealPath());
         }
         return true;
     }
@@ -117,5 +123,10 @@ class FileGateway
         if(isset($this->config['cloud_folder']))return $this->config['cloud_folder'];
         if(!is_null(env('CLOUD_FOLDER',null)))return env('CLOUD_FOLDER');
         return 'documents';
+    }
+
+    public function getConfig(): array
+    {
+        return $this->config;
     }
 }

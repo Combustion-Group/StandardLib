@@ -1,0 +1,41 @@
+<?php
+use Combustion\StandardLib\Services\Assets\AssetsGateway;
+use Combustion\StandardLib\Services\Assets\ImageGateway;
+use Combustion\StandardLib\Services\Assets\FileGateway;
+return [
+    AssetsGateway::class => [
+        "drivers"=>[
+            ImageGateway::DOCUMENT_TYPE=>[
+                "config"=>[
+                    "mimes"=>
+                        [
+                            "image/jpeg",
+                            "image/png"
+                        ],
+                    'sizes'=>[
+                        "large"=>[
+                            "x"=>700,
+                            "y"=>null
+                        ],
+                        "medium"=>[
+                            "x"=>344,
+                            "y"=>null
+                        ],
+                        "small"=>[
+                            "x"=>100,
+                            "y"=>null
+                        ]
+                    ]
+                ],
+                "class"=>ImageGateway::class
+            ]
+        ]
+    ],
+    FileGateway::class=>[
+        'cloud_base_url'=>env('COULD_BASE_URL'),
+        'cloud_folder'=>env('CLOUD_FOLDER'),
+        'local_document_folder'=>storage_path('app/documents'),
+        'local_document_folder_name'=>'documents',
+        'keep_local_copy'=>false
+    ],
+];

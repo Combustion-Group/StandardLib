@@ -6,14 +6,15 @@
  * Time: 9:58 AM
  */
 
-namespace Combustion\StandardLib\Assets\Models;
+namespace Combustion\StandardLib\Services\Assets\Models;
 
 
 use Combustion\StandardLib\Models\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class File extends Model
 {
-
+    use SoftDeletes;
     /**
      * @var string
      */
