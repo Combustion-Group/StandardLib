@@ -19,10 +19,7 @@ abstract class Model extends \Eloquent
      */
     public static function table()
     {
-        if (!static::$tableName) {
-            static::$tableName = (string)(new static)->getTable();
-        }
-        return static::$tableName;
+        return (string)(new static)->getTable();
     }
 
     /**

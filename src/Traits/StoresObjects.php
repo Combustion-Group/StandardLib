@@ -30,19 +30,24 @@ trait StoresObjects
     protected $tracker = [];
 
     /**
-     * @param $object
-     * @param int $key
+     * @param          $object
+     * @param int|null $key
      * @return int
      * @throws InvalidOperationException
      */
-    protected function store($object) : int
+    protected function store($object, int $key = null) : int
     {
         if (!is_object($object)) {
             throw new InvalidOperationException("Cannot use ObjectStorage for storing non objects. Type: " . gettype($object));
         }
 
         $class              = get_class($object);
-        $this->storage[]    = $object;
+
+        if (!is_null($key)) {
+            $this->storage[$key]    = $object;
+        } else {
+            $this->storage[]        = $object;
+        }
 
         end($this->storage);
         return $this->track($class, key($this->storage));
@@ -85,6 +90,15 @@ trait StoresObjects
         $this->tracker[$type][$key] = NULL;
 
         return $key;
+    }
+
+    /**
+     * @param int $key
+     * @return string
+     */
+    private function hash(int $key) : string
+    {
+        return md5($key);
     }
 
     /**

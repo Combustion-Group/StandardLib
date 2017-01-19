@@ -4,9 +4,9 @@ namespace Combustion\StandardLib\Support;
 
 use Combustion\StandardLib\Log;
 use Monolog\Logger as Monolog;
-use Combustion\StandardLib\UploadManager;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\ServiceProvider;
+use Combustion\StandardLib\UploadManager;
 use Illuminate\Filesystem\FilesystemManager;
 use Combustion\StandardLib\Services\SystemHooks\SystemEvents;
 
