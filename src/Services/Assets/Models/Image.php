@@ -1,7 +1,6 @@
 <?php
 namespace Combustion\StandardLib\Services\Assets\Models;
 
-
 use Combustion\StandardLib\Services\Assets\Contracts\AssetDocumentInterface;
 use Combustion\StandardLib\Services\Assets\Traits\IsDocument;
 use Illuminate\Database\Eloquent\Model;
@@ -35,7 +34,7 @@ class Image extends Model implements AssetDocumentInterface
      * RELATIONSHIPS
      */
 
-    public function getId() :  int
+    public function getId() : int
     {
         return (int)$this->id;
     }

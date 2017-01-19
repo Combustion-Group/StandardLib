@@ -25,7 +25,9 @@ interface AssetDocumentInterface
     public function getId() : int;
 
     /**
+     * @param \Combustion\StandardLib\Services\Assets\Models\Asset $asset
+     *
      * @return \Combustion\StandardLib\Services\Assets\Models\Asset
      */
-    public function attachToAsset() : Asset;
+    public function attachToAsset(Asset $asset) : Asset;
 }

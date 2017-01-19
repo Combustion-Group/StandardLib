@@ -25,7 +25,7 @@ trait IsDocument
      * @param Asset $asset
      * @return Asset
      */
-    public function attachToAsset(Asset $asset)
+    public function attachToAsset(Asset $asset) : Asset
     {
         // pull resource
         $document = $this;
@@ -51,7 +51,7 @@ trait IsDocument
         foreach($resource->asset as $resource_asset)
         {
             // if it exists
-            if($resource_asset->id  =  =  $asset->id)
+            if($resource_asset->id == $asset->id)
             {
                 return true;
             }
