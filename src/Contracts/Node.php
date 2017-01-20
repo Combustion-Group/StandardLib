@@ -43,4 +43,10 @@ interface Node extends IteratorAggregate
      * @return Node
      */
     public function setParentNode(Node $node) : Node;
+
+    /**
+     * @param array $attributes
+     * @return Node
+     */
+    public function fill(array $attributes = []);
 }

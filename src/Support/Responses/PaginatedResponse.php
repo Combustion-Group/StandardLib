@@ -80,13 +80,14 @@ class PaginatedResponse implements CustomResponse
         }
         // make option array
         $options = [
-            "total"=> $total,
-            "per_page"=> $paginationObject -> perPage(),
-            "current_page"=> $paginationObject -> currentPage(),
-            "last_page"=> ceil($total/$paginationObject -> perPage()),
-            "next_page_url"=> $paginationObject -> nextPageUrl(),
-            "prev_page_url"=> $paginationObject -> previousPageUrl()
+            "total"         => $total,
+            "per_page"      => $paginationObject->perPage(),
+            "current_page"  => $paginationObject->currentPage(),
+            "last_page"     => ceil($total/$paginationObject->perPage()),
+            "next_page_url" => $paginationObject->nextPageUrl(),
+            "prev_page_url" => $paginationObject->previousPageUrl()
         ];
+
         return $options;
     }
 

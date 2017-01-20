@@ -26,7 +26,7 @@ class LinkedListHydrator implements Hydrator
      * @return Node|\Generator|array
      * @throws InvalidOperationException
      */
-    public function hydrate(string $prototype, array $data, \Closure $callback, string $generate = true)
+    public function hydrate(string $prototype, array $data, \Closure $callback = null, string $generate = true)
     {
         $implements = class_implements($prototype);
 
@@ -41,9 +41,9 @@ class LinkedListHydrator implements Hydrator
 
         for ($i = 0; $i < $totalRecs; $i++)
         {
-            $record = $data[$i];
+            $current->fill($data[$i]);
 
-            $callback($current, $record);
+            ! is_null($callback) && $callback($current, $data, $i);
 
             $generate && yield $current;
 
