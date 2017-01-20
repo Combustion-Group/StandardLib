@@ -10,7 +10,7 @@ use Combustion\StandardLib\Contracts\Prototype;
  * @package Combustion\StandardLib\Contracts
  * @author Carlos Granados <cgranados@combustiongroup.com<
  */
-interface Node extends IteratorAggregate
+interface Node extends IteratorAggregate, Prototype
 {
     /**
      * @return Node
@@ -49,4 +49,5 @@ interface Node extends IteratorAggregate
      * @return Node
      */
     public function fill(array $attributes = []);
+
 }
