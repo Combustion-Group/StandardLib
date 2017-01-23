@@ -48,6 +48,6 @@ interface Node extends IteratorAggregate, Prototype
      * @param array $attributes
      * @return Node
      */
-    public function fill(array $attributes = []);
+    public function fill(array $attributes);
 
 }

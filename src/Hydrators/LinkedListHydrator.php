@@ -4,7 +4,7 @@ namespace Combustion\StandardLib\Hydrators;
 
 use Combustion\StandardLib\Contracts\Node;
 use Combustion\StandardLib\Contracts\Hydrator;
-use Combustion\Billing\Integrations\Exceptions\InvalidOperationException;
+use Combustion\StandardLib\Support\Installer\Exceptions\InvalidOperationException;
 
 /**
  * Class LinkedListHydrator
@@ -26,7 +26,7 @@ class LinkedListHydrator implements Hydrator
      * @return Node|\Generator|array
      * @throws InvalidOperationException
      */
-    public function hydrate(string $prototype, array $data, \Closure $callback = null, string $generate = true)
+    public function hydrate(string $prototype, array $data, \Closure $callback = null, bool $generate = true)
     {
         $implements = class_implements($prototype);
 
