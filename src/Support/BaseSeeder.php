@@ -3,6 +3,7 @@
 namespace Combustion\StandardLib\Support;
 
 use Illuminate\Database\Seeder;
+use Combustion\Billing\Exceptions\BadSeederException;
 
 /**
  * Class BaseSeeder
@@ -11,6 +12,11 @@ use Illuminate\Database\Seeder;
  */
 abstract class BaseSeeder extends Seeder
 {
+    /**
+     * @return string
+     */
+    abstract public function getPackage() : string;
+
     /**
      * @param array $source String list
      * @param array $data Associative array
@@ -23,5 +29,24 @@ abstract class BaseSeeder extends Seeder
         $keep 	= array_diff($new, $source);
 
         return array_intersect_key($data, $keep);
+    }
+
+    /**
+     * @return array
+     * @throws BadSeederException
+     */
+    protected function getEntries() : array
+    {
+        $seeder     = get_called_class();
+        $seeder     = explode('\\', $seeder);
+        $seeder     = array_pop($seeder);
+        $package    = $this->getPackage();
+        $data       = \Config::get("{$package}.seeders.{$seeder}");
+
+        if (!$data) {
+            throw new BadSeederException("There is no data configured for seeder {$seeder}");
+        }
+
+        return $data;
     }
 }
