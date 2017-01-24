@@ -85,10 +85,11 @@ class ImageGateway implements DocumentGatewayInterface
     public function moveToLocalDisk(UploadedFile $file) : UploadedFile
     {
         $disk = $this->localDriver;
-        $fileDestination = $this->fileGateway->getConfig()['local_document_folder_name'].'/'.$file->getClientOriginalName().'.'.$file->extension();
-        $fileLocation = $this->fileGateway->getConfig()['local_document_folder'].'/'.$file->getClientOriginalName().'.'.$file->extension();
+        $newFileName=md5(time().$file->getClientOriginalName());
+        $fileDestination = $this->fileGateway->getConfig()['local_document_folder_name'].'/'.$newFileName.'.'.$file->extension();
+        $fileLocation = $this->fileGateway->getConfig()['local_document_folder'].'/'.$newFileName.'.'.$file->extension();
         $disk->put($fileDestination, file_get_contents($file));
-        return new UploadedFile($fileLocation,$file->getClientOriginalName());
+        return new UploadedFile($fileLocation,$newFileName);
     }
 
 
