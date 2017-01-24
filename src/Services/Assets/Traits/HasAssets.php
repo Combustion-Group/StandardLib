@@ -4,6 +4,7 @@ namespace Combustion\StandardLib\Services\Assets\Traits;
 
 use Combustion\StandardLib\Services\Assets\Contracts\HasAssetsInterface;
 use Combustion\StandardLib\Services\Assets\Models\Asset;
+use Illuminate\Database\Eloquent\Relations\MorphToMany;
 
 /**
  * Class HasAssets
@@ -16,7 +17,7 @@ trait HasAssets
     /**
      * Get all of the assets for the post.
      */
-    public function assets()
+    public function assets() : MorphToMany
     {
         return $this->morphToMany(Asset::class,'resource','resource_asset','resource_id','asset_id')->withPivot('primary','resource_type')->withTimestamps();
     }
@@ -24,7 +25,7 @@ trait HasAssets
     /**
      * @return mixed
      */
-    public function primaryAsset()
+    public function primaryAsset() : MorphToMany
     {
         return $this->assets()->wherePivot('primary',1);
     }
@@ -63,7 +64,7 @@ trait HasAssets
     /**
      *
      */
-    private function takeOutExistingPrimaryAsset() : bool
+    public function takeOutExistingPrimaryAsset() : bool
     {
         // fetch the primary asset
         $primary_asset = $this->primaryAsset()->first();
@@ -94,7 +95,7 @@ trait HasAssets
             $this->$fieldName = [
                 'original' => $this->primaryAsset()->get()->first()->document->image_file->url,
                 'small' => $this->primaryAsset()->get()->first()->document->small_file->url,
-                'large' => $this->primaryAsset()->get()->first()->document->image_file->url,
+                'large' => $this->primaryAsset()->get()->first()->document->large_file->url,
                 'medium' => $this->primaryAsset()->get()->first()->document->medium_file->url,
             ];
         }
