@@ -133,7 +133,7 @@ class ImageGateway implements DocumentGatewayInterface
                 $constraint->aspectRatio();
                 $constraint->upsize();
                 // save once done
-            })->save($imagePath);
+            })->orientate()->save($imagePath);
         }
         return $imageBag;
     }
