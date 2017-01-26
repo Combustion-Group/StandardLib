@@ -2,12 +2,14 @@
 
 namespace Combustion\StandardLib\Models;
 
+use Illuminate\Database\Eloquent\Model as Eloquent;
+
 /**
  * Class Model
  * @package Combustion\StandardLib\Models
- * @author Carlos Granados <cgranadso@combustiongroup.com>
+ * @author  Carlos Granados <cgranadso@combustiongroup.com>
  */
-abstract class Model extends \Eloquent
+abstract class Model extends Eloquent
 {
     /**
      * @var string
@@ -19,7 +21,8 @@ abstract class Model extends \Eloquent
      */
     public static function table()
     {
-        return (string)(new static)->getTable();
+        $class = get_called_class();
+        return (string)(new $class)->getTable();
     }
 
     /**

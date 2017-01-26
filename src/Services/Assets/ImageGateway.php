@@ -6,7 +6,6 @@ use Combustion\StandardLib\Services\Assets\Contracts\DocumentGatewayInterface;
 use Combustion\StandardLib\Services\Assets\Exceptions\ValidationFailed;
 use Illuminate\Filesystem\FilesystemAdapter;
 use Illuminate\Http\UploadedFile;
-use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 use Intervention\Image\Constraint;
 use Intervention\Image\Facades\Image;
@@ -70,6 +69,7 @@ class ImageGateway implements DocumentGatewayInterface
             'title'      => $imageBag['original']['name'],
             'slug'       => time().$imageBag['original']['name'],
             'image_id'   => $imageBag['original']['model']->id,
+            'large_id'   => $imageBag['large']['model']->id,
             'small_id'   => $imageBag['small']['model']->id,
             'medium_id'  => $imageBag['medium']['model']->id,
         ];
@@ -85,10 +85,11 @@ class ImageGateway implements DocumentGatewayInterface
     public function moveToLocalDisk(UploadedFile $file) : UploadedFile
     {
         $disk = $this->localDriver;
-        $fileDestination = $this->fileGateway->getConfig()['local_document_folder_name'].'/'.$file->getClientOriginalName().'.'.$file->extension();
-        $fileLocation = $this->fileGateway->getConfig()['local_document_folder'].'/'.$file->getClientOriginalName().'.'.$file->extension();
+        $newFileName=md5(time().$file->getClientOriginalName());
+        $fileDestination = $this->fileGateway->getConfig()['local_document_folder_name'].'/'.$newFileName.'.'.$file->extension();
+        $fileLocation = $this->fileGateway->getConfig()['local_document_folder'].'/'.$newFileName.'.'.$file->extension();
         $disk->put($fileDestination, file_get_contents($file));
-        return new UploadedFile($fileLocation,$file->getClientOriginalName());
+        return new UploadedFile($fileLocation,$newFileName);
     }
 
 
@@ -133,7 +134,7 @@ class ImageGateway implements DocumentGatewayInterface
                 $constraint->aspectRatio();
                 $constraint->upsize();
                 // save once done
-            })->save($imagePath);
+            })->orientate()->save($imagePath);
         }
         return $imageBag;
     }

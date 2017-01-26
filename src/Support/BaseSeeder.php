@@ -38,8 +38,6 @@ abstract class BaseSeeder extends Seeder
     protected function getEntries() : array
     {
         $seeder     = get_called_class();
-        $seeder     = explode('\\', $seeder);
-        $seeder     = array_pop($seeder);
         $package    = $this->getPackage();
         $data       = \Config::get("{$package}.seeders.{$seeder}");
 
