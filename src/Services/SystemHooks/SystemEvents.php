@@ -45,9 +45,9 @@ class SystemEvents
         foreach ($listeners as $listener) {
             if (array_key_exists('l', $listener)) {
                 /**
-                 * @var Listener $listener
+                 * @var Listener[] $listener
                  */
-                $listener->fire($data);
+                $listener['l']->fire($data);
             } else {
                 $listener($data);
             }
