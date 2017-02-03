@@ -28,4 +28,9 @@ interface UserInterface {
      * @return string
      */
     public function getFullName() : string;
+
+    /**
+     * @return mixed
+     */
+    public function toArray();
 }

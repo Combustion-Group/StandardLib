@@ -2,12 +2,13 @@
 
 namespace Combustion\StandardLib\Support;
 
-use Combustion\StandardLib\Log;
 use Monolog\Logger as Monolog;
+use Combustion\StandardLib\Log;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\ServiceProvider;
 use Combustion\StandardLib\UploadManager;
 use Illuminate\Filesystem\FilesystemManager;
+
 use Combustion\StandardLib\Services\SystemHooks\SystemEvents;
 
 class StdServiceProvider extends ServiceProvider
@@ -22,11 +23,23 @@ class StdServiceProvider extends ServiceProvider
         });
 
         $this->app->singleton(Log::class, function (Application $app, array $params = []) {
-            return new Log(new Monolog($app->environment()), $app['events']);
+            $configurator   = new LogConfigurator();
+            $log            = new Log(new Monolog($this->app->environment()), $app['events']);
+
+            return $configurator->configure($log, $app);
         });
 
         $this->app->singleton(SystemEvents::class, function (Application $app, array $params) {
             return new SystemEvents($app);
         });
+    }
+
+    public function boot()
+    {
+        $useLog = \Config::get('standardlib.use-log');
+
+        if ($useLog) {
+            $this->app->instance('log', $this->app->make(Log::class));
+        }
     }
 }
