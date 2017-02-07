@@ -8,8 +8,8 @@ use Illuminate\Foundation\Application;
 use Illuminate\Support\ServiceProvider;
 use Combustion\StandardLib\UploadManager;
 use Illuminate\Filesystem\FilesystemManager;
-
 use Combustion\StandardLib\Services\SystemHooks\SystemEvents;
+use Combustion\StandardLib\Services\DeepLinks\DeepLinkService;
 
 class StdServiceProvider extends ServiceProvider
 {
@@ -32,10 +32,16 @@ class StdServiceProvider extends ServiceProvider
         $this->app->singleton(SystemEvents::class, function (Application $app, array $params) {
             return new SystemEvents($app);
         });
+
+        $this->app->singleton(DeepLinkService::class, function (Application $app, array $params) {
+            return new DeepLinkService();
+        });
     }
 
     public function boot()
     {
+        $this->loadMigrationsFrom(__DIR__ . '/../Services/DeepLinks/Support/Migrations');
+
         $useLog = \Config::get('standardlib.use-log');
 
         if ($useLog) {

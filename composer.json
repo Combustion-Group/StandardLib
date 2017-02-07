@@ -19,6 +19,9 @@
   "require-dev": {
 
   },
+  "scripts": {
+
+  },
   "autoload": {
     "psr-4": {
       "Combustion\\StandardLib\\": "src/"
