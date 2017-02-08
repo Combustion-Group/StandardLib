@@ -57,9 +57,11 @@ class PaginatedResponse implements CustomResponse
      * @param Paginator $paginationObject
      * @param bool $strict Will throw exception if a field in $data has no matching setter
      */
-    public function __construct(Paginator $paginationObject, bool $strict = false)
+    public function __construct(Paginator $paginationObject = null, bool $strict = false)
     {
-        $this->fill($this->extractPaginationData($paginationObject), $strict);
+        if (!is_null($paginationObject)) {
+            $this->fill($this->extractPaginationData($paginationObject), $strict);
+        }
     }
 
     /**
@@ -70,14 +72,16 @@ class PaginatedResponse implements CustomResponse
     {
 
         $total = 0;
+
         // the Paginator contract odes not enforce total()
         // some pagination classes will comeback without it
         // this will prevent an exception but we lose the
         // ability to know how many object we have in total
         if(method_exists($paginationObject,'total'))
         {
-            $total = $paginationObject -> total();
+            $total = $paginationObject->total();
         }
+
         // make option array
         $options = [
             "total"         => $total,
