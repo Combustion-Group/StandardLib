@@ -2,7 +2,10 @@
 namespace Combustion\StandardLib\Services\Assets\Models;
 
 use Combustion\StandardLib\Models\Model;
+use Combustion\StandardLib\Services\Assets\Traits\BaseModel;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Query\JoinClause;
 
 /**
  * Class Asset
@@ -12,7 +15,8 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  */
 class Asset extends Model
 {
-    use SoftDeletes;
+    use SoftDeletes,BaseModel;
+
     /**
      * @var array
      */
@@ -35,6 +39,7 @@ class Asset extends Model
      * @var array
      */
     protected $with = ['document'];
+    protected $casts = ['image_files'=>'array'];
 
     /*
      * RELATIONSHIPS
@@ -52,6 +57,47 @@ class Asset extends Model
     /*
      * RELATIONSHIPS
      */
+
+
+    public function scopeWithDocumentData(Builder $query)
+    {
+        $imageClass=Image::class;
+        // Images join
+        $query->leftJoin('images as images_table',function(JoinClause $join)use($imageClass){
+           $join->on('images_table.id','assets.document_id')
+               ->where('assets.document_type',$imageClass);
+        });
+        // small image
+        $query->leftJoin('files as small_files_table',function(JoinClause $join)use($imageClass){
+           $join->on('images_table.small_id','small_files_table.id')
+               ->where('assets.document_type',$imageClass);
+        });
+        // medium image
+        $query->leftJoin('files as medium_files_table',function(JoinClause $join)use($imageClass){
+           $join->on('images_table.medium_id','medium_files_table.id')
+               ->where('assets.document_type',$imageClass);
+        });
+        // large image
+        $query->leftJoin('files as large_files_table',function(JoinClause $join)use($imageClass){
+           $join->on('images_table.large_id','large_files_table.id')
+               ->where('assets.document_type',$imageClass);
+        });
+        // original image
+        $query->leftJoin('files as original_files_table',function(JoinClause $join)use($imageClass){
+           $join->on('images_table.image_id','original_files_table.id')
+               ->where('assets.document_type',$imageClass);
+        });
+
+        $this->appendToSelect("
+        CASE WHEN assets.document_type = $imageClass
+            JSON_OBJECT(
+                'small' , CASE WHEN small_files_table.id IS NOT NULL THEN small_files_table.url ELSE NULL END
+                'medium' , CASE WHEN medium_files_table.id IS NOT NULL THEN medium_files_table.url ELSE NULL END
+                'large' , CASE WHEN large_files_table.id IS NOT NULL THEN large_files_table.url ELSE NULL END
+                'original' , CASE WHEN original_files_table.id IS NOT NULL THEN original_files_table.url ELSE NULL END
+            ) as image_files
+        END ");
+    }
 
     /*
      * SCOPES
