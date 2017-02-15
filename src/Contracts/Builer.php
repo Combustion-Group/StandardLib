@@ -3,6 +3,7 @@
 namespace Combustion\StandardLib\Contracts;
 
 use Combustion\StandardLib\Exceptions\BuilderException;
+use Combustion\StandardLib\Hydrators\HydratesWithSetters;
 
 /**
  * Interface Builder
@@ -12,6 +13,8 @@ use Combustion\StandardLib\Exceptions\BuilderException;
  */
 abstract class Builder
 {
+    use HydratesWithSetters;
+
     /**
      * @var array
      */
@@ -67,8 +70,12 @@ abstract class Builder
     /**
      * @return array
      */
-    public function getRequired() : array
+    protected function getRequired() : array
     {
+        if (defined('self::PARAMS')) {
+            return self::PARAMS;
+        }
+
         return [];
     }
 }

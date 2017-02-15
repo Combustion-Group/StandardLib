@@ -96,7 +96,7 @@ trait StoresObjects
      * @param int $key
      * @return string
      */
-    private function hash(int $key) : string
+    protected function hash(int $key) : string
     {
         return md5($key);
     }
