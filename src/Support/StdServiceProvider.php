@@ -8,7 +8,7 @@ use Illuminate\Foundation\Application;
 use Illuminate\Support\ServiceProvider;
 use Combustion\StandardLib\UploadManager;
 use Illuminate\Filesystem\FilesystemManager;
-use Combustion\StandardLib\Services\SystemHooks\SystemEvents;
+use Combustion\StandardLib\Services\SystemEvents\SystemEventsService;
 use Combustion\StandardLib\Services\DeepLinks\DeepLinkService;
 
 class StdServiceProvider extends ServiceProvider
@@ -29,8 +29,8 @@ class StdServiceProvider extends ServiceProvider
             return $configurator->configure($log, $app);
         });
 
-        $this->app->singleton(SystemEvents::class, function (Application $app, array $params) {
-            return new SystemEvents($app);
+        $this->app->singleton(SystemEventsService::class, function (Application $app, array $params) {
+            return new SystemEventsService($app);
         });
 
         $this->app->singleton(DeepLinkService::class, function (Application $app, array $params) {

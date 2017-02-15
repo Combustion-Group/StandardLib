@@ -39,7 +39,7 @@ abstract class Controller extends BaseController
      * @param int $code
      * @return \Illuminate\Http\JsonResponse
      */
-    public static function respond($data, $status = self::OK, $messages = [], int $code = null) : JsonResponse
+    public static function respond($data, $status = self::OK, $messages = [], int $code = null, $warnings = []) : JsonResponse
     {
         // You can specify the HTTP response code you wish
         // to send back, but if no code is set and the status
@@ -52,9 +52,10 @@ abstract class Controller extends BaseController
 
         // Standard API response
         $response = [
-            'status'    => $status,
-            'messages'  => self::formatErrorMessages($messages),
-            'data'      => $data
+            'status'         => $status,
+            'messages'       => self::formatErrorMessages($messages),
+            "user_messages"  => [],
+            'data'           => $data
         ];
 
         return response()->json(self::buildResponse($response), $code);

@@ -1,5 +1,5 @@
 <?php
 
-namespace Combustion\StandardLib\Services\SystemHooks\Exceptions;
+namespace Combustion\StandardLib\Services\SystemEvents\Exceptions;
 
 class SystemHookRegisterException extends \Exception {}

@@ -1,6 +1,6 @@
 <?php
 
-namespace Combustion\StandardLib\Services\SystemHooks;
+namespace Combustion\StandardLib\Services\SystemEvents;
 
 interface Listener
 {

@@ -1,8 +1,8 @@
 <?php
 
-namespace Combustion\StandardLib\Services\SystemHooks;
+namespace Combustion\StandardLib\Services\SystemEvents;
 
-use Combustion\StandardLib\Services\SystemHooks\Exceptions\SystemHookRegisterException;
+use Combustion\StandardLib\Services\SystemEvents\Exceptions\SystemHookRegisterException;
 use Illuminate\Contracts\Foundation\Application;
 
 /**
@@ -12,7 +12,7 @@ use Illuminate\Contracts\Foundation\Application;
  *
  * @package Combustion\StandardLib\Services\SystemHooks
  */
-class SystemEvents
+class SystemEventsService
 {
     /**
      * @var Listener[]|string
@@ -36,9 +36,9 @@ class SystemEvents
     /**
      * @param string $event
      * @param $data
-     * @return SystemEvents
+     * @return SystemEventsService
      */
-    public function fire(string $event, $data = []) : SystemEvents
+    public function fire(string $event, $data = []) : SystemEventsService
     {
         $listeners = $this->getListeners($event);
 
@@ -72,10 +72,10 @@ class SystemEvents
     /**
      * @param string $eventName
      * @param $callback
-     * @return SystemEvents
+     * @return SystemEventsService
      * @throws SystemHookRegisterException
      */
-    public function on(string $eventName, $callback) : SystemEvents
+    public function on(string $eventName, $callback) : SystemEventsService
     {
         if (!array_key_exists($eventName, $this->listeners)) {
             $this->listeners[$eventName] = [];
@@ -94,6 +94,8 @@ class SystemEvents
      */
     public function validateCallback(string $eventName, $callback)
     {
+        // The array key subsets 'c' and 'l' allow the on() method to accept an
+        // anonymous function or an implementation of Listener.
         if ($callback instanceof \Closure) {
             return ['c' => $callback];
         }
