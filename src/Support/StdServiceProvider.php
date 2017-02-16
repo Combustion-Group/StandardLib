@@ -30,7 +30,17 @@ class StdServiceProvider extends ServiceProvider
         });
 
         $this->app->singleton(SystemEventsService::class, function (Application $app, array $params) {
-            return new SystemEventsService($app);
+            $e = new SystemEventsService($app);
+            $l = $app['config']['events'] ?: [];
+
+            // Registering listeners for events in the cart manager
+            foreach ($l as $event => $listeners) {
+                foreach ($listeners as $listener) {
+                    $e->on($event, $listener);
+                }
+            }
+
+            return $e;
         });
 
         $this->app->singleton(DeepLinkService::class, function (Application $app, array $params) {
