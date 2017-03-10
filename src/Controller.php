@@ -151,7 +151,9 @@ abstract class Controller extends BaseController
             $rules = array_intersect_key($this->validationRules, array_flip($rules));
         }
 
-        return \Validator::make($data, $rules);
+        $messages = property_exists($this, 'messages') ? $this->messages : [];
+
+        return \Validator::make($data, $rules, $messages);
     }
 
     /**
