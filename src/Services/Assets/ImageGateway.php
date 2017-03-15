@@ -3,7 +3,9 @@ namespace Combustion\StandardLib\Services\Assets;
 
 use Combustion\StandardLib\Services\Assets\Contracts\AssetDocumentInterface;
 use Combustion\StandardLib\Services\Assets\Contracts\DocumentGatewayInterface;
+use Combustion\StandardLib\Services\Assets\Exceptions\ImageDimensionsAreInvalid;
 use Combustion\StandardLib\Services\Assets\Exceptions\ValidationFailed;
+use Combustion\StandardLib\Services\Assets\Traits\HasAssets;
 use Illuminate\Filesystem\FilesystemAdapter;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Validator;
@@ -31,6 +33,7 @@ class ImageGateway implements DocumentGatewayInterface
      * @var \Illuminate\Filesystem\FilesystemAdapter
      */
     protected $localDriver;
+    protected $manipulators;
     /**
      *
      */
@@ -44,11 +47,12 @@ class ImageGateway implements DocumentGatewayInterface
      * @param \Combustion\StandardLib\Services\Assets\FileGateway $fileGateway
      * @param \Illuminate\Filesystem\FilesystemAdapter            $localDriver
      */
-    public function __construct(array $config, FileGateway $fileGateway, FilesystemAdapter $localDriver)
+    public function __construct(array $config, FileGateway $fileGateway, FilesystemAdapter $localDriver,array $manipulators)
     {
         $this->fileGateway  = $fileGateway;
         $this->localDriver  = $localDriver;
         $this->config       = $this->validatesConfig($config);
+        $this->manipulators = $manipulators;
     }
 
     /**
@@ -59,6 +63,7 @@ class ImageGateway implements DocumentGatewayInterface
      */
     public function create(UploadedFile $image, array $options = []) : AssetDocumentInterface
     {
+        $manipulator =
         $imageBag = $this->makeImageIntoCorrectSizes($this->moveToLocalDisk($image));
         foreach ($imageBag as $size => $imageData)
         {
@@ -76,6 +81,11 @@ class ImageGateway implements DocumentGatewayInterface
         return ImageModel::create($imageModelData);
     }
 
+    public function getManipulator(array $options=null)
+    {
+        if(is_null($options) || !in_array('model',$options)) return $this->manipulators[$this->config['manipulators']['default']];
+        if(!$options['model'] instanceof HasAssets) throw new Exc
+    }
 
     /**
      * @param \Illuminate\Http\UploadedFile $file
@@ -162,6 +172,8 @@ class ImageGateway implements DocumentGatewayInterface
             "sizes.*"   => "required|array",
             "sizes.*.x" => "required|nullable|int",
             "sizes.*.y" => "required|nullable|int",
+            "manipulators" => "required|array",
+            "manipulators.default" => "required",
         ];
         $validation = Validator::make($config,$validationRules);
         if($validation->fails())
@@ -169,5 +181,17 @@ class ImageGateway implements DocumentGatewayInterface
             throw new ValidationFailed("Validation for ImageGateway config array failed.");
         }
         return $config;
+    }
+
+    private function checkForDimessions(array $options)
+    {
+        $data=[
+            'width'=>isset($options['width'])?$options['width']:0,
+            'height'=>isset($options['height'])?$options['height']:0,
+            'x'=>isset($options['x'])?$options['x']:0,
+            'y'=>isset($options['y'])?$options['y']:0,
+        ];
+        foreach ($data as $coordinates=>$value) if($value===0) throw new ImageDimensionsAreInvalid(ucfirst($coordinates)." cannot be empty or have a calue of 0");
+        return $data;
     }
 }
