@@ -3,7 +3,9 @@ namespace Combustion\StandardLib\Services\Assets;
 
 use Combustion\StandardLib\Services\Assets\Contracts\AssetDocumentInterface;
 use Combustion\StandardLib\Services\Assets\Contracts\DocumentGatewayInterface;
+use Combustion\StandardLib\Services\Assets\Contracts\Manipulator;
 use Combustion\StandardLib\Services\Assets\Exceptions\ImageDimensionsAreInvalid;
+use Combustion\StandardLib\Services\Assets\Exceptions\ModelMustHaveHasAssetsTrait;
 use Combustion\StandardLib\Services\Assets\Exceptions\ValidationFailed;
 use Combustion\StandardLib\Services\Assets\Traits\HasAssets;
 use Illuminate\Filesystem\FilesystemAdapter;
@@ -19,7 +21,7 @@ use Combustion\StandardLib\Services\Assets\Models\Image as ImageModel;
  * @package Combustion\StandardLib\Services\Assets
  * @author Luis A. Perez <lperez@combustiongroup.com>
  */
-class ImageGateway implements DocumentGatewayInterface
+class ImageGateway extends DocumentsGateway
 {
     /**
      * @var array
@@ -33,6 +35,9 @@ class ImageGateway implements DocumentGatewayInterface
      * @var \Illuminate\Filesystem\FilesystemAdapter
      */
     protected $localDriver;
+    /**
+     * @var array
+     */
     protected $manipulators;
     /**
      *
@@ -63,8 +68,8 @@ class ImageGateway implements DocumentGatewayInterface
      */
     public function create(UploadedFile $image, array $options = []) : AssetDocumentInterface
     {
-        $manipulator =
-        $imageBag = $this->makeImageIntoCorrectSizes($this->moveToLocalDisk($image));
+        $manipulator = $this->getManipulator($options);
+        $imageBag = $manipulator->manipulate($this->moveToLocalDisk($image));
         foreach ($imageBag as $size => $imageData)
         {
             $file = new UploadedFile($imageData['folder'].'/'.$imageData['name'].'.'.$imageData['extension'],$imageData['name']);
@@ -81,11 +86,6 @@ class ImageGateway implements DocumentGatewayInterface
         return ImageModel::create($imageModelData);
     }
 
-    public function getManipulator(array $options=null)
-    {
-        if(is_null($options) || !in_array('model',$options)) return $this->manipulators[$this->config['manipulators']['default']];
-        if(!$options['model'] instanceof HasAssets) throw new E
-    }
 
     /**
      * @param \Illuminate\Http\UploadedFile $file
@@ -183,6 +183,12 @@ class ImageGateway implements DocumentGatewayInterface
         return $config;
     }
 
+    /**
+     * @param array $options
+     *
+     * @return array
+     * @throws \Combustion\StandardLib\Services\Assets\Exceptions\ImageDimensionsAreInvalid
+     */
     private function checkForDimessions(array $options)
     {
         $data=[
