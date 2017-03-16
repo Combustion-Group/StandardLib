@@ -18,6 +18,6 @@ interface Manipulator
      *
      * @return \Illuminate\Http\UploadedFile
      */
-    public function manipulate(UploadedFile $file) : array;
+    public function manipulate(UploadedFile $file, array $options=[]) : array;
 
 }
