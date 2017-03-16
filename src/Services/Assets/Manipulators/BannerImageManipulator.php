@@ -1,7 +1,11 @@
 <?php
+
+
 namespace Combustion\StandardLib\Services\Assets\Manipulators;
 
+
 use Combustion\StandardLib\Services\Assets\Contracts\Manipulator;
+use Combustion\StandardLib\Services\Assets\Exceptions\ImageDimensionsAreInvalid;
 use Combustion\StandardLib\Services\Assets\Exceptions\InvalidAspectRatio;
 use Combustion\StandardLib\Services\Assets\Exceptions\ValidationFailed;
 use Illuminate\Http\UploadedFile;
@@ -9,14 +13,13 @@ use Illuminate\Support\Facades\Validator;
 use Intervention\Image\Constraint;
 use Intervention\Image\Facades\Image;
 
-
 /**
- * Class ImageProfileManipulator
+ * Class BannerImageManipulator
  *
- * @package Combustion\StandardLib\src\Services\Assets\Manipulators
+ * @package Combustion\StandardLib\Services\Assets\Manipulators
  * @author  Luis A. Perez <lperez@combustiongroup.com>
  */
-class ImageProfileManipulator implements Manipulator
+class BannerImageManipulator implements Manipulator
 {
     /**
      * @var array
@@ -25,7 +28,7 @@ class ImageProfileManipulator implements Manipulator
     /**
      *
      */
-    const MANUPULATOR_NAME = 'ImageProfiles';
+    const MANUPULATOR_NAME = 'ImageBanners';
 
     /**
      * ImageGateway constructor.
@@ -58,10 +61,7 @@ class ImageProfileManipulator implements Manipulator
             'original' => ['folder' => $path,'name' => $name,'extension' => $extension]
         ];
         $image = Image::make($path.'/'.$name.'.'.$extension);
-        if(is_array($dimensions))
-        {
-            $image->crop($dimensions['width'],$dimensions['height'],$dimensions['x'],$dimensions['y'])->save($path.'/'.$name.'.'.$extension);
-        }
+        $image->crop($dimensions['width'],$dimensions['height'],$dimensions['x'],$dimensions['y'])->save($path.'/'.$name.'.'.$extension);
         foreach ($this->config['sizes'] as $size => $imageSize)
         {
             // get name
@@ -105,14 +105,6 @@ class ImageProfileManipulator implements Manipulator
     }
 
     /**
-     * @return string
-     */
-    public function getManipulator()
-    {
-        return ImageProfileManipulator::MANUPULATOR_NAME;
-    }
-
-    /**
      * @param array $options
      *
      * @return array
@@ -126,8 +118,8 @@ class ImageProfileManipulator implements Manipulator
             'x'=>isset($options['x'])?$options['x']:0,
             'y'=>isset($options['y'])?$options['y']:0,
         ];
-        foreach ($data as $coordinates=>$value) if($value===0) return false;
-        if((int)$data['width']!=(int)$data['height']) throw new InvalidAspectRatio("Height adn Width given are not 4:4 aspect ratio");
+        foreach ($data as $coordinates=>$value) if($value===0) throw new ImageDimensionsAreInvalid(ucfirst($coordinates)." cannot be empty or have a value of 0");
+        if((int)$data['width']*.5625!=(int)$data['height']) throw new InvalidAspectRatio("Height adn Width given are not 16:9 aspect ratio");
         return $data;
     }
 

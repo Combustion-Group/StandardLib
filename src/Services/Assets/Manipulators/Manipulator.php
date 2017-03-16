@@ -1,8 +1,5 @@
 <?php
-
-
-namespace Combustion\StandardLib\src\Services\Assets\Manipulators;
-
+namespace Combustion\StandardLib\Services\Assets\Manipulators;
 
 class Manipulator
 {
