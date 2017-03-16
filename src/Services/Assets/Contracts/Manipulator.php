@@ -18,10 +18,6 @@ interface Manipulator
      *
      * @return \Illuminate\Http\UploadedFile
      */
-    public function manipulate(UploadedFile $file) : UploadedFile;
+    public function manipulate(UploadedFile $file) : array;
 
-    /**
-     * @return array
-     */
-    public function getFilesData() : array;
 }

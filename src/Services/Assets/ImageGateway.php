@@ -84,7 +84,7 @@ class ImageGateway implements DocumentGatewayInterface
     public function getManipulator(array $options=null)
     {
         if(is_null($options) || !in_array('model',$options)) return $this->manipulators[$this->config['manipulators']['default']];
-        if(!$options['model'] instanceof HasAssets) throw new Exc
+        if(!$options['model'] instanceof HasAssets) throw new E
     }
 
     /**
