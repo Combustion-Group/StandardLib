@@ -2,7 +2,6 @@
 
 namespace Combustion\StandardLib;
 
-use Illuminate\Contracts\Pagination\Paginator;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Validation\Validator;
 use Illuminate\Foundation\Bus\DispatchesJobs;
