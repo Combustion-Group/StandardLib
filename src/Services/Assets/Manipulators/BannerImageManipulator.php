@@ -1,8 +1,5 @@
 <?php
-
-
 namespace Combustion\StandardLib\Services\Assets\Manipulators;
-
 
 use Combustion\StandardLib\Services\Assets\Contracts\Manipulator;
 use Combustion\StandardLib\Services\Assets\Exceptions\ImageDimensionsAreInvalid;

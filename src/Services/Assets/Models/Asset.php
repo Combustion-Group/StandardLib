@@ -39,6 +39,9 @@ class Asset extends Model
      * @var array
      */
     protected $with = ['document'];
+    /**
+     * @var array
+     */
     protected $casts = ['image_files'=>'array'];
 
     /*
@@ -59,6 +62,9 @@ class Asset extends Model
      */
 
 
+    /**
+     * @param \Illuminate\Database\Eloquent\Builder $query
+     */
     public function scopeWithDocumentData(Builder $query)
     {
         $imageClass=Image::class;
