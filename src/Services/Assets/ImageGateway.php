@@ -3,7 +3,11 @@ namespace Combustion\StandardLib\Services\Assets;
 
 use Combustion\StandardLib\Services\Assets\Contracts\AssetDocumentInterface;
 use Combustion\StandardLib\Services\Assets\Contracts\DocumentGatewayInterface;
+use Combustion\StandardLib\Services\Assets\Contracts\Manipulator;
+use Combustion\StandardLib\Services\Assets\Exceptions\ImageDimensionsAreInvalid;
+use Combustion\StandardLib\Services\Assets\Exceptions\ModelMustHaveHasAssetsTrait;
 use Combustion\StandardLib\Services\Assets\Exceptions\ValidationFailed;
+use Combustion\StandardLib\Services\Assets\Traits\HasAssets;
 use Illuminate\Filesystem\FilesystemAdapter;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Validator;
@@ -17,7 +21,7 @@ use Combustion\StandardLib\Services\Assets\Models\Image as ImageModel;
  * @package Combustion\StandardLib\Services\Assets
  * @author Luis A. Perez <lperez@combustiongroup.com>
  */
-class ImageGateway implements DocumentGatewayInterface
+class ImageGateway extends DocumentsGateway
 {
     /**
      * @var array
@@ -32,6 +36,10 @@ class ImageGateway implements DocumentGatewayInterface
      */
     protected $localDriver;
     /**
+     * @var array
+     */
+
+    /**
      *
      */
     const DOCUMENT_TYPE = 'image';
@@ -44,11 +52,12 @@ class ImageGateway implements DocumentGatewayInterface
      * @param \Combustion\StandardLib\Services\Assets\FileGateway $fileGateway
      * @param \Illuminate\Filesystem\FilesystemAdapter            $localDriver
      */
-    public function __construct(array $config, FileGateway $fileGateway, FilesystemAdapter $localDriver)
+    public function __construct(array $config, FileGateway $fileGateway, FilesystemAdapter $localDriver,array $manipulators)
     {
         $this->fileGateway  = $fileGateway;
         $this->localDriver  = $localDriver;
         $this->config       = $this->validatesConfig($config);
+        $this->manipulators = $manipulators;
     }
 
     /**
@@ -57,13 +66,16 @@ class ImageGateway implements DocumentGatewayInterface
      *
      * @return \Combustion\StandardLib\Services\Assets\Contracts\AssetDocumentInterface
      */
-    public function create(UploadedFile $image, array $options = []) : AssetDocumentInterface
+    public function create(UploadedFile $file, array $options = []) : AssetDocumentInterface
     {
-        $imageBag = $this->makeImageIntoCorrectSizes($this->moveToLocalDisk($image));
+        // get iamge manipulators and pass the options
+        $manipulator = $this->getManipulator($options);
+        // manipulate image ad needed
+        $imageBag = $manipulator->manipulate($this->moveToLocalDisk($file),$options);
         foreach ($imageBag as $size => $imageData)
         {
-            $file = new UploadedFile($imageData['folder'].'/'.$imageData['name'].'.'.$imageData['extension'],$imageData['name']);
-            $imageBag[$size]['model'] = $this->fileGateway->createFile($file);
+            $image = new UploadedFile($imageData['folder'].'/'.$imageData['name'].'.'.$imageData['extension'],$imageData['name']);
+            $imageBag[$size]['model'] = $this->fileGateway->createFile($image);
         }
         $imageModelData = [
             'title'      => $imageBag['original']['name'],
@@ -75,24 +87,6 @@ class ImageGateway implements DocumentGatewayInterface
         ];
         return ImageModel::create($imageModelData);
     }
-
-
-    /**
-     * @param \Illuminate\Http\UploadedFile $file
-     *
-     * @return \Illuminate\Http\UploadedFile
-     */
-    public function moveToLocalDisk(UploadedFile $file) : UploadedFile
-    {
-        $disk = $this->localDriver;
-        $newFileName=md5(time().$file->getClientOriginalName());
-        $fileDestination = $this->fileGateway->getConfig()['local_document_folder_name'].'/'.$newFileName.'.'.$file->extension();
-        $fileLocation = $this->fileGateway->getConfig()['local_document_folder'].'/'.$newFileName.'.'.$file->extension();
-        $disk->put($fileDestination, file_get_contents($file));
-        return new UploadedFile($fileLocation,$newFileName);
-    }
-
-
     /**
      * @param int $imageId
      *
@@ -101,42 +95,6 @@ class ImageGateway implements DocumentGatewayInterface
     public function getOrFail(int $imageId) :  AssetDocumentInterface
     {
         // TODO: Implement getOrFail() method.
-    }
-
-    /**
-     * @param \Illuminate\Http\UploadedFile $file
-     *
-     * @return array
-     */
-    public function makeImageIntoCorrectSizes(UploadedFile $file) : array
-    {
-        // get name
-        $name = $file->getClientOriginalName();
-        $path = $file->getPath();
-        $extension = $file->getExtension();
-        // create image bag and add original data
-        $imageBag = [
-            'original' => ['folder' => $path,'name' => $name,'extension' => $extension]
-        ];
-        $image = Image::make($path.'/'.$name.'.'.$extension);
-        foreach ($this->config['sizes'] as $size => $imageSize)
-        {
-            // get name
-            $sizeName = md5(time().$size.'-'.$file->getClientOriginalName());
-            // append size to the name
-            $imagePath = $path.'/'.$sizeName.'.'.$extension;
-            // make data for array
-            $imageData = [$size => ['folder' => $path,'name' => $sizeName,'extension' => $extension]];
-            // push data in
-            $imageBag = array_merge($imageBag,$imageData);
-            // manipulate image
-            $image->fit($imageSize['x'],$imageSize['y'], function (Constraint $constraint) {
-                $constraint->aspectRatio();
-                $constraint->upsize();
-                // save once done
-            })->orientate()->save($imagePath);
-        }
-        return $imageBag;
     }
 
     /**
@@ -158,10 +116,8 @@ class ImageGateway implements DocumentGatewayInterface
         $validationRules = [
             "mimes"     => "required|array",
             "mimes.*"   => "required|string",
-            "sizes"     => "required|array",
-            "sizes.*"   => "required|array",
-            "sizes.*.x" => "required|nullable|int",
-            "sizes.*.y" => "required|nullable|int",
+            "manipulators" => "required|array",
+            "default_manipulator" => "required|string",
         ];
         $validation = Validator::make($config,$validationRules);
         if($validation->fails())
@@ -170,4 +126,6 @@ class ImageGateway implements DocumentGatewayInterface
         }
         return $config;
     }
+
+
 }
