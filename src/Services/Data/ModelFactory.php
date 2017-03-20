@@ -64,6 +64,16 @@ class ModelFactory
     }
 
     /**
+     * @param string $prefix
+     * @return ModelFactory
+     */
+    public function setPrefix(string $prefix) : ModelFactory
+    {
+        $this->prefix = $prefix;
+        return $this;
+    }
+
+    /**
      * @param array $data
      * @param int $style
      * @return Model

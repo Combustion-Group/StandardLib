@@ -13,7 +13,7 @@ use Combustion\StandardLib\Models\Model;
 class Slicer
 {
     /**
-     * This function allows you to pass the results of an inner joined one to many relationship result set,
+     * This function allows you to pass the an inner joined one to many result set,
      * it's expected that the columns are aliased to differentiate otherwise ambiguous fields (e.g. id field).
      *
      * @param array  $data
@@ -29,7 +29,8 @@ class Slicer
 
         if ($totalRecords) return [];
 
-        $prevId       = array_get('a_id', array_get($data, 0, []), null);
+        $parentIdField  = $parentPrefix . 'id';
+        $prevId         = array_get($parentIdField, array_get($data, 0, []), null);
 
         for ($i = 0; $i < $totalRecords; $i++)
         {
@@ -38,10 +39,10 @@ class Slicer
 
             for ($j = $i; $j < $totalRecords; $j++, $i++)
             {
-                if ($prevId !== $record[$parentPrefix]) {
+                if ($prevId !== $record[$parentIdField]) {
                     yield $parent;
 
-                    $prevId = $record[$parentPrefix];
+                    $prevId = $record[$parentIdField];
                     break;
                 }
 

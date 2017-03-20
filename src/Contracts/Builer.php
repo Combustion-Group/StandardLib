@@ -18,7 +18,7 @@ abstract class Builder
     /**
      * @var array
      */
-    protected $params = [];
+    private $params = [];
 
     abstract public function build();
 
@@ -43,12 +43,21 @@ abstract class Builder
 
     /**
      * @param string $param
+     * @return bool
+     */
+    protected function hasParam(string $param) : bool
+    {
+        return array_key_exists($param, $this->params);
+    }
+
+    /**
+     * @param string $param
      * @return mixed
      * @throws BuilderException
      */
     public function getParam(string $param)
     {
-        if (!array_key_exists($param, $this->params)) {
+        if (!$this->hasParam($param)) {
             throw new BuilderException(get_called_class() . ": Invalid parameter, \"{$param}\" is not in parameter bag.");
         }
 
