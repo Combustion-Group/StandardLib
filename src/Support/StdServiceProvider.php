@@ -8,8 +8,9 @@ use Illuminate\Foundation\Application;
 use Illuminate\Support\ServiceProvider;
 use Combustion\StandardLib\UploadManager;
 use Illuminate\Filesystem\FilesystemManager;
-use Combustion\StandardLib\Services\SystemEvents\SystemEventsService;
+use Combustion\StandardLib\Services\Data\Slicer;
 use Combustion\StandardLib\Services\DeepLinks\DeepLinkService;
+use Combustion\StandardLib\Services\SystemEvents\SystemEventsService;
 
 class StdServiceProvider extends ServiceProvider
 {
@@ -45,6 +46,10 @@ class StdServiceProvider extends ServiceProvider
 
         $this->app->singleton(DeepLinkService::class, function (Application $app, array $params) {
             return new DeepLinkService();
+        });
+
+        $this->app->singleton(Slicer::class, function (Application $app, array $params) {
+            return new Slicer();
         });
     }
 
