@@ -1,6 +1,6 @@
 <?php
 namespace Combustion\StandardLib\Services\Assets;
-use Combustion\StandardLib\Services\Assets\Contracts\DocumentGatewayInterface;
+
 use Combustion\StandardLib\Services\Assets\Contracts\HasAssetsInterface;
 use Combustion\StandardLib\Services\Assets\Exceptions\AssetDriverNotFound;
 use Combustion\StandardLib\Services\Assets\Exceptions\ValidationFailed;
@@ -41,12 +41,12 @@ class AssetsGateway
      *
      * @return \Combustion\StandardLib\Services\Assets\Models\Asset
      */
-    public function createAsset(UploadedFile $file) : Asset
+    public function createAsset(UploadedFile $file,array $options=[]) : Asset
     {
         // what type of asset is it
         $driver = $this->getDriver($file);
         // call create on gateway for whatever
-        $document = $driver->create($file);
+        $document = $driver->create($file,$options);
         // get fresh asset
         $asset = $this->newAsset();
         // attach document to asset
@@ -58,12 +58,14 @@ class AssetsGateway
     /**
      * @param \Combustion\StandardLib\Services\Assets\Contracts\HasAssetsInterface $model
      * @param \Illuminate\Http\UploadedFile                                        $file
+     * @param array                                                                $options
      *
-     * @return HasAssetsInterface
+     * @return \Combustion\StandardLib\Services\Assets\Contracts\HasAssetsInterface
      */
-    public function attachPrimaryAssetTo(HasAssetsInterface $model, UploadedFile $file) : HasAssetsInterface
+    public function attachPrimaryAssetTo(HasAssetsInterface $model, UploadedFile $file, array $options=[]) : HasAssetsInterface
     {
-        $asset = $this->createAsset($file);
+        $options['model']=$model;
+        $asset = $this->createAsset($file,$options);
         $model->attachAsset($asset,true);
         return $model;
     }
@@ -84,7 +86,7 @@ class AssetsGateway
      * @return \Combustion\StandardLib\Services\Assets\Contracts\DocumentGatewayInterface
      * @throws \Combustion\StandardLib\Services\Assets\Exceptions\AssetDriverNotFound
      */
-    private function getDriver(UploadedFile $file) : DocumentGatewayInterface
+    private function getDriver(UploadedFile $file) : DocumentsGateway
     {
         $mimeType = $file->getMimeType();
         foreach ($this->drivers as $driver)
@@ -116,9 +118,9 @@ class AssetsGateway
     {
         foreach ($drivers as $driverName => $driver)
         {
-            if(!$driver instanceof DocumentGatewayInterface)
+            if(!$driver instanceof DocumentsGateway)
             {
-                throw new ValidationFailed("Driver $driverName needs to implement the DocumentGatewayInterface");
+                throw new ValidationFailed("Driver $driverName needs to extend the DocumentsGateway");
             }
         }
         return $drivers;
