@@ -46,7 +46,7 @@ trait BaseModel
      * @param array|null $errors
      * @return $this
      */
-    public function appendActionErrorMessages(array $errors = null)
+    public function appendActionErrorMessages(array $errors = null) :
     {
         // set status to failed
         $this->setActionFailed();
@@ -107,14 +107,12 @@ trait BaseModel
      * @param null $transformerName
      * @return mixed
      */
-    public function CustomTransform($transformerName = null)
+    public function CustomTransform($transformerName)
     {
         // get current array
         $item = $this->convertToArray();
-        // get correct transformer
-        $transformer = $this->getTransformer($transformerName);
         // return transformer value
-        return $this->performTransformation($transformer,$item);
+        return $this->performTransformation($transformerName,$item);
     }
 
     /**
@@ -134,14 +132,6 @@ trait BaseModel
         return $item->toArray();
     }
 
-    /**
-     * @param $transformerName
-     * @return
-     */
-    public function getTransformer($transformerName)
-    {
-        return $transformerName;
-    }
 
 
     /**
@@ -550,7 +540,7 @@ trait BaseModel
      * @param array $rules
      * @return array
      */
-    public function fetchRulesNeeded($rules = [])
+    public function fetchRulesNeeded($rules = []) : array
     {
         $model = $this;
         $final = [];
@@ -602,7 +592,7 @@ trait BaseModel
      * Add a string to the Select Statement
      * @param string $select
      */
-    public function appendToSelect(string $select)
+    public function appendToSelect(string $select) : this
     {
         array_push($this->selectStatement ,$select);
         return $this;
@@ -660,7 +650,7 @@ trait BaseModel
     /**
      * @return mixed
      */
-    public function  getTimezone()
+    public function  getTimezone() : Carbon
     {
         return Config::get('app.timezone');
     }
@@ -669,7 +659,7 @@ trait BaseModel
      * @param $string
      * @return mixed
      */
-    public function clean_strings($string)
+    public function clean_strings($string) : string
     {
         // trim leading spaces, period, or breaks
         $trimmed = trim($string, ' .');
