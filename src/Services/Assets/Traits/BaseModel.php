@@ -46,7 +46,7 @@ trait BaseModel
      * @param array|null $errors
      * @return $this
      */
-    public function appendActionErrorMessages(array $errors = null) :
+    public function appendActionErrorMessages(array $errors = null) 
     {
         // set status to failed
         $this->setActionFailed();
