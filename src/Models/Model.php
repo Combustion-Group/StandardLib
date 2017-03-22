@@ -112,4 +112,14 @@ abstract class Model extends Eloquent implements Prototype
         $this->lineItemStorage[] = $lineItem;
         return $this;
     }
+
+    public function getCreatedAt()
+    {
+        return $this->getAttribute(self::CREATED_AT);
+    }
+
+    public function getUpdatedAt()
+    {
+        return $this->getAttribute(self::UPDATED_AT);
+    }
 }
