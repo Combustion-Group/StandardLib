@@ -10,7 +10,7 @@ use Combustion\StandardLib\Models\Model;
  * @package Combustion\StandardLib\Services\Data
  * @author  Carlos Granados <cgranados@combustiongroup.com>
  */
-class Slicer
+class OneToMany
 {
     /**
      * This function allows you to pass the an inner joined one to many result set,
@@ -23,7 +23,7 @@ class Slicer
      * @param string $childPrefix
      * @return \Generator|Model[]
      */
-    public function oneToMany(array $data, ModelFactory $parentFactory, ModelFactory $childFactory, string $parentPrefix = 'a_', string $childPrefix = 'b_') : \Generator
+    public function slice(array $data, ModelFactory $parentFactory, ModelFactory $childFactory, string $parentPrefix = 'a_', string $childPrefix = 'b_') : \Generator
     {
         $totalRecords = count($data);
 

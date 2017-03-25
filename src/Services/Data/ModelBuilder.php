@@ -2,6 +2,7 @@
 
 namespace Combustion\StandardLib\Services\Data;
 
+use Combustion\StandardLib\Contracts\Builder;
 use Combustion\StandardLib\Models\Model;
 use Combustion\StandardLib\Contracts\Prototype;
 
@@ -11,7 +12,7 @@ use Combustion\StandardLib\Contracts\Prototype;
  * @package Combustion\StandardLib\Services\Data
  * @author  Carlos Granados <cgranados@combustiongroup.com>
  */
-class ModelFactory
+class ModelBuilder extends Builder
 {
     /**
      * @var Model|Prototype
@@ -33,6 +34,11 @@ class ModelFactory
      */
     private $prefix;
 
+    /**
+     * @var int
+     */
+    private $buildStyle = self::BUILD_SLICED;
+
     const   BUILD_LINEAR = 1,
             BUILD_SLICED = 2;
 
@@ -52,9 +58,9 @@ class ModelFactory
      * @param array $prototypes
      * @param string $column
      * @param string $prefix
-     * @return ModelFactory
+     * @return ModelBuilder
      */
-    public function setPrototypes(array $prototypes, string $column = 'type', string $prefix = "") : ModelFactory
+    public function setPrototypes(array $prototypes, string $column = 'type', string $prefix = "") : ModelBuilder
     {
         $this->prototypes           = $prototypes;
         $this->prototypeTypeColumn  = $column;
@@ -65,11 +71,21 @@ class ModelFactory
 
     /**
      * @param string $prefix
-     * @return ModelFactory
+     * @return ModelBuilder
      */
-    public function setPrefix(string $prefix) : ModelFactory
+    public function setPrefix(string $prefix) : ModelBuilder
     {
         $this->prefix = $prefix;
+        return $this;
+    }
+
+    /**
+     * @param int $style
+     * @return ModelBuilder
+     */
+    public function setBuildStyle(int $style) : ModelBuilder
+    {
+        $this->buildStyle = $style;
         return $this;
     }
 
@@ -79,13 +95,13 @@ class ModelFactory
      * @return Model
      * @throws ModelFactoryException
      */
-    public function build(array $data = [], int $style = self::BUILD_LINEAR) : Model
+    public function build(array $data = [])
     {
         if (!is_null($this->prototype))
         {
             $model = clone $this->prototype;
 
-            return $this->hydrate($model, $data, $style);
+            return $this->hydrate($model, $data, $this->buildStyle);
         }
         elseif (count($this->prototypes))
         {
@@ -95,7 +111,7 @@ class ModelFactory
             {
                 if (array_key_exists($data[$column], $this->prototypes)) {
                     $model = clone $this->prototypes[$data[$column]];
-                    return $this->hydrate($model, $data, $style);
+                    return $this->hydrate($model, $data, $this->buildStyle);
                 }
 
                 throw new ModelFactoryException("There is no prototype set in the list with name {$data[$column]}");
