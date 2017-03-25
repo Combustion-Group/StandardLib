@@ -122,10 +122,11 @@ class BannerImageManipulator implements Manipulator
                 throw new ImageDimensionsAreInvalid(ucfirst($coordinates)." cannot be empty or have a value of 0");
             }
         }
-        // check aspect ratio
-        if(!$this->checkForAspectRatio((int)$data['width'],(int)$data['height'],'16:9')) {
-            throw new InvalidAspectRatio("Height adn Width given are not 16:9 aspect ratio");
-        }
+        // check aspect ratio taken out
+        // TODO fix aspect ratio math with Mo
+//        if(!$this->checkForAspectRatio((int)$data['width'],(int)$data['height'],'16:9')) {
+//            throw new InvalidAspectRatio("Height adn Width given are not 16:9 aspect ratio");
+//        }
         // if everything passes return $data
         return $data;
     }
