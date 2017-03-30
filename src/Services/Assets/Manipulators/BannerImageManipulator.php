@@ -119,7 +119,7 @@ class BannerImageManipulator implements Manipulator
         // check for invalid values
         foreach ($data as $coordinates=>$value) {
             if(is_null($value)){
-                throw new ImageDimensionsAreInvalid(ucfirst($coordinates)." cannot be empty or have a value of 0ss");
+                throw new ImageDimensionsAreInvalid(ucfirst($coordinates)." cannot be empty or have a value of 0");
             }
         }
         // check aspect ratio taken out
