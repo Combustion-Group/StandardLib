@@ -111,15 +111,15 @@ class BannerImageManipulator implements Manipulator
     {
         // extract data needed
         $data=[
-            'width'=>isset($options['width'])?$options['width']:0,
-            'height'=>isset($options['height'])?$options['height']:0,
-            'x'=>isset($options['x'])?$options['x']:0,
-            'y'=>isset($options['y'])?$options['y']:0,
+            'width'=>isset($options['width'])?$options['width']:null,
+            'height'=>isset($options['height'])?$options['height']:null,
+            'x'=>isset($options['x'])?$options['x']:null,
+            'y'=>isset($options['y'])?$options['y']:null,
         ];
         // check for invalid values
         foreach ($data as $coordinates=>$value) {
-            if($value===0){
-                throw new ImageDimensionsAreInvalid(ucfirst($coordinates)." cannot be empty or have a value of 0");
+            if(is_null($value)){
+                throw new ImageDimensionsAreInvalid(ucfirst($coordinates)." cannot be empty or have a value of 0ss");
             }
         }
         // check aspect ratio taken out
