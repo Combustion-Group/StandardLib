@@ -12,7 +12,13 @@ interface DataGenerator
 {
     /**
      * @param array $data
-     * @return mixed
+     * @return \Generator
      */
-    public function slice(array $data) : \Generator;
+    public function generate(array $data) : \Generator;
+
+    /**
+     * @param array $data
+     * @return array
+     */
+    public function toList(array $data) : array;
 }

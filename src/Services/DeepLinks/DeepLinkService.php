@@ -288,5 +288,5 @@ class DeepLinkService
             .((isset($parse_url['query'])) ? '?' . $parse_url['query'] : '')
             .((isset($parse_url['fragment'])) ? '#' . $parse_url['fragment'] : '')
             ;
-        }
+    }
 }

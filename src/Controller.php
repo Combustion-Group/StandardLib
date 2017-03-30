@@ -135,6 +135,7 @@ abstract class Controller extends BaseController
     /**
      * Get a validator for an incoming request.
      * Second parameter allows a list of fields to validate.
+     * If no rules are passed then all rules are applied.
      *
      * @param  array  $data
      * @param  array  $rules

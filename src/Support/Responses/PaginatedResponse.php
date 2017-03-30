@@ -70,7 +70,6 @@ class PaginatedResponse implements CustomResponse
      */
     public function extractPaginationData(Paginator $paginationObject):array
     {
-
         $total = 0;
 
         // the Paginator contract odes not enforce total()

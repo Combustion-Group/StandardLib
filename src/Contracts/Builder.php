@@ -18,7 +18,12 @@ abstract class Builder
     /**
      * @var array
      */
-    private $params = [];
+    private $params     = [];
+
+    /**
+     * @var array
+     */
+    private $default    = [];
 
     abstract public function build();
 
@@ -30,6 +35,17 @@ abstract class Builder
     public function addParam(string $param, $value)
     {
         $this->params[$param] = $value;
+        return $this;
+    }
+
+    /**
+     * @param string $key
+     * @param        $value
+     * @return $this
+     */
+    protected function setDefault(string $key, $value)
+    {
+        $this->default[$key] = $value;
         return $this;
     }
 
@@ -51,13 +67,36 @@ abstract class Builder
     }
 
     /**
+     * @param string $key
+     * @return bool
+     */
+    protected function hasDefault(string $key)
+    {
+        return array_key_exists($key, $this->default);
+    }
+
+    /**
+     * @param string $key
+     * @return mixed
+     */
+    protected function getDefault(string $key)
+    {
+        return $this->default[$key];
+    }
+
+    /**
      * @param string $param
      * @return mixed
      * @throws BuilderException
      */
     public function getParam(string $param)
     {
-        if (!$this->hasParam($param)) {
+        if (!$this->hasParam($param))
+        {
+            if ($this->hasDefault($param)) {
+                return $this->getDefault($param);
+            }
+
             throw new BuilderException(get_called_class() . ": Invalid parameter, \"{$param}\" is not in parameter bag.");
         }
 

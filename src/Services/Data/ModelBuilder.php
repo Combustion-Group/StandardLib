@@ -2,8 +2,8 @@
 
 namespace Combustion\StandardLib\Services\Data;
 
-use Combustion\StandardLib\Contracts\Builder;
 use Combustion\StandardLib\Models\Model;
+use Combustion\StandardLib\Contracts\Builder;
 use Combustion\StandardLib\Contracts\Prototype;
 
 /**
@@ -39,6 +39,7 @@ class ModelBuilder extends Builder
      */
     private $buildStyle = self::BUILD_SLICED;
 
+    // Build styles
     const   BUILD_LINEAR = 1,
             BUILD_SLICED = 2;
 
@@ -93,7 +94,7 @@ class ModelBuilder extends Builder
      * @param array $data
      * @param int $style
      * @return Model
-     * @throws ModelFactoryException
+     * @throws ModelBuilderException
      */
     public function build(array $data = [])
     {
@@ -114,13 +115,13 @@ class ModelBuilder extends Builder
                     return $this->hydrate($model, $data, $this->buildStyle);
                 }
 
-                throw new ModelFactoryException("There is no prototype set in the list with name {$data[$column]}");
+                throw new ModelBuilderException("There is no prototype set in the list with name {$data[$column]}");
             }
 
-            throw new ModelFactoryException("Cannot build from list of prototypes because the data passed does not have a \"{$column}\" subset.");
+            throw new ModelBuilderException("Cannot build from list of prototypes because the data passed does not have a \"{$column}\" subset.");
         }
 
-        throw new ModelFactoryException("There is no prototypes to build from.");
+        throw new ModelBuilderException("There is no prototypes to build from.");
     }
 
     /**
@@ -128,7 +129,7 @@ class ModelBuilder extends Builder
      * @param array $data
      * @param int   $style
      * @return Model $model
-     * @throws ModelFactoryException
+     * @throws ModelBuilderException
      */
     private function hydrate(Model $model, array $data = [], int $style) : Model
     {
@@ -139,6 +140,6 @@ class ModelBuilder extends Builder
                 return $model->fillSliced($this->prefix, $data);
         }
 
-        throw new ModelFactoryException("Invalid build style. Only linear or sliced is allowed.");
+        throw new ModelBuilderException("Invalid build style. Only linear or sliced is allowed.");
     }
 }

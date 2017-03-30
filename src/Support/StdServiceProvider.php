@@ -8,7 +8,7 @@ use Illuminate\Foundation\Application;
 use Illuminate\Support\ServiceProvider;
 use Combustion\StandardLib\UploadManager;
 use Illuminate\Filesystem\FilesystemManager;
-use Combustion\StandardLib\Services\Data\Slicer;
+use Combustion\StandardLib\Services\Data\OneToMany;
 use Combustion\StandardLib\Services\DeepLinks\DeepLinkService;
 use Combustion\StandardLib\Services\SystemEvents\SystemEventsService;
 
@@ -48,8 +48,8 @@ class StdServiceProvider extends ServiceProvider
             return new DeepLinkService();
         });
 
-        $this->app->singleton(Slicer::class, function (Application $app, array $params) {
-            return new Slicer();
+        $this->app->bind(OneToMany::class, function (Application $app, array $params) {
+            return new OneToMany();
         });
     }
 
