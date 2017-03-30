@@ -3,8 +3,12 @@
 namespace Combustion\StandardLib\Services\Data;
 
 use Combustion\StandardLib\Models\Model;
+use Combustion\StandardLib\Services\Data\ModelBuilder;
 use Combustion\StandardLib\Exceptions\BuilderException;
+use Combustion\StandardLib\Services\Data\Contracts\Relationship;
 use Combustion\StandardLib\Services\Data\Contracts\DataGenerator;
+use Combustion\StandardLib\Tools\TypeChecker\ChecksType;
+use Combustion\StandardLib\Tools\TypeChecker\ZEND_TYPE;
 
 /**
  * Class Manipulation
@@ -12,8 +16,10 @@ use Combustion\StandardLib\Services\Data\Contracts\DataGenerator;
  * @package Combustion\StandardLib\Services\Data
  * @author  Carlos Granados <cgranados@combustiongroup.com>
  */
-class OneToMany implements DataGenerator
+class OneToMany implements DataGenerator, Relationship
 {
+    use ChecksType;
+
     /**
      * @var ModelBuilder
      */
@@ -38,10 +44,10 @@ class OneToMany implements DataGenerator
      * @var array
      */
     private $missing = [
-        'parentBuilder' => 'parentBuilder',
-        'childBuilder'  => 'childBuilder',
-        'parentPrefix'  => 'parentPrefix',
-        'childPrefix'   => 'childPrefix'
+        'parentBuilder' => ModelBuilder::class,
+        'childBuilder'  => ModelBuilder::class,
+        'parentPrefix'  => ZEND_TYPE::STRING,
+        'childPrefix'   => ZEND_TYPE::STRING
     ];
 
     /**
@@ -69,29 +75,29 @@ class OneToMany implements DataGenerator
         if (!$totalRecords) return [];
 
         $parentIdField  = $this->parentPrefix . 'id';
-        $prevId         = array_get(array_get($data, 0, []), $parentIdField, null);
 
+        // Runs in O(n), this is not a quadratic approach. Both loops run
+        // on the same control variable.
         for ($i = 0; $i < $totalRecords; $i++)
         {
             $record = $data[$i];
             $parent = $this->parentBuilder->build($record);
 
-            for ($j = $i; $j < $totalRecords; $j++, $i++)
+            for ($j = &$i; $j < $totalRecords; $j++)
             {
                 $record = $data[$j];
-
-                if ($prevId !== $record[$parentIdField]) {
-                    yield $parent;
-
-                    $prevId = $record[$parentIdField];
-                    break;
-                }
 
                 $child = $this->childBuilder->build($record);
 
                 $parent->addLineItem($child);
 
-                $prevId = $data[$j][$parentIdField];
+                $curId = $data[$j][$parentIdField];
+                $next  = $j + 1;
+
+                if ((array_key_exists($next, $data) && $curId != $data[$next][$parentIdField]) || !array_key_exists($next, $data)) {
+                    yield $parent;
+                    break;
+                }
             }
         }
     }

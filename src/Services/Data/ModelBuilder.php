@@ -9,6 +9,9 @@ use Combustion\StandardLib\Contracts\Prototype;
 /**
  * Class ModelFactory
  *
+ * ModelBuilder::$prototype   - for when there is only one implementation of the object.
+ * ModelBuilder::prototype(s) - for when this builds an abstract and there are one or more implementations
+ *
  * @package Combustion\StandardLib\Services\Data
  * @author  Carlos Granados <cgranados@combustiongroup.com>
  */
@@ -39,8 +42,10 @@ class ModelBuilder extends Builder
      */
     private $buildStyle = self::BUILD_SLICED;
 
-    // Build styles
-    const   BUILD_LINEAR = 1,
+    const   // Builds one dimensional object.
+            BUILD_LINEAR = 1,
+
+            // Build object that has children objects.
             BUILD_SLICED = 2;
 
     /**
@@ -98,6 +103,8 @@ class ModelBuilder extends Builder
      */
     public function build(array $data = [])
     {
+        // prototype    - for when there is only one implementation of this object
+        // prototype(s) - for when this builds an abstract and there are one or more implementations
         if (!is_null($this->prototype))
         {
             $model = clone $this->prototype;

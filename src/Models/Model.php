@@ -60,8 +60,10 @@ abstract class Model extends Eloquent implements Prototype
     {
         foreach ($data as $key => $item)
         {
-            $key = substr($key, strlen($prefix));
-            $this->setAttribute($key, $item);
+            if (strpos($key, $prefix) === 0){
+                $key = substr($key, strlen($prefix));
+                $this->setAttribute($key, $item);
+            }
         }
 
         return $this;
