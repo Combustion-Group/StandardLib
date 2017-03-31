@@ -25,7 +25,7 @@ class ImageProfileManipulator implements Manipulator
     /**
      *
      */
-    const MANUPULATOR_NAME = 'ImageProfiles';
+    const MANIPULATOR_NAME = 'ImageProfiles';
 
     /**
      * ImageGateway constructor.
@@ -109,7 +109,7 @@ class ImageProfileManipulator implements Manipulator
      */
     public function getManipulator()
     {
-        return ImageProfileManipulator::MANUPULATOR_NAME;
+        return ImageProfileManipulator::MANIPULATOR_NAME;
     }
 
     /**
