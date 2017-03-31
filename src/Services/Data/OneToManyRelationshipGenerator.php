@@ -3,6 +3,7 @@
 namespace Combustion\StandardLib\Services\Data;
 
 use Illuminate\Database\Connection;
+use Combustion\StandardLib\Exceptions\RelationshipGeneratorException;
 use Combustion\StandardLib\Services\Data\Contracts\RelationshipGenerator;
 use Combustion\StandardLib\Services\Data\Contracts\StructuredDataModelBuilder;
 
@@ -69,9 +70,14 @@ class OneToManyRelationshipGenerator implements RelationshipGenerator
 
     /**
      * @return \PDOStatement
+     * @throws RelationshipGeneratorException
      */
     public function stmt() : \PDOStatement
     {
+        if (isset($this->missing['query'])) {
+            throw new RelationshipGeneratorException("Cannot call stmt() because no query has been set yet.");
+        }
+
         return $this->stmt;
     }
 
