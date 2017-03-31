@@ -11,7 +11,7 @@ use Combustion\StandardLib\Hydrators\HydratesWithSetters;
  * @package Combustion\StandardLib\Contracts
  * @author  Carlos Granados <cgranados@combustiongroup.com>
  */
-abstract class Builder
+abstract class Builder implements BuilderInterface
 {
     use HydratesWithSetters;
 

@@ -2,15 +2,18 @@
 
 namespace Combustion\StandardLib\Support;
 
+use Combustion\StandardLib\Exceptions\ServiceBuilderException;
 use Monolog\Logger as Monolog;
 use Combustion\StandardLib\Log;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Database\DatabaseManager;
 use Combustion\StandardLib\UploadManager;
 use Illuminate\Filesystem\FilesystemManager;
 use Combustion\StandardLib\Services\Data\OneToMany;
 use Combustion\StandardLib\Services\DeepLinks\DeepLinkService;
 use Combustion\StandardLib\Services\SystemEvents\SystemEventsService;
+use Combustion\StandardLib\Services\Data\OneToManyRelationshipGenerator;
 
 class StdServiceProvider extends ServiceProvider
 {
@@ -50,6 +53,15 @@ class StdServiceProvider extends ServiceProvider
 
         $this->app->bind(OneToMany::class, function (Application $app, array $params) {
             return new OneToMany();
+        });
+
+        $this->app->bind(OneToManyRelationshipGenerator::class, function (Application $app, array $params)
+        {
+            if (!array_key_exists('builder', $params)) {
+                throw new ServiceBuilderException("Cannot build OneToManyRelationshipBuilder, missing required param 'builder'");
+            }
+
+            return new OneToManyRelationshipGenerator($app->make(DatabaseManager::class)->connection(), $params['builder']);
         });
     }
 

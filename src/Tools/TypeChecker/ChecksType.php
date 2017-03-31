@@ -5,7 +5,7 @@ namespace Combustion\StandardLib\Tools\TypeChecker;
 /**
  * Class ChecksType
  *
- * Pretty useless tbh
+ * Pretty useless tbh, specially with PHP 7
  *
  * @package Combustion\StandardLib\Tools\TypeChecker
  * @author  Carlos Granados <cgranados@combustiongroup.com>
