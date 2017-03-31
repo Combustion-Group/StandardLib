@@ -58,13 +58,13 @@ class AssetServiceProvider extends ServiceProvider
             );
         });
         $this->app->singleton(ImageProfileManipulator::class, function (Application $app, array $params = []) {
-            $config = $app['config']['core.packages'][AssetsGateway::class]['drivers'][ImageGateway::DOCUMENT_TYPE]['config']['manipulators'][ImageProfileManipulator::MANUPULATOR_NAME];
+            $config = $app['config']['core.packages'][AssetsGateway::class]['drivers'][ImageGateway::DOCUMENT_TYPE]['config']['manipulators'][ImageProfileManipulator::MANIPULATOR_NAME];
             return new ImageProfileManipulator(
                 $config
             );
         });
         $this->app->singleton(BannerImageManipulator::class, function (Application $app, array $params = []) {
-            $config = $app['config']['core.packages'][AssetsGateway::class]['drivers'][ImageGateway::DOCUMENT_TYPE]['config']['manipulators'][BannerImageManipulator::MANUPULATOR_NAME];
+            $config = $app['config']['core.packages'][AssetsGateway::class]['drivers'][ImageGateway::DOCUMENT_TYPE]['config']['manipulators'][BannerImageManipulator::MANIPULATOR_NAME];
             return new BannerImageManipulator(
                 $config
             );
