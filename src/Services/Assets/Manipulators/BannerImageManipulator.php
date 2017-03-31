@@ -25,7 +25,7 @@ class BannerImageManipulator implements Manipulator
     /**
      *
      */
-    const MANUPULATOR_NAME = 'ImageBanners';
+    const MANIPULATOR_NAME = 'ImageBanners';
 
     /**
      * ImageGateway constructor.
