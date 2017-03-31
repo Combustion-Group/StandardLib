@@ -95,7 +95,7 @@ class OneToMany implements DataGenerator, Relationship
                 $next  = $j + 1;
 
                 if ((array_key_exists($next, $data) && $curId != $data[$next][$parentIdField]) || !array_key_exists($next, $data)) {
-                    yield $curId => $parent;
+                    yield $parent;
                     break;
                 }
             }
