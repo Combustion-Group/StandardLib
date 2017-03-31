@@ -16,13 +16,14 @@ use Illuminate\Pagination\LengthAwarePaginator as LengthAwarePaginatorImpl;
 trait Paginates
 {
     /**
+     * @param array|\Traversable $data
      * @param int $total
      * @param int $perPage
      * @param int $page
      * @return LengthAwarePaginator
      * @throws PageOutOfRangeException
      */
-    public function paginate($data, int $total, int $perPage, int $page) : LengthAwarePaginator
+    protected function paginate($data, int $total, int $perPage, int $page) : LengthAwarePaginator
     {
         $totalPages     = ceil($total / $perPage);
 

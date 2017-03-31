@@ -83,16 +83,16 @@ class OneToMany implements DataGenerator, Relationship
             $record = $data[$i];
             $parent = $this->parentBuilder->build($record);
 
-            for ($j = &$i; $j < $totalRecords; $j++)
+            for (; $i < $totalRecords; $i++)
             {
-                $record = $data[$j];
+                $record = $data[$i];
 
                 $child = $this->childBuilder->build($record);
 
                 $parent->addLineItem($child);
 
-                $curId = $data[$j][$parentIdField];
-                $next  = $j + 1;
+                $curId = $data[$i][$parentIdField];
+                $next  = $i + 1;
 
                 if ((array_key_exists($next, $data) && $curId != $data[$next][$parentIdField]) || !array_key_exists($next, $data)) {
                     yield $parent;
