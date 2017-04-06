@@ -3,6 +3,8 @@
 namespace Combustion\StandardLib\Models;
 
 use Combustion\StandardLib\Contracts\Prototype;
+use Combustion\StandardLib\Services\Data\ModelBuilder;
+use Combustion\StandardLib\Services\Data\ModelBuilderException;
 use Illuminate\Database\Eloquent\Model as Eloquent;
 
 /**
@@ -22,6 +24,8 @@ abstract class Model extends Eloquent implements Prototype
      */
     private $lineItemStorage = [];
 
+    private static $modelBuilder = null;
+
     /**
      * @return string
      */
@@ -29,6 +33,19 @@ abstract class Model extends Eloquent implements Prototype
     {
         $class = get_called_class();
         return (string)(new $class)->getTable();
+    }
+
+    /**
+     * @return ModelBuilder
+     * @throws ModelBuilderException
+     */
+    public static function builder() : ModelBuilder
+    {
+        if (is_null(self::$modelBuilder)) {
+            throw new ModelBuilderException("No builder has been set for this class.");
+        }
+
+        return self::$modelBuilder;
     }
 
     /**
