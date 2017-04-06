@@ -72,6 +72,8 @@ class PaginatedResponse implements CustomResponse
     {
         $total = 0;
 
+        $this->setData($paginationObject->items());
+
         // the Paginator contract odes not enforce total()
         // some pagination classes will comeback without it
         // this will prevent an exception but we lose the

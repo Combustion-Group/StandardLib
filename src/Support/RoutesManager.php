@@ -14,7 +14,7 @@ namespace Combustion\StandardLib\Support;
  */
 abstract class RoutesManager
 {
-    public static function maps($class, $method) : string
+    public static function _($class, $method) : string
     {
         if (strpos('\\', $class) !== 0) {
             $class = "\\{$class}";

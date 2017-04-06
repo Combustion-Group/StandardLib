@@ -5,7 +5,7 @@ namespace Combustion\StandardLib\Contracts;
 /**
  * Interface Document
  *
- * @package Combustion\Billing\Contracts
+ * @package Combustion\StandardLib\Contracts
  * @author  Carlos Granados <cgranados@combustiongroup.com>
  */
 interface Document
