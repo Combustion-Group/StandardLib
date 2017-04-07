@@ -8,11 +8,10 @@ use Combustion\StandardLib\Exceptions\ConfigNotFoundException;
  * Class ValidatesConfig
  *
  * @package Combustion\StandardLib\Traits
- * @author Carlos Granados <cgranados@combustiongroup.com>
+ * @author  Carlos Granados <cgranados@combustiongroup.com>
  */
 trait ValidatesConfig
 {
-
     /**
      * @return array
      */

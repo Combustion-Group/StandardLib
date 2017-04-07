@@ -41,6 +41,24 @@ trait Paginates
     }
 
     /**
+     * @param int $page
+     * @param int $perPage
+     * @return int[]
+     * @throws PaginationException
+     */
+    public function buildLimits(int $page, int $perPage) : array
+    {
+        if ($page < 1) {
+            throw new PaginationException("Page number cannot be negative.");
+        }
+
+        $offset = ($page - 1) * $perPage;
+        $limit  = $offset + $perPage;
+
+        return [$offset, $limit];
+    }
+
+    /**
      * @param $data
      * @return mixed
      * @throws PaginationException

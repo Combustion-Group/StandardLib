@@ -23,6 +23,11 @@ abstract class TypeSafeObjectStorage extends \SplObjectStorage implements Arraya
      */
     protected $checkType = null;
 
+    /**
+     * @var array
+     */
+    protected $safe = [];
+
     const   INTERFACE = 1,
             CONCRETE  = 2,
             SUBCLASS  = 3,
@@ -109,29 +114,59 @@ abstract class TypeSafeObjectStorage extends \SplObjectStorage implements Arraya
     }
 
     /**
+     * @param string $class
+     * @return $this
+     */
+    private function markSafe(string $class) : TypeSafeObjectStorage
+    {
+        $this->safe[$class] =  $class;
+        return $this;
+    }
+
+    /**
+     * @param string $class
+     * @return bool
+     */
+    private function isSafe(string $class) : bool
+    {
+        return array_key_exists($class, $this->safe);
+    }
+
+    /**
      * @param $object
+     * @return $this|TypeSafeObjectStorage
      * @throws ObjectStorageException
      */
     private function validateType($object)
     {
+        $className = get_class($object);
+
         switch ($this->checkType) {
             case self::INTERFACE:
-                if (in_array($this->containerType, class_implements($object))) return;
+                if ($this->isSafe($className) || in_array($this->containerType, class_implements($object))){
+                    return $this->markSafe($className);
+                }
 
                 $message = "Object does not implement interface {$this->containerType}";
                 break;
             case self::CONCRETE:
-                if (is_a($object, $this->containerType)) return;
+                if ($this->isSafe($className) || is_a($object, $this->containerType)) {
+                    return $this->markSafe($className);
+                }
 
                 $message = "Object is not of type {$this->containerType}";
                 break;
             case self::SUBCLASS:
-                if (is_subclass_of($object, $this->containerType)) return;
+                if ($this->isSafe($className) || is_subclass_of($object, $this->containerType)) {
+                    return $this->markSafe($className);
+                }
 
                 $message = "Object does not inherit {$this->containerType}";
                 break;
             case self::TRAIT:
-                if (in_array($this->containerType, class_uses($object))) return;
+                if ($this->isSafe($className) || in_array($this->containerType, class_uses($object))) {
+                    return $this->markSafe($className);
+                }
 
                 $message = "Object does not use trait {$this->containerType}";
                 break;
