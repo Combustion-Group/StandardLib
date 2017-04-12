@@ -3,9 +3,11 @@
 namespace Combustion\StandardLib\Models;
 
 use Combustion\StandardLib\Contracts\Prototype;
+use Illuminate\Database\Eloquent\Builder;
 use Combustion\StandardLib\Services\Data\ModelBuilder;
 use Combustion\StandardLib\Services\Data\ModelBuilderException;
 use Illuminate\Database\Eloquent\Model as Eloquent;
+use Illuminate\Support\Facades\DB;
 
 /**
  * Class Model
@@ -25,6 +27,11 @@ abstract class Model extends Eloquent implements Prototype
     private $lineItemStorage = [];
 
     private static $modelBuilder = null;
+
+    /**
+     * @var array
+     */
+    private $selectStatement = [];
 
     /**
      * @return string
@@ -132,13 +139,60 @@ abstract class Model extends Eloquent implements Prototype
         return $this;
     }
 
+    /**
+     * @return mixed
+     */
     public function getCreatedAt()
     {
         return $this->getAttribute(self::CREATED_AT);
     }
 
+    /**
+     * @return mixed
+     */
     public function getUpdatedAt()
     {
         return $this->getAttribute(self::UPDATED_AT);
     }
+
+
+    /**
+     * Add a string to the Select Statement
+     * @param string $select
+     *
+     * @return $this
+     */
+    public function appendToSelect(string $select)
+    {
+        array_push($this->selectStatement ,$select);
+        return $this;
+    }
+
+    /**
+     * @param \Illuminate\Database\Eloquent\Builder $query
+     * @param string                                $select
+     */
+    public function scopeAppendToSelect(Builder $query, string $select)
+    {
+        $this->appendToSelect($select);
+    }
+
+    /**
+     * Use at the end to append a final Select Statement
+     * @param $query
+     * @param bool $raw
+     */
+    public function scopePullSelectInQuery(Builder $query, $raw = true)
+    {
+        $selectString = implode(',',$this->selectStatement);
+        if($raw)
+        {
+            $query->select(DB::raw($selectString));
+        }
+        else
+        {
+            $query->select($selectString);
+        }
+    }
+
 }
