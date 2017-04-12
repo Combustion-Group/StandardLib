@@ -35,7 +35,7 @@ class ModelBuilder extends Builder
     /**
      * @var string
      */
-    private $prefix;
+    private $prefix = "";
 
     /**
      * @var int
