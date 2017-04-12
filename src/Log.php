@@ -4,7 +4,7 @@ namespace Combustion\StandardLib;
 
 use Illuminate\Log\Writer;
 use Illuminate\Support\Facades\Input;
-use Combustion\StandardLib\Contracts\UserInterface;
+use Combustion\StandardLib\Contracts\StdUserInterface;
 
 /**
  * Class Log
@@ -30,7 +30,7 @@ class Log extends Writer
     private $logNamespace = null;
 
     /**
-     * @var UserInterface
+     * @var StdUserInterface
      */
     private static $currentUser = null;
 

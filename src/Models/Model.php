@@ -24,7 +24,28 @@ abstract class Model extends Eloquent implements Prototype
      */
     private $lineItemStorage = [];
 
+    /**
+     * @var array
+     */
+    private $validationRules = [];
+
+    /**
+     * @var null
+     */
+    protected $validation = null;
+
+    /**
+     * @var ModelBuilder
+     */
     private static $modelBuilder = null;
+
+    /**
+     * @return array
+     */
+    public function getValidationRules() : array
+    {
+        return $this->validationRules;
+    }
 
     /**
      * @return string

@@ -7,7 +7,7 @@ use Illuminate\Validation\Validator;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Combustion\StandardLib\Exceptions\ErrorBag;
 use Combustion\StandardLib\Traits\ClientReadable;
-use Combustion\StandardLib\Contracts\UserInterface;
+use Combustion\StandardLib\Contracts\StdUserInterface;
 use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
@@ -116,10 +116,10 @@ abstract class Controller extends BaseController
     }
 
     /**
-     * @return UserInterface
+     * @return StdUserInterface
      * @throws InvalidOperationException
      */
-    public static function getAuthenticatedUser() : UserInterface
+    public static function getAuthenticatedUser() : StdUserInterface
     {
         $cb = \Config::get("standardlib.user-fetch");
 

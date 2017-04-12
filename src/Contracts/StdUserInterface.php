@@ -2,7 +2,7 @@
 
 namespace Combustion\StandardLib\Contracts;
 
-interface UserInterface {
+interface StdUserInterface {
 
     /**
      * @return int
