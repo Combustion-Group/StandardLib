@@ -28,7 +28,7 @@ abstract class Model extends Eloquent implements Prototype
     private $lineItemStorage = [];
 
     /**
-     * @var null
+     * @var ModelBuilder
      */
     private static $modelBuilder = null;
 
