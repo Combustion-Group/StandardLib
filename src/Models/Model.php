@@ -17,6 +17,8 @@ use Illuminate\Support\Facades\DB;
  */
 abstract class Model extends Eloquent implements Prototype
 {
+    const   ID = 'id';
+
     /**
      * @var string
      */
