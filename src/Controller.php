@@ -7,11 +7,11 @@ use Illuminate\Validation\Validator;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Combustion\StandardLib\Exceptions\ErrorBag;
 use Combustion\StandardLib\Traits\ClientReadable;
-use Combustion\StandardLib\Contracts\StdUserInterface;
 use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Combustion\StandardLib\Support\Responses\CustomResponse;
+use Combustion\StandardLib\Contracts\UserInterface as StdUserInterface;
 use Combustion\StandardLib\Support\Installer\Exceptions\InvalidOperationException;
 
 /**
@@ -38,7 +38,7 @@ abstract class Controller extends BaseController
      * @param int $code
      * @return \Illuminate\Http\JsonResponse
      */
-    public static function respond($data, $status = self::OK, $messages = [], int $code = null, $warnings = []) : JsonResponse
+    public static function respond($data = [], $status = self::OK, $messages = [], int $code = null, $warnings = []) : JsonResponse
     {
         // You can specify the HTTP response code you wish
         // to send back, but if no code is set and the status

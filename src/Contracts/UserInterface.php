@@ -2,7 +2,13 @@
 
 namespace Combustion\StandardLib\Contracts;
 
-interface StdUserInterface {
+/**
+ * Interface StdUserInterface
+ *
+ * @package Combustion\StandardLib\Contracts
+ * @author  Carlos Granados <cgranados@combustiongroup.com>
+ */
+interface UserInterface {
 
     /**
      * @return int
