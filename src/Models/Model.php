@@ -3,6 +3,7 @@
 namespace Combustion\StandardLib\Models;
 
 use Combustion\StandardLib\Contracts\Prototype;
+use Combustion\StandardLib\Exceptions\ErrorBag;
 use Illuminate\Database\Eloquent\Builder;
 use Combustion\StandardLib\Services\Data\ModelBuilder;
 use Combustion\StandardLib\Services\Data\ModelBuilderException;
@@ -214,6 +215,28 @@ abstract class Model extends Eloquent implements Prototype
         {
             $query->select($selectString);
         }
+    }
+
+    /**
+     * @param array|null $only
+     *
+     * @return array|mixed
+     */
+    public function fetchValidationRules(array $only = null) : array
+    {
+        // get all validation rules if only was not sent
+        if(is_null($only)) return $this->validation;
+        // if only array wa sent
+        $rules = [];
+        // check all string sent in theo nly array
+        foreach($only as $ruleName)
+        {
+            if(isset($this->validation[$ruleName]))
+            {
+                $rules[$ruleName] = $this->validation[$ruleName];
+            }
+        }
+        return $rules;
     }
 
 }
