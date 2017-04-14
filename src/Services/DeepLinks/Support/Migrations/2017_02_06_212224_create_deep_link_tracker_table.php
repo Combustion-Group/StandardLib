@@ -29,6 +29,6 @@ class CreateDeepLinkTrackerTable extends Migration
      */
     public function down()
     {
-        //
+        Schema::dropIfExists('deep_link_tracker');
     }
 }
