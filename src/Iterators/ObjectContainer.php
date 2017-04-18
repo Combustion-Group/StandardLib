@@ -28,4 +28,12 @@ abstract class ObjectContainer implements \Iterator, \ArrayAccess
 
         $this->setIterable($this->data);
     }
+
+    /**
+     * @return array
+     */
+    protected function & getIterable() : array
+    {
+        return $this->data;
+    }
 }
