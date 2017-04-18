@@ -196,7 +196,7 @@ abstract class Model extends Eloquent implements Prototype
      * @param \Illuminate\Database\Eloquent\Builder $query
      * @param string                                $select
      */
-    public function scopeAppendToSelect(Builder $query, string $select)
+    public function scopeAlsoSelect(Builder $query, string $select)
     {
         $this->appendToSelect($select);
     }
