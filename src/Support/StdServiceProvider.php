@@ -3,29 +3,38 @@
 namespace Combustion\StandardLib\Support;
 
 use Combustion\StandardLib\Log;
+use Illuminate\Contracts\Filesystem\Filesystem;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Database\DatabaseManager;
 use Combustion\StandardLib\UploadManager;
 use Illuminate\Filesystem\FilesystemManager;
+use Illuminate\Database\Migrations\Migrator;
 use Combustion\StandardLib\Services\Data\OneToMany;
 use Combustion\StandardLib\Exceptions\ServiceBuilderException;
 use Combustion\StandardLib\Services\DeepLinks\DeepLinkService;
+use Combustion\StandardLib\Services\Data\ModelGenerator\Parser;
+use Combustion\StandardLib\Services\Data\ModelGenerator\Compiler;
+use Combustion\StandardLib\Services\Data\ModelGenerator\Generator;
 use Combustion\StandardLib\Services\SystemEvents\SystemEventsService;
 use Combustion\StandardLib\Services\Data\OneToManyRelationshipGenerator;
+use Combustion\StandardLib\Services\Data\ModelGenerator\Contracts\SchemaTranslator;
+use Combustion\StandardLib\Services\Data\ModelGenerator\Translators\EloquentTranslator;
 
 class StdServiceProvider extends ServiceProvider
 {
     public function register()
     {
-        $this->app->singleton(UploadManager::class, function (Application $app, array $params = []) {
+        $this->app->singleton(UploadManager::class, function (Application $app, array $params = []) : UploadManager
+        {
             $config     = $app['config']['uploads.upload-manager'];
             $storage    = $app->make(FilesystemManager::class);
 
             return new UploadManager($config, $storage->cloud(), $app->make(Log::class));
         });
 
-        $this->app->singleton(Log::class, function (Application $app, array $params = []) {
+        $this->app->singleton(Log::class, function (Application $app, array $params = []) : Log
+        {
 
             $monolog   = $app->make(\Illuminate\Log\Writer::class)->getMonolog();
             $syslog    = new \Monolog\Handler\SyslogUdpHandler("logs5.papertrailapp.com", 11586);
@@ -40,7 +49,8 @@ class StdServiceProvider extends ServiceProvider
             return $configurator->configure($log, $app);
         });
 
-        $this->app->singleton(SystemEventsService::class, function (Application $app, array $params) {
+        $this->app->singleton(SystemEventsService::class, function (Application $app, array $params) : SystemEventsService
+        {
             $e = new SystemEventsService($app);
             $l = $app['config']['events'] ?: [];
 
@@ -54,21 +64,53 @@ class StdServiceProvider extends ServiceProvider
             return $e;
         });
 
-        $this->app->singleton(DeepLinkService::class, function (Application $app, array $params) {
+        $this->app->singleton(DeepLinkService::class, function (Application $app, array $params) : DeepLinkService
+        {
             return new DeepLinkService();
         });
 
-        $this->app->bind(OneToMany::class, function (Application $app, array $params) {
+        $this->app->bind(OneToMany::class, function (Application $app, array $params) : OneToMany
+        {
             return new OneToMany();
         });
 
-        $this->app->bind(OneToManyRelationshipGenerator::class, function (Application $app, array $params)
+        $this->app->bind(OneToManyRelationshipGenerator::class, function (Application $app, array $params) : OneToManyRelationshipGenerator
         {
             if (!array_key_exists('builder', $params)) {
                 throw new ServiceBuilderException("Cannot build OneToManyRelationshipBuilder, missing required param 'builder'");
             }
 
             return new OneToManyRelationshipGenerator($app->make(DatabaseManager::class)->connection(), $params['builder']);
+        });
+
+        $this->app->bind(Parser::class, function (Application $app, array $params = []) : Parser
+        {
+            $config = $app['config']['standardlib.author'];
+            $trans  = $app->make(SchemaTranslator::class);
+
+            return new Parser($config, $trans);
+        });
+
+        $this->app->bind(SchemaTranslator::class, function (Application $app, array $params = []) : SchemaTranslator
+        {
+            return new EloquentTranslator();
+        });
+
+        $this->app->bind(Compiler::class, function (Application $app, array $params = []) : Compiler
+        {
+            $config = $app['config']['standardlib.temp_path'];
+            $fs     = $app->make(Filesystem::class);
+
+            return new Compiler($config, $fs);
+        });
+
+        $this->app->bind(Generator::class, function (Application $app, array $params = []) : Generator
+        {
+            $parser     = $app->make(Parser::class);
+            $migrator   = $app->make(Migrator::class);
+            $compiler   = $app->make(Compiler::class);
+
+            return new Generator($parser, $migrator, $compiler);
         });
     }
 

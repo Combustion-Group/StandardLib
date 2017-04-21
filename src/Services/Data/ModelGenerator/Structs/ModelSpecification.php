@@ -23,14 +23,24 @@ class ModelSpecification
     private $columns;
 
     /**
-     * @var array
+     * @var string
      */
-    private $meta = [];
+    private $namespace;
+
+    /**
+     * @var string
+     */
+    private $author;
 
     /**
      * @var SchemaTranslator
      */
     private $translator;
+
+    /**
+     * @var string
+     */
+    private $email;
 
     /**
      * ModelSpecification constructor.
@@ -56,6 +66,42 @@ class ModelSpecification
         );
 
         return $this;
+    }
+
+    /**
+     * @param string $author
+     * @return ModelSpecification
+     */
+    public function setAuthorName(string $author) : ModelSpecification
+    {
+        $this->author = $author;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getAuthorName() : string
+    {
+        return (string)$this->author;
+    }
+
+    /**
+     * @param string $email
+     * @return ModelSpecification
+     */
+    public function setAuthorEmail(string $email) : ModelSpecification
+    {
+        $this->email = $email;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getAuthorEmail() : string
+    {
+        return (string)$this->email;
     }
 
     /**
@@ -103,22 +149,20 @@ class ModelSpecification
     }
 
     /**
-     * @param string $key
-     * @param string $val
+     * @param string $namespace
      * @return ModelSpecification
      */
-    public function addMeta(string $key, string $val) : ModelSpecification
+    public function setNamespace(string $namespace) : ModelSpecification
     {
-        $this->meta[$key] = $val;
+        $this->namespace = $namespace;
         return $this;
     }
 
     /**
-     * @param string $key
-     * @return bool
+     * @return string
      */
-    public function hasMeta(string $key) : bool
+    public function getNamespace() : string
     {
-        return array_key_exists($key, $this->meta);
+        return $this->namespace;
     }
 }

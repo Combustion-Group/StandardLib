@@ -25,8 +25,6 @@ abstract class ObjectContainer implements \Iterator, \ArrayAccess
     public function __construct(array $objects)
     {
         $this->data = $objects;
-
-        $this->setIterable($this->data);
     }
 
     /**
