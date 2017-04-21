@@ -523,7 +523,7 @@ trait BaseModel
      * @return mixed
      * @throws Exception
      */
-    public function getValidationRules()
+    public function getValidationRules() : array
     {
         $model = $this;
         if(!method_exists($model,'validationRules'))
