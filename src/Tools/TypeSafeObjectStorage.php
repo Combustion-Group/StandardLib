@@ -26,8 +26,9 @@ abstract class TypeSafeObjectStorage extends \SplObjectStorage implements Arraya
     /**
      * @var array
      */
-    protected $safe = [];
+    protected static $safe = [];
 
+    // Interface
     const   INTERFACE = 1,
             CONCRETE  = 2,
             SUBCLASS  = 3,
@@ -115,13 +116,19 @@ abstract class TypeSafeObjectStorage extends \SplObjectStorage implements Arraya
 
     /**
      * @param string $class
-     * @return $this
+     * @return TypeSafeObjectStorage
      */
     private function markSafe(string $class) : TypeSafeObjectStorage
     {
-        $this->safe[$class] =  $class;
+        $child = get_called_class();
+
+        if (!isset(static::$safe[$child])) {
+            // Create cache container for subclass
+            static::$safe[$child] = [];
+        }
+        static::$safe[$child][$class] =  $class;
         return $this;
-    }
+}
 
     /**
      * @param string $class
@@ -129,7 +136,7 @@ abstract class TypeSafeObjectStorage extends \SplObjectStorage implements Arraya
      */
     private function isSafe(string $class) : bool
     {
-        return array_key_exists($class, $this->safe);
+        return array_key_exists($class, static::$safe);
     }
 
     /**

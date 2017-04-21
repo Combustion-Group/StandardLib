@@ -2,8 +2,10 @@
 
 namespace Combustion\StandardLib\Services\Data\ModelGenerator;
 
+use Combustion\StandardLib\Traits\ValidatesConfig;
 use Illuminate\Support\Fluent;
 use Illuminate\Database\Schema\Blueprint;
+use Combustion\StandardLib\Services\Data\Migration;
 use Combustion\StandardLib\Services\Data\ModelGenerator\Structs\Columns;
 use Combustion\StandardLib\Services\Data\ModelGenerator\Structs\ModelSpecification;
 use Combustion\StandardLib\Services\Data\ModelGenerator\Contracts\SchemaTranslator;
@@ -16,28 +18,46 @@ use Combustion\StandardLib\Services\Data\ModelGenerator\Contracts\SchemaTranslat
  */
 class Parser
 {
+    use ValidatesConfig;
+
     /**
      * @var SchemaTranslator
      */
     private $translator;
 
     /**
+     * @var array
+     */
+    private $config;
+
+    /**
      * Parser constructor.
      *
+     * @param array $config
      * @param SchemaTranslator $translator
      */
-    public function __construct(SchemaTranslator $translator)
+    public function __construct(array $config, SchemaTranslator $translator)
     {
-        $this->translator = $translator;
+        $this->translator   = $translator;
+        $this->config       = $this->validateConfig($config);
     }
 
     /**
-     * @param Blueprint $table
+     * @return mixed
+     */
+    public function getRequiredConfig() : array
+    {
+        return ['author_name', 'author_email'];
+    }
+
+    /**
+     * @param Migration $migration
      * @return ModelSpecification
      */
-    public function parse(Blueprint $table) : ModelSpecification
+    public function parse(Migration $migration) : ModelSpecification
     {
-        $spec = $this->getSpec();
+        $spec   = $this->getSpec();
+        $table  = $migration->table(new Blueprint($migration->getTableName()));
 
         foreach ($table->getColumns() as $column)
         {
@@ -46,6 +66,10 @@ class Parser
              */
             $spec->addColumn($column->get('type'), $column->get('name'));
         }
+
+        $spec->setName($table->getTable())
+             ->setAuthorName($this->config['author_name'])
+             ->setAuthorEmail($this->config['author_email']);
 
         return $spec;
     }

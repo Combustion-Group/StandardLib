@@ -34,7 +34,7 @@ class Columns implements \Iterator
      */
     public function add(string $type, string $name) : Columns
     {
-        $this->data[$name] = $name;
+        $this->data[$name] = $type;
         return $this;
     }
 }

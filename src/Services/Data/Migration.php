@@ -19,9 +19,18 @@ class Migration extends BaseMigration
      * @return Blueprint
      * @throws DatabaseMigrationException
      */
-    public function getBlueprint(Blueprint $table) : Blueprint
+    public function table(Blueprint $table) : Blueprint
     {
-        throw new DatabaseMigrationException("Cannot call Migration::" . __FUNCTION__ . "() because it's not implemented in the child class.");
+        $this->undefined(__FUNCTION__);
+    }
+
+    /**
+     * @return string
+     * @throws DatabaseMigrationException
+     */
+    public function getDestinationPath() : string
+    {
+        $this->undefined(__FUNCTION__);
     }
 
     /**
@@ -30,6 +39,15 @@ class Migration extends BaseMigration
      */
     public function getTableName() : string
     {
-        throw new DatabaseMigrationException("Cannot call Migration::" . __FUNCTION__ . "() because it's not implemented in the child class.");
+        $this->undefined(__FUNCTION__);
+    }
+
+    /**
+     * @param string $caller
+     * @throws DatabaseMigrationException
+     */
+    private function undefined(string $caller)
+    {
+        throw new DatabaseMigrationException("Cannot call Migration::{$caller}() because it's not implemented in the child class.");
     }
 }

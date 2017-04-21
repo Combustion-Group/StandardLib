@@ -2,9 +2,7 @@
 
 namespace Combustion\StandardLib\Services\Data\ModelGenerator;
 
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migrator;
-use Illuminate\Console\Command as ArtisanCommand;
 use Combustion\StandardLib\Services\Data\Migration;
 use Combustion\StandardLib\Services\Data\Exceptions\DatabaseMigrationException;
 
@@ -14,7 +12,7 @@ use Combustion\StandardLib\Services\Data\Exceptions\DatabaseMigrationException;
  * @package Combustion\StandardLib\Services\Data\ModelGenerator
  * @author  Carlos Granados <cgranados@combustiongroup.com>
  */
-class Command extends ArtisanCommand
+class Generator
 {
     /**
      * @var Parser
@@ -27,44 +25,41 @@ class Command extends ArtisanCommand
     private $migrator;
 
     /**
+     * @var Compiler
+     */
+    private $compiler;
+
+    /**
      * Command constructor.
      * @param Parser $parser
      * @param Migrator $migrator
+     * @param Compiler $compiler
      */
-    public function __construct(Parser $parser, Migrator $migrator)
+    public function __construct(Parser $parser, Migrator $migrator, Compiler $compiler)
     {
-        parent::__construct();
-
         $this->parser   = $parser;
         $this->migrator = $migrator;
+        $this->compiler = $compiler;
     }
 
-    public function fire()
+    /**
+     * @param string[] $migrationPaths
+     * @throws DatabaseMigrationException
+     */
+    public function process(array $migrationPaths)
     {
-        $paths = $this->migrator->getMigrationFiles($this->getMigrationPaths());
+        $paths = $this->migrator->getMigrationFiles($migrationPaths);
 
         foreach ($paths as $migration) {
 
             // Resolve the instance of the database migration
             $instance   = $this->resolve($migration);
 
-            // Get blueprint of database table
-            $table      = $instance->getBlueprint(new Blueprint(''));
-
             // Generate interpreted fields
-            $spec       = $this->parser->parse($table);
+            $spec       = $this->parser->parse($instance);
 
+            $this->compiler->run($spec, $instance->getDestinationPath());
         }
-    }
-
-    /**
-     * Get the path to the migration directory.
-     *
-     * @return string
-     */
-    protected function getMigrationPath()
-    {
-        return $this->laravel->databasePath().DIRECTORY_SEPARATOR.'migrations';
     }
 
     /**
@@ -81,24 +76,5 @@ class Command extends ArtisanCommand
         }
 
         throw new DatabaseMigrationException("Cannot generate model for migration {$file} because file does not extend " . Migration::class);
-    }
-
-    /**
-     * Get all of the migration paths.
-     *
-     * @return array
-     */
-    protected function getMigrationPaths()
-    {
-        // Here, we will check to see if a path option has been defined. If it has
-        // we will use the path relative to the root of this installation folder
-        // so that migrations may be run for any path within the applications.
-        if ($this->input->hasOption('path') && $this->option('path')) {
-            return [$this->laravel->basePath().'/'.$this->option('path')];
-        }
-
-        return array_merge(
-            [$this->getMigrationPath()], $this->migrator->paths()
-        );
     }
 }
