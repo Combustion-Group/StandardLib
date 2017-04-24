@@ -2,16 +2,16 @@
 
 namespace Combustion\StandardLib\Models;
 
-use Combustion\StandardLib\Contracts\Prototype;
-use Combustion\StandardLib\Exceptions\ErrorBag;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Eloquent\Builder;
+use Combustion\StandardLib\Contracts\Prototype;
+use Illuminate\Database\Eloquent\Model as Eloquent;
 use Combustion\StandardLib\Services\Data\ModelBuilder;
 use Combustion\StandardLib\Services\Data\ModelBuilderException;
-use Illuminate\Database\Eloquent\Model as Eloquent;
-use Illuminate\Support\Facades\DB;
 
 /**
  * Class Model
+ *
  * @package Combustion\StandardLib\Models
  * @author  Carlos Granados <cgranadso@combustiongroup.com>
  */
@@ -27,17 +27,17 @@ abstract class Model extends Eloquent implements Prototype
     /**
      * @var array
      */
-    private $lineItemStorage = [];
+    protected $lineItemStorage = [];
 
     /**
      * @var array
      */
-    private $validationRules = [];
+    protected $validationRules = [];
 
     /**
      * @var null
      */
-    protected $validation = null;
+    protected static $validation = [];
 
     /**
      * @var ModelBuilder
@@ -209,6 +209,7 @@ abstract class Model extends Eloquent implements Prototype
     public function scopePullSelectInQuery(Builder $query, $raw = true)
     {
         $selectString = implode(',',$this->selectStatement);
+
         if($raw)
         {
             $query->select(DB::raw($selectString));
@@ -222,23 +223,13 @@ abstract class Model extends Eloquent implements Prototype
     /**
      * @param array|null $only
      *
-     * @return array|mixed
+     * @return array
      */
-    public function fetchValidationRules(array $only = null) : array
+    public static function fetchValidationRules(array $only = null) : array
     {
         // get all validation rules if only was not sent
-        if(is_null($only)) return $this->validation;
-        // if only array wa sent
-        $rules = [];
-        // check all string sent in theo nly array
-        foreach($only as $ruleName)
-        {
-            if(isset($this->validation[$ruleName]))
-            {
-                $rules[$ruleName] = $this->validation[$ruleName];
-            }
-        }
-        return $rules;
-    }
+        if(is_null($only)) return self::$validation;
 
+        return array_intersect_key(self::$validation, array_flip($only));
+    }
 }
