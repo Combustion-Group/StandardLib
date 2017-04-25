@@ -2,16 +2,16 @@
 
 namespace Combustion\StandardLib\Tools;
 
-use Illuminate\Validation\Factory;
+use Illuminate\Contracts\Validation\Factory;
 use Combustion\StandardLib\Exceptions\ErrorBag;
 
 /**
- * Class ValidationRepository
+ * Class ValidationService
  *
  * @package Combustion\StandardLib\Tools
  * @author  Carlos Granados <cgranados@combustiongroup.com>
  */
-class ValidationRepository
+class ValidationService
 {
     /**
      * @var array
@@ -35,9 +35,9 @@ class ValidationRepository
 
     /**
      * @param array $rules
-     * @return ValidationRepository
+     * @return ValidationService
      */
-    public function with(array $rules) : ValidationRepository
+    public function with(array $rules) : ValidationService
     {
         $this->rules = $rules;
         return $this;

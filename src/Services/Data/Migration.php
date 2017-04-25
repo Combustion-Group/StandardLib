@@ -2,6 +2,7 @@
 
 namespace Combustion\StandardLib\Services\Data;
 
+use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration as BaseMigration;
 use Combustion\StandardLib\Services\Data\Exceptions\DatabaseMigrationException;
@@ -14,6 +15,26 @@ use Combustion\StandardLib\Services\Data\Exceptions\DatabaseMigrationException;
  */
 class Migration extends BaseMigration
 {
+    /**
+     * Run the migrations.
+     *
+     * @return void
+     */
+    public function up()
+    {
+        Schema::create($this->getTableName(), $this->getCreator());
+    }
+
+    /**
+     * Reverse the migrations.
+     *
+     * @return void
+     */
+    public function down()
+    {
+        Schema::dropIfExists($this->getTableName());
+    }
+
     /**
      * @param Blueprint $table
      * @return Blueprint
@@ -49,5 +70,15 @@ class Migration extends BaseMigration
     private function undefined(string $caller)
     {
         throw new DatabaseMigrationException("Cannot call Migration::{$caller}() because it's not implemented in the child class.");
+    }
+
+    /**
+     * @return \Closure
+     */
+    public function getCreator() : \Closure
+    {
+        return function (Blueprint $table) {
+            return $this->table($table);
+        };
     }
 }

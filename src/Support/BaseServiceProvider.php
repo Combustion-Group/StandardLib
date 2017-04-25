@@ -7,6 +7,7 @@ use Illuminate\Support\ServiceProvider as LaravelServiceProvider;
 
 /**
  * Class ServiceProvider
+ *
  * @package Combustion\StandardLib\Support
  * @author Carlos Granados <cgranados@combustiongroup.com>
  */

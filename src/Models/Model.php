@@ -221,6 +221,14 @@ abstract class Model extends Eloquent implements Prototype
     }
 
     /**
+     * @return array
+     */
+    protected static function validation() : array
+    {
+        return self::$validation;
+    }
+
+    /**
      * @param array|null $only
      *
      * @return array
@@ -228,8 +236,8 @@ abstract class Model extends Eloquent implements Prototype
     public static function fetchValidationRules(array $only = null) : array
     {
         // get all validation rules if only was not sent
-        if(is_null($only)) return self::$validation;
+        if(is_null($only)) return self::validation();
 
-        return array_intersect_key(self::$validation, array_flip($only));
+        return array_intersect_key(self::validation(), array_flip($only));
     }
 }

@@ -2,15 +2,13 @@
 
 namespace Combustion\StandardLib\Support;
 
-use Combustion\StandardLib\Contracts\Package as PackageInterface;
-
 /**
  * Class Package
  *
  * @package Combustion\StandardLib\Support
  * @author  Carlos Granados <cgranados@combustiongroup.com>
  */
-abstract class Package extends BaseServiceProvider implements PackageInterface
+abstract class MultiServiceProvider extends BaseServiceProvider
 {
     /**
      * @var string[]
@@ -23,5 +21,17 @@ abstract class Package extends BaseServiceProvider implements PackageInterface
     public function getServiceProviders() : array
     {
         return $this->providers;
+    }
+
+    /**
+     * @return MultiServiceProvider
+     */
+    public function register() : MultiServiceProvider
+    {
+        foreach ($this->getServiceProviders() as $provider) {
+            $this->app->register($provider);
+        }
+
+        return $this;
     }
 }

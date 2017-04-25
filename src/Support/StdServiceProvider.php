@@ -3,14 +3,16 @@
 namespace Combustion\StandardLib\Support;
 
 use Combustion\StandardLib\Log;
-use Illuminate\Contracts\Filesystem\Filesystem;
+use Illuminate\Validation\Factory;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Database\DatabaseManager;
 use Combustion\StandardLib\UploadManager;
 use Illuminate\Filesystem\FilesystemManager;
 use Illuminate\Database\Migrations\Migrator;
+use Illuminate\Contracts\Filesystem\Filesystem;
 use Combustion\StandardLib\Services\Data\OneToMany;
+use Combustion\StandardLib\Tools\ValidationService;
 use Combustion\StandardLib\Exceptions\ServiceBuilderException;
 use Combustion\StandardLib\Services\DeepLinks\DeepLinkService;
 use Combustion\StandardLib\Services\Data\ModelGenerator\Parser;
@@ -35,7 +37,6 @@ class StdServiceProvider extends ServiceProvider
 
         $this->app->singleton(Log::class, function (Application $app, array $params = []) : Log
         {
-
             $monolog   = $app->make(\Illuminate\Log\Writer::class)->getMonolog();
             $syslog    = new \Monolog\Handler\SyslogUdpHandler("logs5.papertrailapp.com", 11586);
             $formatter = new \Monolog\Formatter\LineFormatter('%channel%.%level_name%: %message% %extra%');
@@ -111,6 +112,13 @@ class StdServiceProvider extends ServiceProvider
             $compiler   = $app->make(Compiler::class);
 
             return new Generator($parser, $migrator, $compiler);
+        });
+
+        $this->app->bind(ValidationService::class, function (Application $app, array $params = []) : ValidationService
+        {
+            $factory = $app->make(Factory::class);
+
+            return new ValidationService($factory);
         });
     }
 
