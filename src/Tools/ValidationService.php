@@ -52,7 +52,7 @@ class ValidationService
         $validator = $this->factory->make($data, $this->rules);
 
         if ($validator->fails()) {
-            throw new ErrorBag($validator->getMessageBag());
+            throw new ErrorBag($validator->getMessageBag()->all());
         }
     }
 }

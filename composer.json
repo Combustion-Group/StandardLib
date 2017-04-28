@@ -26,6 +26,7 @@
   "autoload": {
     "psr-4": {
       "Combustion\\StandardLib\\": "src/"
-    }
+    },
+    "files": ["src/Support/helpers.php"]
   }
 }

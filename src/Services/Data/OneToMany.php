@@ -70,7 +70,7 @@ class OneToMany implements DataGenerator, Relationship
     {
         $this->checkMissing();
 
-        $totalRecords = count($data);
+        $totalRecords   = count($data);
 
         if (!$totalRecords) return [];
 

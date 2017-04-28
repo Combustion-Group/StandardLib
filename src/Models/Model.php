@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Combustion\StandardLib\Contracts\Prototype;
 use Illuminate\Database\Eloquent\Model as Eloquent;
 use Combustion\StandardLib\Services\Data\ModelBuilder;
+use Combustion\StandardLib\Services\Data\TableAliasResolver;
 use Combustion\StandardLib\Services\Data\ModelBuilderException;
 
 /**
@@ -64,6 +65,15 @@ abstract class Model extends Eloquent implements Prototype
     {
         $class = get_called_class();
         return (string)(new $class)->getTable();
+    }
+
+    /**
+     * @return string
+     */
+    public function getTable()
+    {
+        // ugly af but eat my shorts
+        return \App::make(TableAliasResolver::class)->resolve(parent::getTable());
     }
 
     /**
@@ -221,14 +231,6 @@ abstract class Model extends Eloquent implements Prototype
     }
 
     /**
-     * @return array
-     */
-    protected static function validation() : array
-    {
-        return self::$validation;
-    }
-
-    /**
      * @param array|null $only
      *
      * @return array
@@ -236,8 +238,8 @@ abstract class Model extends Eloquent implements Prototype
     public static function fetchValidationRules(array $only = null) : array
     {
         // get all validation rules if only was not sent
-        if(is_null($only)) return self::validation();
+        if(is_null($only)) return static::$validation;
 
-        return array_intersect_key(self::validation(), array_flip($only));
+        return array_intersect_key(static::$validation, array_flip($only));
     }
 }

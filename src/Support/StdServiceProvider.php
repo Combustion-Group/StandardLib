@@ -13,6 +13,7 @@ use Illuminate\Database\Migrations\Migrator;
 use Illuminate\Contracts\Filesystem\Filesystem;
 use Combustion\StandardLib\Services\Data\OneToMany;
 use Combustion\StandardLib\Tools\ValidationService;
+use Combustion\StandardLib\Services\Data\TableAliasResolver;
 use Combustion\StandardLib\Exceptions\ServiceBuilderException;
 use Combustion\StandardLib\Services\DeepLinks\DeepLinkService;
 use Combustion\StandardLib\Services\Data\ModelGenerator\Parser;
@@ -119,6 +120,11 @@ class StdServiceProvider extends ServiceProvider
             $factory = $app->make(Factory::class);
 
             return new ValidationService($factory);
+        });
+
+        $this->app->bind(TableAliasResolver::class, function (Application $app, array $params = [])
+        {
+            return new TableAliasResolver();
         });
     }
 
