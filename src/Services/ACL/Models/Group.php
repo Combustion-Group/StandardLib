@@ -1,19 +1,28 @@
 <?php
 
-namespace Combustion\StadardLib\Services\ACL\Models;
+namespace Combustion\StandardLib\Services\ACL\Models;
 
 use Combustion\StandardLib\Models\Model;
 
 /**
  * Class Group
  *
- * @package Combustion\StadardLib\Services\ACL\Models
+ * @package Combustion\StandardLib\Services\ACL\Models
  * @author  Carlos Granados <cgranados@combustiongroup.com>
  */
 class Group extends Model
 {
-    protected $table = 'acl_group';
+    /**
+     * @var bool
+     */
+    public $timestamps  = false;
 
+    /**
+     * @var string
+     */
+    protected $table    = 'acl_groups';
+
+    // Columns
     const   LABEL    = 'label';
 
     /**
@@ -21,7 +30,7 @@ class Group extends Model
      */
     public function getId() : int
     {
-        return (int)$this->getAttribute(self::LABEL);
+        return (int)$this->getAttribute(self::ID);
     }
 
     /**

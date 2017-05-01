@@ -13,6 +13,7 @@ use Illuminate\Database\Migrations\Migrator;
 use Illuminate\Contracts\Filesystem\Filesystem;
 use Combustion\StandardLib\Services\Data\OneToMany;
 use Combustion\StandardLib\Tools\ValidationService;
+use Combustion\StandardLib\Services\ACL\Manager as ACL;
 use Combustion\StandardLib\Services\Data\TableAliasResolver;
 use Combustion\StandardLib\Exceptions\ServiceBuilderException;
 use Combustion\StandardLib\Services\DeepLinks\DeepLinkService;
@@ -126,11 +127,19 @@ class StdServiceProvider extends ServiceProvider
         {
             return new TableAliasResolver();
         });
+
+        $this->app->bind(ACL::class, function (Application $app, array $params = [])
+        {
+            $con = $app->make(DatabaseManager::class)->connection();
+
+            return new ACL($con);
+        });
     }
 
     public function boot()
     {
         $this->loadMigrationsFrom(__DIR__ . '/../Services/DeepLinks/Support/Migrations');
+        $this->loadMigrationsFrom(__DIR__ . '/../Services/ACL/Migrations');
 
         $useLog = \Config::get('standardlib.use-log');
 

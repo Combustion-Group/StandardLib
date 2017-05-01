@@ -1,6 +1,6 @@
 <?php
 
-namespace Combustion\StadardLib\Services\Data\Commands;
+namespace Combustion\StandardLib\Services\Data\Commands;
 
 use Combustion\StandardLib\Services\Data\ModelGenerator\Generator;
 use Illuminate\Console\Command;
@@ -8,7 +8,7 @@ use Illuminate\Console\Command;
 /**
  * Class ModelGenerator
  *
- * @package Combustion\StadardLib\Services\Data\Commands
+ * @package Combustion\StandardLib\Services\Data\Commands
  * @author  Carlos Granados <cgranados@combustiongroup.com>
  */
 class ModelGenerator extends Command

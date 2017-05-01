@@ -1,15 +1,15 @@
 <?php
 
-namespace Combustion\StadardLib\Services\ACL\Contracts;
+namespace Combustion\StandardLib\Services\ACL\Contracts;
 
-use Combustion\StadardLib\Services\ACL\Models\Role;
-use Combustion\StadardLib\Services\ACL\Models\Group;
-use Combustion\StadardLib\Services\ACL\Models\Action;
+use Combustion\StandardLib\Services\ACL\Models\Role;
+use Combustion\StandardLib\Services\ACL\Models\Group;
+use Combustion\StandardLib\Services\ACL\Models\Action;
 
 /**
  * Interface AccessManager
  *
- * @package Combustion\StadardLib\Services\ACL\Contracts
+ * @package Combustion\StandardLib\Services\ACL\Contracts
  * @author  Carlos Granados <cgranados@combustiongroup.com>
  */
 interface AccessManager

@@ -1,6 +1,6 @@
 <?php
 
-namespace Combustion\StadardLib\Services\ACL\Contracts;
+namespace Combustion\StandardLib\Services\ACL\Contracts;
 
 interface Repository
 {

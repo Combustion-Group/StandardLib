@@ -1,17 +1,27 @@
 <?php
 
-namespace Combustion\StadardLib\Services\ACL\Models;
+namespace Combustion\StandardLib\Services\ACL\Models;
 
 use Combustion\StandardLib\Models\Model;
 
 /**
  * Class Role
  *
- * @package Combustion\StadardLib\Services\ACL\Models
+ * @package Combustion\StandardLib\Services\ACL\Models
  * @author  Carlos Granados <cgranados@combustiongroup.com>
  */
 class Role extends Model
 {
+    /**
+     * @var bool
+     */
+    public $timestamps  = false;
+
+    /**
+     * @var string
+     */
+    protected $table = 'acl_roles';
+
     // Columns
     const   LABEL       = 'label',
             GROUP_ID    = 'group_id';

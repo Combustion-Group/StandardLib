@@ -1,6 +1,6 @@
 <?php
 
-namespace Combustion\StadardLib\Services\Data\Filters\Contracts;
+namespace Combustion\StandardLib\Services\Data\Filters\Contracts;
 
 /**
  * Interface TimeFilterInterface
