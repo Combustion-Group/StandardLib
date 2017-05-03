@@ -16,7 +16,7 @@ use Illuminate\Database\Connection;
  * @package Combustion\StandardLib\Services\ACL
  * @author  Carlos Granados <cgranados@combustiongroup.com>
  */
-class Manager implements AccessManager
+class AclService implements AccessManager
 {
     /**
      * @var Connection
@@ -116,7 +116,7 @@ class Manager implements AccessManager
                               ->join('users as b', 'a.user_id', '=', 'b.id')
                               ->join('acl_roles as c', 'c.id', '=', 'a.role_id')
                               ->where('a.user_id', '=', $userId)
-                              ->get(['c.id as \'role_id\'', 'c.label'])->all();
+                              ->get(['c.id as role_id', 'c.label'])->all();
     }
 
     /**

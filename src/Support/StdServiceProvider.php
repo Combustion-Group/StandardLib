@@ -13,7 +13,7 @@ use Illuminate\Database\Migrations\Migrator;
 use Illuminate\Contracts\Filesystem\Filesystem;
 use Combustion\StandardLib\Services\Data\OneToMany;
 use Combustion\StandardLib\Tools\ValidationService;
-use Combustion\StandardLib\Services\ACL\Manager as ACL;
+use Combustion\StandardLib\Services\ACL\AclService as ACL;
 use Combustion\StandardLib\Services\Data\TableAliasResolver;
 use Combustion\StandardLib\Exceptions\ServiceBuilderException;
 use Combustion\StandardLib\Services\DeepLinks\DeepLinkService;

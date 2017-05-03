@@ -5,7 +5,7 @@ namespace Combustion\StandardLib\Services\ACL\Middleware;
 use \Closure;
 use Combustion\StandardLib\Services\ACL\Exceptions\AclAccessDeniedException;
 use Combustion\StandardLib\Services\ACL\Exceptions\AclException;
-use Combustion\StandardLib\Services\ACL\Manager;
+use Combustion\StandardLib\Services\ACL\AclService;
 use Combustion\StandardLib\Controller;
 
 /**
@@ -17,16 +17,16 @@ use Combustion\StandardLib\Controller;
 class ACL
 {
     /**
-     * @var Manager
+     * @var AclService
      */
     private $manager;
 
     /**
      * Acl constructor.
      *
-     * @param Manager $manager
+     * @param AclService $manager
      */
-    public function __construct(Manager $manager)
+    public function __construct(AclService $manager)
     {
         $this->manager = $manager;
     }
