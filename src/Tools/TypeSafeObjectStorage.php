@@ -150,7 +150,7 @@ abstract class TypeSafeObjectStorage extends \SplObjectStorage implements Arraya
 
         switch ($this->checkType) {
             case self::INTERFACE:
-                if ($this->isSafe($className) || in_array($this->containerType, class_implements($object))){
+                if ($this->isSafe($className) || isset(class_implements($object)[$this->containerType])){
                     return $this->markSafe($className);
                 }
 
@@ -171,7 +171,7 @@ abstract class TypeSafeObjectStorage extends \SplObjectStorage implements Arraya
                 $message = "Object does not inherit {$this->containerType}";
                 break;
             case self::TRAIT:
-                if ($this->isSafe($className) || in_array($this->containerType, class_uses($object))) {
+                if ($this->isSafe($className) || isset(class_uses($object)[$this->containerType])) {
                     return $this->markSafe($className);
                 }
 
