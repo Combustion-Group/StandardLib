@@ -2,7 +2,7 @@
 
 namespace Combustion\StandardLib\Services\Data\Commands;
 
-use Combustion\StandardLib\Services\Data\ModelGenerator\Generator;
+use Combustion\StandardLib\Services\Data\StandardGenerator\Generator;
 use Illuminate\Console\Command;
 
 /**
@@ -61,6 +61,6 @@ class ModelGenerator extends Command
      */
     protected function getMigrationPath()
     {
-        return $this->laravel->databasePath().DIRECTORY_SEPARATOR.'migrations';
+        return $this->laravel->databasePath() . DIRECTORY_SEPARATOR . 'migrations';
     }
 }

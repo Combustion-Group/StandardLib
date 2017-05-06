@@ -1,6 +1,6 @@
 <?php
 
-namespace Combustion\StandardLib\Services\Data\ModelGenerator;
+namespace Combustion\StandardLib\Services\Data\StandardGenerator;
 
 /**
  * Class Lexer

@@ -16,6 +16,33 @@ use Combustion\StandardLib\Services\Data\Exceptions\DatabaseMigrationException;
 class Migration extends BaseMigration
 {
     /**
+     * @var bool
+     */
+    protected $isService = false;
+
+    /**
+     * @var array
+     */
+    protected $components;
+
+    // Component Generators
+    const COMPONENT = [
+        'model' => 'model',
+        'repo'  => 'repo'
+    ];
+
+    /**
+     * Migration constructor.
+     */
+    public function __construct()
+    {
+        $this->components = [
+            self::COMPONENT['model'],
+            self::COMPONENT['repo']
+        ];
+    }
+
+    /**
      * Run the migrations.
      *
      * @return void
@@ -40,7 +67,7 @@ class Migration extends BaseMigration
      * @return Blueprint
      * @throws DatabaseMigrationException
      */
-    public function table(Blueprint $table) : Blueprint
+    public function table(Blueprint $table)
     {
         $this->undefined(__FUNCTION__);
     }
@@ -65,11 +92,14 @@ class Migration extends BaseMigration
 
     /**
      * @param string $caller
+     * @param string $exceptionClass
      * @throws DatabaseMigrationException
      */
-    private function undefined(string $caller)
+    private function undefined(string $caller, string $exceptionClass = null)
     {
-        throw new DatabaseMigrationException("Cannot call Migration::{$caller}() because it's not implemented in the child class.");
+        $class = is_numeric($exceptionClass) ? DatabaseMigrationException::class : $exceptionClass;
+
+        throw new $class("Cannot call Migration::{$caller}() because it's not implemented in the child class.");
     }
 
     /**

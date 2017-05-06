@@ -1,6 +1,6 @@
 <?php
 
-namespace Combustion\StandardLib\Services\Data\ModelGenerator;
+namespace Combustion\StandardLib\Services\Data\StandardGenerator;
 
 use Illuminate\Database\Migrations\Migrator;
 use Combustion\StandardLib\Services\Data\Migration;
@@ -30,6 +30,11 @@ class Generator
     private $compiler;
 
     /**
+     * @var array
+     */
+    private $skipped = [];
+
+    /**
      * Command constructor.
      * @param Parser $parser
      * @param Migrator $migrator
@@ -52,13 +57,18 @@ class Generator
 
         foreach ($paths as $migration) {
 
-            // Resolve the instance of the database migration
-            $instance   = $this->resolve($migration);
+            try {
+                // Resolve the instance of the database migration
+                $instance   = $this->resolve($migration);
+            } catch (DatabaseMigrationException $e) {
+                $this->skipped[] = $migration;
+                continue;
+            }
 
             // Generate interpreted fields
             $spec       = $this->parser->parse($instance);
 
-            $this->compiler->run($spec, $instance->getDestinationPath());
+            $this->compiler->run($spec);
         }
     }
 

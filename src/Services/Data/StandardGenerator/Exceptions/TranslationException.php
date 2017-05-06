@@ -1,6 +1,6 @@
 <?php
 
-namespace Combustion\StandardLib\Services\Data\ModelGenerator\Exceptions;
+namespace Combustion\StandardLib\Services\Data\StandardGenerator\Exceptions;
 
 use Combustion\StandardLib\Exceptions\BaseException;
 

@@ -1,14 +1,14 @@
 <?php
 
-namespace Combustion\StandardLib\Services\Data\ModelGenerator;
+namespace Combustion\StandardLib\Services\Data\StandardGenerator;
 
 use Combustion\StandardLib\Traits\ValidatesConfig;
 use Illuminate\Support\Fluent;
 use Illuminate\Database\Schema\Blueprint;
 use Combustion\StandardLib\Services\Data\Migration;
-use Combustion\StandardLib\Services\Data\ModelGenerator\Structs\Columns;
-use Combustion\StandardLib\Services\Data\ModelGenerator\Structs\ModelSpecification;
-use Combustion\StandardLib\Services\Data\ModelGenerator\Contracts\SchemaTranslator;
+use Combustion\StandardLib\Services\Data\StandardGenerator\Structs\Columns;
+use Combustion\StandardLib\Services\Data\StandardGenerator\Structs\ModelSpecification;
+use Combustion\StandardLib\Services\Data\StandardGenerator\Contracts\SchemaTranslator;
 
 /**
  * Class Parser
