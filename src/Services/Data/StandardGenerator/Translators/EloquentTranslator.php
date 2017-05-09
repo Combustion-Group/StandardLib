@@ -1,9 +1,9 @@
 <?php
 
-namespace Combustion\StandardLib\Services\Data\ModelGenerator\Translators;
+namespace Combustion\StandardLib\Services\Data\StandardGenerator\Translators;
 
-use Combustion\StandardLib\Services\Data\ModelGenerator\Contracts\SchemaTranslator;
-use Combustion\StandardLib\Services\Data\ModelGenerator\Exceptions\TranslationException;
+use Combustion\StandardLib\Services\Data\StandardGenerator\Contracts\SchemaTranslator;
+use Combustion\StandardLib\Services\Data\StandardGenerator\Exceptions\TranslationException;
 
 /**
  * Class EloquentTranslator

@@ -1,12 +1,12 @@
 <?php
 
-namespace Combustion\StandardLib\Services\Data\ModelGenerator;
+namespace Combustion\StandardLib\Services\Data\StandardGenerator;
 
 use Symfony\Component\Process\Process;
 use Illuminate\Contracts\Filesystem\Filesystem;
 use Combustion\StandardLib\Traits\ValidatesConfig;
 use Combustion\StandardLib\Services\Data\Exceptions\CompilationException;
-use Combustion\StandardLib\Services\Data\ModelGenerator\Structs\ModelSpecification;
+use Combustion\StandardLib\Services\Data\StandardGenerator\Structs\ModelSpecification;
 
 /**
  * Class Compiler
@@ -50,11 +50,10 @@ class Compiler
 
     /**
      * @param ModelSpecification $specification
-     * @param string             $destination
      * @return string
      * @throws CompilationException
      */
-    public function run(ModelSpecification $specification, string $destination) : string
+    public function run(ModelSpecification $specification) : string
     {
         $command = $this->compile($specification);
 

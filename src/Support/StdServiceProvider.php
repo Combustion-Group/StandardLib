@@ -17,13 +17,13 @@ use Combustion\StandardLib\Services\ACL\AclService as ACL;
 use Combustion\StandardLib\Services\Data\TableAliasResolver;
 use Combustion\StandardLib\Exceptions\ServiceBuilderException;
 use Combustion\StandardLib\Services\DeepLinks\DeepLinkService;
-use Combustion\StandardLib\Services\Data\ModelGenerator\Parser;
-use Combustion\StandardLib\Services\Data\ModelGenerator\Compiler;
-use Combustion\StandardLib\Services\Data\ModelGenerator\Generator;
+use Combustion\StandardLib\Services\Data\StandardGenerator\Parser;
+use Combustion\StandardLib\Services\Data\StandardGenerator\Compiler;
+use Combustion\StandardLib\Services\Data\StandardGenerator\Generator;
 use Combustion\StandardLib\Services\SystemEvents\SystemEventsService;
 use Combustion\StandardLib\Services\Data\OneToManyRelationshipGenerator;
-use Combustion\StandardLib\Services\Data\ModelGenerator\Contracts\SchemaTranslator;
-use Combustion\StandardLib\Services\Data\ModelGenerator\Translators\EloquentTranslator;
+use Combustion\StandardLib\Services\Data\StandardGenerator\Contracts\SchemaTranslator;
+use Combustion\StandardLib\Services\Data\StandardGenerator\Translators\EloquentTranslator;
 
 class StdServiceProvider extends ServiceProvider
 {

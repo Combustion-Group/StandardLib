@@ -1,6 +1,6 @@
 <?php
 
-namespace Combustion\StandardLib\Services\Data\ModelGenerator\Contracts;
+namespace Combustion\StandardLib\Services\Data\StandardGenerator\Contracts;
 
 /**
  * Interface SchemaTranslator

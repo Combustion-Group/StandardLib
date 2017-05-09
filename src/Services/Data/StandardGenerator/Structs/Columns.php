@@ -1,7 +1,8 @@
 <?php
 
-namespace Combustion\StandardLib\Services\Data\ModelGenerator\Structs;
+namespace Combustion\StandardLib\Services\Data\StandardGenerator\Structs;
 
+use \Iterator;
 use Combustion\StandardLib\Iterators\IteratesFromArray;
 
 /**
@@ -10,7 +11,7 @@ use Combustion\StandardLib\Iterators\IteratesFromArray;
  * @package Combustion\StandardLib\Services\Data\ModelGenerator\Structs
  * @author  Carlos Granados <cgranados@combustiongroup.com>
  */
-class Columns implements \Iterator
+class Columns implements Iterator
 {
     use IteratesFromArray;
 

@@ -1,8 +1,8 @@
 <?php
 
-namespace Combustion\StandardLib\Services\Data\ModelGenerator\Structs;
+namespace Combustion\StandardLib\Services\Data\StandardGenerator\Structs;
 
-use Combustion\StandardLib\Services\Data\ModelGenerator\Contracts\SchemaTranslator;
+use Combustion\StandardLib\Services\Data\StandardGenerator\Contracts\SchemaTranslator;
 
 /**
  * Class ModelSpecification
@@ -41,6 +41,11 @@ class ModelSpecification
      * @var string
      */
     private $email;
+
+    /**
+     * @var array
+     */
+    private $components = [];
 
     /**
      * ModelSpecification constructor.
@@ -156,6 +161,24 @@ class ModelSpecification
     {
         $this->namespace = $namespace;
         return $this;
+    }
+
+    /**
+     * @param array $component
+     * @return ModelSpecification
+     */
+    public function setComponents(array $component) : ModelSpecification
+    {
+        $this->components = $component;
+        return $this;
+    }
+
+    /**
+     * @return array
+     */
+    public function getComponents() : array
+    {
+        return $this->components;
     }
 
     /**

@@ -178,7 +178,7 @@ abstract class TypeSafeObjectStorage extends \SplObjectStorage implements Arraya
                 $message = "Object does not use trait {$this->containerType}";
                 break;
             default:
-                throw new ObjectStorageException("Invalid check type set in container. Only TypeSafeObjectStorage::INTERFACE, CONCRETE, or SUBCLASS");
+                $message = "Invalid check type set in container. Only TypeSafeObjectStorage::INTERFACE, CONCRETE, or SUBCLASS";
         }
 
         throw new ObjectStorageException($message);
