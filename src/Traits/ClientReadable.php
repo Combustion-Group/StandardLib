@@ -2,4 +2,13 @@
 
 namespace Combustion\StandardLib\Traits;
 
-trait ClientReadable {}
+/**
+ * Class ClientReadable
+ *
+ * @package Combustion\StandardLib\Traits
+ * @author  Carlos Granados <cgranados@combustiongroup.com>
+ */
+trait ClientReadable
+{
+    // Nothing special here.
+}

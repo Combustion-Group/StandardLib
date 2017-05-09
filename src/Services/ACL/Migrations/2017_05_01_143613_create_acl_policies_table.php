@@ -30,6 +30,6 @@ class CreateAclPoliciesTable extends Migration
      */
     public function down()
     {
-        //
+        Schema::dropIfExists('acl_policies');
     }
 }

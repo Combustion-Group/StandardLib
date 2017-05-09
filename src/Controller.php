@@ -53,7 +53,6 @@ abstract class Controller extends BaseController
         $response = [
             'status'         => $status,
             'messages'       => self::formatErrorMessages($messages),
-            "user_messages"  => [],
             'data'           => $data
         ];
 
@@ -64,7 +63,7 @@ abstract class Controller extends BaseController
      * @param array $response
      * @return array
      */
-    public static function buildResponse(array $response) : array
+    public static function extractCustomResponse(array $response) : array
     {
         if (!(is_object($response['data']) && in_array(CustomResponse::class, class_implements($response['data']))))
         {
@@ -78,6 +77,28 @@ abstract class Controller extends BaseController
         $response       = array_merge($response, $customResponse->getTopLevel());
 
         $response['data'] = $customResponse->getData();
+
+        return $response;
+    }
+
+    /**
+     * @param array $response
+     * @return array
+     * @throws InvalidOperationException
+     */
+    public static function buildResponse(array $response) : array
+    {
+        $response = self::extractCustomResponse($response);
+
+        if (config('app.api.response.overload')) {
+            $handler = \App::make(config('app.api.response.overload_handler'));
+
+            if (is_callable($handler)) {
+                return $handler($response);
+            }
+
+            throw new InvalidOperationException("Cannot respond API because the standard response overload_handler is not a callable object.");
+        }
 
         return $response;
     }
