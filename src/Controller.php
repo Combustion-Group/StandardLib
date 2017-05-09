@@ -212,12 +212,12 @@ abstract class Controller extends BaseController
     }
 
     /**
-     * @param null $int
+     * @param int|null $int
      * @return int
      */
-    public function perPage($int = null) : int
+    public function perPage(int $int = null) : int
     {
         $input = Input::get('per_page');
-        return is_null($int) ? (is_null($input) ? config('app.pagination') : $input) : $int;
+        return (int)( is_null($int) ? (is_null($input) ? config('app.pagination') : $input) : $int );
     }
 }
