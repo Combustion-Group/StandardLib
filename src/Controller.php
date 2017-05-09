@@ -3,6 +3,7 @@
 namespace Combustion\StandardLib;
 
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\Input;
 use Illuminate\Validation\Validator;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Combustion\StandardLib\Exceptions\ErrorBag;
@@ -208,5 +209,15 @@ abstract class Controller extends BaseController
         }
 
         return $messages;
+    }
+
+    /**
+     * @param int|null $int
+     * @return int
+     */
+    public function perPage(int $int = null) : int
+    {
+        $input = Input::get('per_page');
+        return (int)( is_null($int) ? (is_null($input) ? config('app.pagination') : $input) : $int );
     }
 }
