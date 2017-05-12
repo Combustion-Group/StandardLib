@@ -13,6 +13,9 @@ use Illuminate\Http\JsonResponse;
  */
 trait HandlesStandardAPI
 {
+    /**
+     * @return null|string
+     */
     protected function fetchError()
     {
         $response   = $this->getResponse()->getContent();
@@ -25,9 +28,14 @@ trait HandlesStandardAPI
         return null;
     }
 
+    // Is this even legal in PHP?
+    public function assertResponseStatus($code)
+    {
+        $this->assertEquals($code, $this->response->getStatusCode(), $this->fetchError());
+    }
+
     /**
      * @return Response|JsonResponse
      */
     abstract protected function getResponse();
-
 }
