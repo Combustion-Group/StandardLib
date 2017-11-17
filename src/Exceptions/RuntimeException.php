@@ -10,4 +10,6 @@ namespace Combustion\StandardLib\Exceptions;
  *
  * @package Combustion\StandardLib\Exceptions
  */
-class RuntimeException extends \Exception {}
+class RuntimeException extends \Exception
+{
+}

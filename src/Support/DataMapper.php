@@ -40,13 +40,13 @@ class DataMapper
      * @var array
      */
     private $required = [
-        'DB'        => ['table', ''],
-        'GATEWAY'   => ['class', 'method']
+        'DB' => ['table', ''],
+        'GATEWAY' => ['class', 'method']
     ];
 
     const   METHODS = [
-        'DB'        => 'DB',
-        'GATEWAY'   => 'GATEWAY'
+        'DB' => 'DB',
+        'GATEWAY' => 'GATEWAY'
     ];
 
     /**
@@ -59,7 +59,7 @@ class DataMapper
     {
         $this->settings = $this->validate($settings);
         $this->database = $connection;
-        $this->kernel   = $kernel;
+        $this->kernel = $kernel;
     }
 
     /**
@@ -82,7 +82,7 @@ class DataMapper
      * @return array
      * @throws DataMapperException
      */
-    public function validate(array $settings) : array
+    public function validate(array $settings): array
     {
         if (!isset($settings['use'])) {
             throw new DataMapperException("Settings array does not have a 'use' subset. Unable to map data.");
@@ -122,17 +122,17 @@ class DataMapper
      */
     protected function fetchFromGateway($identifier)
     {
-        $class      = $this->settings['class'];
-        $method     = $this->settings['method'];
-        $gateway    = $this->kernel->make($class);
+        $class = $this->settings['class'];
+        $method = $this->settings['method'];
+        $gateway = $this->kernel->make($class);
 
         if (!method_exists($gateway, $method)) {
             throw new DataMapperException("Class {$class} does not have method {$method}. Unable to map data.");
         }
 
-        $record     = $gateway->{$method}($identifier);
+        $record = $gateway->{$method}($identifier);
 
-        if (isset($this->settings['returns']) && ! is_a($record, $this->settings['returns'])) {
+        if (isset($this->settings['returns']) && !is_a($record, $this->settings['returns'])) {
             throw new DataMapperException("Record type mismatch. Expected to receive a {$this->settings['returns']} from gateway {$class}, but received " . gettype($record) . " instead.");
         }
 

@@ -1,4 +1,5 @@
 <?php
+
 namespace Combustion\StandardLib\Services\Assets\Models;
 
 use Combustion\StandardLib\Services\Assets\Contracts\AssetDocumentInterface;
@@ -14,7 +15,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  */
 class Image extends Model implements AssetDocumentInterface
 {
-    use IsDocument,SoftDeletes;
+    use IsDocument, SoftDeletes;
     /**
      * @var array
      */
@@ -37,7 +38,7 @@ class Image extends Model implements AssetDocumentInterface
     /**
      * @return int
      */
-    public function getId() : int
+    public function getId(): int
     {
         return (int)$this->id;
     }
@@ -47,7 +48,7 @@ class Image extends Model implements AssetDocumentInterface
      */
     public function image_file()
     {
-        return $this->hasOne(File::class,'id','image_id');
+        return $this->hasOne(File::class, 'id', 'image_id');
     }
 
     /**
@@ -55,7 +56,7 @@ class Image extends Model implements AssetDocumentInterface
      */
     public function small_file()
     {
-        return $this->hasOne(File::class,'id','small_id');
+        return $this->hasOne(File::class, 'id', 'small_id');
     }
 
     /**
@@ -63,7 +64,7 @@ class Image extends Model implements AssetDocumentInterface
      */
     public function medium_file()
     {
-        return $this->hasOne(File::class,'id','medium_id');
+        return $this->hasOne(File::class, 'id', 'medium_id');
     }
 
     /**
@@ -71,7 +72,7 @@ class Image extends Model implements AssetDocumentInterface
      */
     public function large_file()
     {
-        return $this->hasOne(File::class,'id','large_id');
+        return $this->hasOne(File::class, 'id', 'large_id');
     }
 
 }

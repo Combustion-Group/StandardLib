@@ -30,20 +30,18 @@ class LinkedListHydrator implements Hydrator
     {
         $implements = class_implements($prototype);
 
-        if (!in_array(Node::class, $implements))
-        {
+        if (!in_array(Node::class, $implements)) {
             throw new InvalidOperationException("Linked list hydrator cannot continue. Prototype given does not implement Node. The following interfaces found: " . implode(', ', $implements));
         }
 
-        $first      = $this->getPrototype($prototype);
-        $current    = $first;
-        $totalRecs  = count($data);
+        $first = $this->getPrototype($prototype);
+        $current = $first;
+        $totalRecs = count($data);
 
-        for ($i = 0; $i < $totalRecs; $i++)
-        {
+        for ($i = 0; $i < $totalRecs; $i++) {
             $current->fill($data[$i]);
 
-            ! is_null($callback) && $callback($current, $data, $i);
+            !is_null($callback) && $callback($current, $data, $i);
 
             $generate && yield $current;
 
@@ -61,7 +59,7 @@ class LinkedListHydrator implements Hydrator
      * @param string $key
      * @return Node
      */
-    private function getPrototype(string $key) : Node
+    private function getPrototype(string $key): Node
     {
         if (!array_key_exists($key, $this->prototypes)) {
             $this->prototypes[$key] = new $key;

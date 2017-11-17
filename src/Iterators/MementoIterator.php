@@ -31,12 +31,12 @@ class MementoIterator implements \Iterator
      * MementoIterator constructor.
      *
      * @param Memento $object
-     * @param array   $states
+     * @param array $states
      */
     public function __construct(Memento $object, array $states)
     {
-        $this->object   = $object;
-        $this->states   = $states;
+        $this->object = $object;
+        $this->states = $states;
     }
 
     /**

@@ -50,19 +50,19 @@ class OneToManyRelationshipGenerator implements RelationshipGenerator
      */
     public function __construct(Connection $connection, StructuredDataModelBuilder $builder)
     {
-        $this->connection   = $connection;
-        $this->builder      = $builder;
+        $this->connection = $connection;
+        $this->builder = $builder;
     }
 
     /**
      * @param string $sql
      * @return OneToManyRelationshipGenerator
      */
-    public function setQuery(string $sql) : OneToManyRelationshipGenerator
+    public function setQuery(string $sql): OneToManyRelationshipGenerator
     {
         unset($this->missing['query']);
 
-        $this->sql  = $sql;
+        $this->sql = $sql;
         $this->stmt = $this->connection->getPdo()->prepare($sql);
 
         return $this;
@@ -72,7 +72,7 @@ class OneToManyRelationshipGenerator implements RelationshipGenerator
      * @return \PDOStatement
      * @throws RelationshipGeneratorException
      */
-    public function stmt() : \PDOStatement
+    public function stmt(): \PDOStatement
     {
         if (isset($this->missing['query'])) {
             throw new RelationshipGeneratorException("Cannot call stmt() because no query has been set yet.");
@@ -84,7 +84,7 @@ class OneToManyRelationshipGenerator implements RelationshipGenerator
     /**
      * @return \Generator
      */
-    public function generate() : \Generator
+    public function generate(): \Generator
     {
         $this->stmt()->execute();
 

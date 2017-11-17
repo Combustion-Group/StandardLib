@@ -10,4 +10,6 @@ use Combustion\StandardLib\Exceptions\AccessDeniedException;
  * @package Combustion\StandardLib\Services\ACL\Exceptions
  * @author  Carlos Granados <cgranados@combustiongroup.com>
  */
-class AclAccessDeniedException extends AccessDeniedException {}
+class AclAccessDeniedException extends AccessDeniedException
+{
+}

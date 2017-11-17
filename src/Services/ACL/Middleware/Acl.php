@@ -41,14 +41,14 @@ class ACL
      */
     public function handle($request, Closure $next)
     {
-        $user       = Controller::getAuthenticatedUser();
-        $label      = array_slice(func_get_args(), 2);
+        $user = Controller::getAuthenticatedUser();
+        $label = array_slice(func_get_args(), 2);
 
         if (!$label) {
             throw new AclException("Cannot continue because the route being accessed has not been labeled with an action name.");
         }
 
-        $label      = $label[0];
+        $label = $label[0];
 
         if ($this->manager->hasAccess($user->getId(), $label)) {
             return $request($next);

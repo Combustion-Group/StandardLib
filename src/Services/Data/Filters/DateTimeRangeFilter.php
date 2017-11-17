@@ -40,11 +40,11 @@ class DateTimeRangeFilter implements TimeFilterInterface
     private $groups = false;
 
     const   TIME_PERIOD = [
-        'NONE'      => 'NONE',
-        'YEARLY'    => 'YEARLY',
-        'MONTHLY'   => 'MONTHLY',
-        'WEEKLY'    => 'WEEKLY',
-        'DAILY'     => 'DAILY'
+        'NONE' => 'NONE',
+        'YEARLY' => 'YEARLY',
+        'MONTHLY' => 'MONTHLY',
+        'WEEKLY' => 'WEEKLY',
+        'DAILY' => 'DAILY'
     ];
 
     /**
@@ -57,10 +57,10 @@ class DateTimeRangeFilter implements TimeFilterInterface
      */
     public function __construct(\DateTime $from, \DateTime $to, string $timePeriodGroup = null, string $dateColumn = 'created_at')
     {
-        $this->starting     = $from;
-        $this->end          = $to;
-        $this->timePeriod   = is_null($timePeriodGroup) ? self::TIME_PERIOD['NONE'] : $timePeriodGroup;
-        $this->dateColumn   = $dateColumn;
+        $this->starting = $from;
+        $this->end = $to;
+        $this->timePeriod = is_null($timePeriodGroup) ? self::TIME_PERIOD['NONE'] : $timePeriodGroup;
+        $this->dateColumn = $dateColumn;
 
         if (self::TIME_PERIOD != $this->timePeriod) {
             $this->groups = true;
@@ -88,7 +88,7 @@ class DateTimeRangeFilter implements TimeFilterInterface
     /**
      * @return string
      */
-    public function getTimePeriod() : string
+    public function getTimePeriod(): string
     {
         return $this->timePeriod;
     }
@@ -98,16 +98,14 @@ class DateTimeRangeFilter implements TimeFilterInterface
      * @throws InvalidOperationException
      * @return Builder
      */
-    public function applyFilter(Builder $query) : Builder
+    public function applyFilter(Builder $query): Builder
     {
         $query->where($this->dateColumn, '>=', $this->getStartingTime())
-              ->where($this->dateColumn, '<=', $this->getEndingTime());
+            ->where($this->dateColumn, '<=', $this->getEndingTime());
 
 
-        if ($this->getTimePeriod() !== self::TIME_PERIOD['NONE'])
-        {
-            switch ($this->getTimePeriod())
-            {
+        if ($this->getTimePeriod() !== self::TIME_PERIOD['NONE']) {
+            switch ($this->getTimePeriod()) {
                 case self::TIME_PERIOD['YEARLY']:
                     $filer = "YEAR({$this->dateColumn})";
                     break;
@@ -133,7 +131,7 @@ class DateTimeRangeFilter implements TimeFilterInterface
     /**
      * @return bool
      */
-    public function groups() : bool
+    public function groups(): bool
     {
         return $this->groups;
     }

@@ -15,11 +15,11 @@ use Illuminate\Foundation\Bootstrap\ConfigureLogging;
 class LogConfigurator extends ConfigureLogging
 {
     /**
-     * @param Writer      $log
+     * @param Writer $log
      * @param Application $app
      * @return Writer
      */
-    public function configure(Writer $log, Application $app) : Writer
+    public function configure(Writer $log, Application $app): Writer
     {
         // If a custom Monolog configurator has been registered for the application
         // we will call that, passing Monolog along. Otherwise, we will grab the

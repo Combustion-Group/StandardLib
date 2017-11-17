@@ -18,8 +18,8 @@ trait HandlesStandardAPI
      */
     protected function fetchError()
     {
-        $response   = $this->getResponse()->getContent();
-        $body       = json_decode($response, true);
+        $response = $this->getResponse()->getContent();
+        $body = json_decode($response, true);
 
         if (is_array($body) && array_key_exists('messages', $body)) {
             return implode(',', $body['messages']);

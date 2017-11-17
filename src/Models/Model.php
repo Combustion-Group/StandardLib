@@ -48,7 +48,7 @@ abstract class Model extends Eloquent implements Prototype
     /**
      * @return array
      */
-    public function getValidationRules() : array
+    public function getValidationRules(): array
     {
         return $this->validationRules;
     }
@@ -80,7 +80,7 @@ abstract class Model extends Eloquent implements Prototype
      * @return ModelBuilder
      * @throws ModelBuilderException
      */
-    public static function builder() : ModelBuilder
+    public static function builder(): ModelBuilder
     {
         if (is_null(self::$modelBuilder)) {
             throw new ModelBuilderException("No builder has been set for this class.");
@@ -104,9 +104,9 @@ abstract class Model extends Eloquent implements Prototype
      * @param $date
      * @return string
      */
-    public function extractDate($date) : string
+    public function extractDate($date): string
     {
-        return (string) ($date instanceof \DateTime ? $date->format("Y-m-d") : $date);
+        return (string)($date instanceof \DateTime ? $date->format("Y-m-d") : $date);
     }
 
     /**
@@ -114,11 +114,10 @@ abstract class Model extends Eloquent implements Prototype
      * @param array $data
      * @return Model
      */
-    public function fillSliced(string $prefix, array $data) : Model
+    public function fillSliced(string $prefix, array $data): Model
     {
-        foreach ($data as $key => $item)
-        {
-            if (strpos($key, $prefix) === 0){
+        foreach ($data as $key => $item) {
+            if (strpos($key, $prefix) === 0) {
                 $key = substr($key, strlen($prefix));
                 $this->setAttribute($key, $item);
             }
@@ -158,7 +157,7 @@ abstract class Model extends Eloquent implements Prototype
     /**
      * @return Model[]
      */
-    public function getLineItems() : array
+    public function getLineItems(): array
     {
         return $this->lineItemStorage;
     }
@@ -198,13 +197,13 @@ abstract class Model extends Eloquent implements Prototype
      */
     public function appendToSelect(string $select)
     {
-        array_push($this->selectStatement ,$select);
+        array_push($this->selectStatement, $select);
         return $this;
     }
 
     /**
      * @param \Illuminate\Database\Eloquent\Builder $query
-     * @param string                                $select
+     * @param string $select
      */
     public function scopeAlsoSelect(Builder $query, string $select)
     {
@@ -218,14 +217,11 @@ abstract class Model extends Eloquent implements Prototype
      */
     public function scopePullSelectInQuery(Builder $query, $raw = true)
     {
-        $selectString = implode(',',$this->selectStatement);
+        $selectString = implode(',', $this->selectStatement);
 
-        if($raw)
-        {
+        if ($raw) {
             $query->select(DB::raw($selectString));
-        }
-        else
-        {
+        } else {
             $query->select($selectString);
         }
     }
@@ -235,10 +231,10 @@ abstract class Model extends Eloquent implements Prototype
      *
      * @return array
      */
-    public static function fetchValidationRules(array $only = null) : array
+    public static function fetchValidationRules(array $only = null): array
     {
         // get all validation rules if only was not sent
-        if(is_null($only)) return static::$validation;
+        if (is_null($only)) return static::$validation;
 
         return array_intersect_key(static::$validation, array_flip($only));
     }

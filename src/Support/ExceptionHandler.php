@@ -34,12 +34,12 @@ class ExceptionHandler extends Handler
     ];
 
     protected $exceptionResponses = [
-        TokenExpiredException::class        => ['message' => 'token_expired', 'code' => 401],
-        TokenInvalidException::class        => ['message' => 'token_invalid'],
-        JWTException::class                 => ['message' => 'token_absent'],
-        AclAccessDeniedException::class     => ['message' => 'You are not authorized to perform that action.', 'code' => 403],
-        ModelNotFoundException::class       => ['message' => 'Resource not found', 'code' => 404],
-        RecordNotFoundException::class      => ['message' => 'Resource not found', 'code' => 404]
+        TokenExpiredException::class => ['message' => 'token_expired', 'code' => 401],
+        TokenInvalidException::class => ['message' => 'token_invalid'],
+        JWTException::class => ['message' => 'token_absent'],
+        AclAccessDeniedException::class => ['message' => 'You are not authorized to perform that action.', 'code' => 403],
+        ModelNotFoundException::class => ['message' => 'Resource not found', 'code' => 404],
+        RecordNotFoundException::class => ['message' => 'Resource not found', 'code' => 404]
     ];
 
     /**
@@ -47,7 +47,7 @@ class ExceptionHandler extends Handler
      *
      * This is a great spot to send exceptions to Sentry, Bugsnag, etc.
      *
-     * @param  \Exception  $exception
+     * @param  \Exception $exception
      * @return void
      */
     public function report(Exception $e)
@@ -68,13 +68,13 @@ class ExceptionHandler extends Handler
     /**
      * Render an exception into an HTTP response.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \Exception  $e
+     * @param  \Illuminate\Http\Request $request
+     * @param  \Exception $e
      * @return \Illuminate\Http\Response
      */
     public function render($request, Exception $e)
     {
-        if (\Config::get('app.debug') || Input::get('raw')){
+        if (\Config::get('app.debug') || Input::get('raw')) {
             // Log exception
             $this->report($e);
 
@@ -83,7 +83,7 @@ class ExceptionHandler extends Handler
 
         $ec = get_class($e);
 
-        if (array_key_exists($ec, $this->exceptionResponses)){
+        if (array_key_exists($ec, $this->exceptionResponses)) {
             $data = $this->exceptionResponses[$ec];
             $code = isset($data['code']) ? $data['code'] : null;
 
@@ -99,8 +99,8 @@ class ExceptionHandler extends Handler
         }
 
         // We only want to send the actual exception message if debug mode is enabled
-        $message    = Controller::getExceptionMessage($e);
-        $code       = $e instanceof HttpException ? $e->getStatusCode() : 500;
+        $message = Controller::getExceptionMessage($e);
+        $code = $e instanceof HttpException ? $e->getStatusCode() : 500;
         // Send standard error message
         return Controller::respond('', Controller::ERROR, $message, $code);
     }
@@ -108,8 +108,8 @@ class ExceptionHandler extends Handler
     /**
      * Convert an authentication exception into an unauthenticated response.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \Illuminate\Auth\AuthenticationException  $exception
+     * @param  \Illuminate\Http\Request $request
+     * @param  \Illuminate\Auth\AuthenticationException $exception
      * @return \Illuminate\Http\Response
      */
     protected function unauthenticated($request, AuthenticationException $exception)

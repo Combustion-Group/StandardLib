@@ -38,7 +38,7 @@ class SystemEventsService
      * @param $data
      * @return SystemEventsService
      */
-    public function fire(string $event, $data = []) : SystemEventsService
+    public function fire(string $event, $data = []): SystemEventsService
     {
         $listeners = $this->getListeners($event);
 
@@ -60,7 +60,7 @@ class SystemEventsService
      * @param $event
      * @return array
      */
-    private function getListeners($event) : array
+    private function getListeners($event): array
     {
         if (array_key_exists($event, $this->listeners)) {
             return $this->listeners[$event];
@@ -75,7 +75,7 @@ class SystemEventsService
      * @return SystemEventsService
      * @throws SystemHookRegisterException
      */
-    public function on(string $eventName, $callback) : SystemEventsService
+    public function on(string $eventName, $callback): SystemEventsService
     {
         if (!array_key_exists($eventName, $this->listeners)) {
             $this->listeners[$eventName] = [];
@@ -100,8 +100,7 @@ class SystemEventsService
             return ['c' => $callback];
         }
 
-        if (is_object($callback) && $callback instanceof Listener)
-        {
+        if (is_object($callback) && $callback instanceof Listener) {
             return ['l' => $callback];
         }
 

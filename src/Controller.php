@@ -24,7 +24,7 @@ abstract class Controller extends BaseController
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
 
-    const OK    = 'OK';
+    const OK = 'OK';
     const ERROR = 'ERROR';
 
     /**
@@ -39,7 +39,7 @@ abstract class Controller extends BaseController
      * @param int $code
      * @return \Illuminate\Http\JsonResponse
      */
-    public static function respond($data = [], string $status = self::OK, $messages = [], int $code = null, $warnings = []) : JsonResponse
+    public static function respond($data = [], string $status = self::OK, $messages = [], int $code = null, $warnings = []): JsonResponse
     {
         // You can specify the HTTP response code you wish
         // to send back, but if no code is set and the status
@@ -52,11 +52,15 @@ abstract class Controller extends BaseController
 
         // Standard API response
         $response = [
-            'status'         => $status,
-            'messages'       => self::formatErrorMessages($messages),
-            'data'           => $data
+            'status' => $status,
+            'messages' => self::formatErrorMessages($messages),
+            'data' => $data
         ];
 
+        if(!is_null(env("GIT_SHA")))
+        {
+            $response['deployment_sha']=env("GIT_SHA");
+        }
         return response()->json(self::buildResponse($response), $code);
     }
 
@@ -64,10 +68,9 @@ abstract class Controller extends BaseController
      * @param array $response
      * @return array
      */
-    public static function extractCustomResponse(array $response) : array
+    public static function extractCustomResponse(array $response): array
     {
-        if (!(is_object($response['data']) && in_array(CustomResponse::class, class_implements($response['data']))))
-        {
+        if (!(is_object($response['data']) && in_array(CustomResponse::class, class_implements($response['data'])))) {
             return $response;
         }
 
@@ -75,7 +78,7 @@ abstract class Controller extends BaseController
          * @var CustomResponse $customResponse
          */
         $customResponse = $response['data'];
-        $response       = array_merge($response, $customResponse->getTopLevel());
+        $response = array_merge($response, $customResponse->getTopLevel());
 
         $response['data'] = $customResponse->getData();
 
@@ -87,7 +90,7 @@ abstract class Controller extends BaseController
      * @return array
      * @throws InvalidOperationException
      */
-    public static function buildResponse(array $response) : array
+    public static function buildResponse(array $response): array
     {
         $response = self::extractCustomResponse($response);
 
@@ -108,7 +111,7 @@ abstract class Controller extends BaseController
      * @param $messages
      * @return array
      */
-    protected static function formatErrorMessages($messages) : array
+    protected static function formatErrorMessages($messages): array
     {
         // The format we use for error messages is an array of strings.
         // We will always send error messages back as a list of strings and an object.
@@ -141,7 +144,7 @@ abstract class Controller extends BaseController
      * @return StdUserInterface
      * @throws InvalidOperationException
      */
-    public static function getAuthenticatedUser() : StdUserInterface
+    public static function getAuthenticatedUser(): StdUserInterface
     {
         $cb = \Config::get("standardlib.user-fetch");
 
@@ -159,8 +162,8 @@ abstract class Controller extends BaseController
      * Second parameter allows a list of fields to validate.
      * If no rules are passed then all rules are applied.
      *
-     * @param  array  $data
-     * @param  array  $rules
+     * @param  array $data
+     * @param  array $rules
      * @return Validator
      */
     protected function validator(array $data, array $rules = null)
@@ -183,10 +186,10 @@ abstract class Controller extends BaseController
      * @return array
      * @see link to docs
      */
-    public static function getValidatorMessages(Validator $validator) : array
+    public static function getValidatorMessages(Validator $validator): array
     {
-        $failures   =  $validator->errors()->getMessages();
-        $out        = [];
+        $failures = $validator->errors()->getMessages();
+        $out = [];
 
         // Laravel sends back its errors as an associative array, the key being the
         // field that failed and the value an array of error message strings.
@@ -217,7 +220,7 @@ abstract class Controller extends BaseController
         $traits = class_uses($e);
 
         if (in_array(ClientReadable::class, $traits)) {
-            $messages =  ($e instanceof ErrorBag) ? $e->all() : [$e->getMessage()];
+            $messages = ($e instanceof ErrorBag) ? $e->all() : [$e->getMessage()];
         } else {
             if (\Config::get('app.debug')) {
                 $messages = $e->getMessage();
@@ -236,9 +239,9 @@ abstract class Controller extends BaseController
      * @param int|null $int
      * @return int
      */
-    public function perPage(int $int = null) : int
+    public function perPage(int $int = null): int
     {
         $input = Input::get('per_page');
-        return (int)( is_null($int) ? (is_null($input) ? config('app.pagination') : $input) : $int );
+        return (int)(is_null($int) ? (is_null($input) ? config('app.pagination') : $input) : $int);
     }
 }

@@ -46,7 +46,7 @@ class ModelGenerator extends Command
         // we will use the path relative to the root of this installation folder
         // so that migrations may be run for any path within the applications.
         if ($this->input->hasOption('path') && $this->option('path')) {
-            return [$this->laravel->basePath().'/'.$this->option('path')];
+            return [$this->laravel->basePath() . '/' . $this->option('path')];
         }
 
         return array_merge(

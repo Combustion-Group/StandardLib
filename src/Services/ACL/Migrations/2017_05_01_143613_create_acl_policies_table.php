@@ -13,8 +13,7 @@ class CreateAclPoliciesTable extends Migration
      */
     public function up()
     {
-        Schema::create('acl_policies', function (Blueprint $table)
-        {
+        Schema::create('acl_policies', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('action_id')->index();
             $table->integer('role_id')->index();

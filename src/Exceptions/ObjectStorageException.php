@@ -2,4 +2,6 @@
 
 namespace Combustion\StandardLib\Exceptions;
 
-class ObjectStorageException extends BaseException {}
+class ObjectStorageException extends BaseException
+{
+}

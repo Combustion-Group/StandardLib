@@ -2,4 +2,6 @@
 
 namespace Combustion\StandardLib\Exceptions;
 
-class DataMapperException extends \Exception {}
+class DataMapperException extends \Exception
+{
+}

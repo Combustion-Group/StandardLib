@@ -2,8 +2,9 @@
 use Combustion\StandardLib\Services\Assets\AssetsGateway;
 use Combustion\StandardLib\Services\Assets\ImageGateway;
 use Combustion\StandardLib\Services\Assets\FileGateway;
+
 return [
-    AssetsGateway::class  => [
+    AssetsGateway::class => [
         "drivers" => [
             ImageGateway::DOCUMENT_TYPE => [
                 "config" => [
@@ -32,12 +33,12 @@ return [
         ]
     ],
     FileGateway::class => [
-        'cloud_base_url'                => env('COULD_BASE_URL'),
-        'cloud_folder'                  => env('CLOUD_FOLDER'),
-        'local_driver'                  => 'local',
-        'cloud_driver'                  => 's3',
-        'local_document_folder'         => storage_path('app/documents'),
-        'local_document_folder_name'    => 'documents',
-        'keep_local_copy'               => false
+        'cloud_base_url' => env('COULD_BASE_URL'),
+        'cloud_folder' => env('CLOUD_FOLDER'),
+        'local_driver' => 'local',
+        'cloud_driver' => 's3',
+        'local_document_folder' => storage_path('app/documents'),
+        'local_document_folder_name' => 'documents',
+        'keep_local_copy' => false
     ],
 ];

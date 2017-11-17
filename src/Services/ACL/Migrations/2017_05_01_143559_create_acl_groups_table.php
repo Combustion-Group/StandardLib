@@ -13,8 +13,7 @@ class CreateAclGroupsTable extends Migration
      */
     public function up()
     {
-        Schema::create('acl_groups', function (Blueprint $table)
-        {
+        Schema::create('acl_groups', function (Blueprint $table) {
             $table->increments('id');
             $table->string('label')->unique();
         });

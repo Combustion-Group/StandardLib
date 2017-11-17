@@ -13,9 +13,9 @@ trait IteratesFromArray
     /**
      * @var int
      */
-    private $_needle    = 0;
+    private $_needle = 0;
 
-    abstract protected function & getIterable() : array;
+    abstract protected function & getIterable(): array;
 
     /**
      * @return mixed

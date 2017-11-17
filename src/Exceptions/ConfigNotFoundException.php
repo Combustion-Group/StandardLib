@@ -2,4 +2,6 @@
 
 namespace Combustion\StandardLib\Exceptions;
 
-class ConfigNotFoundException extends \Exception {}
+class ConfigNotFoundException extends \Exception
+{
+}

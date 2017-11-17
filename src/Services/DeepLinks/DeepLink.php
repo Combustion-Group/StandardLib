@@ -17,14 +17,14 @@ class DeepLink extends Model
      */
     public $table = 'deep_link_tracker';
 
-    const   ID      = 'id',
-            ACTION  = 'action',
-            URL     = 'url';
+    const   ID = 'id',
+        ACTION = 'action',
+        URL = 'url';
 
     /**
      * @return int
      */
-    public function getId() : int
+    public function getId(): int
     {
         return (int)$this->getAttribute(self::ID);
     }
@@ -32,7 +32,7 @@ class DeepLink extends Model
     /**
      * @return string
      */
-    public function getAction() : string
+    public function getAction(): string
     {
         return (string)$this->getAttribute(self::ACTION);
     }
@@ -41,7 +41,7 @@ class DeepLink extends Model
      * @param string $code
      * @return DeepLink
      */
-    public function setAction(string $code) : DeepLink
+    public function setAction(string $code): DeepLink
     {
         $this->setAttribute(self::ACTION, $code);
         return $this;
@@ -50,7 +50,7 @@ class DeepLink extends Model
     /**
      * @return string
      */
-    public function getUrl() : string
+    public function getUrl(): string
     {
         return (string)$this->getAttribute(self::URL);
     }
@@ -59,7 +59,7 @@ class DeepLink extends Model
      * @param string $url
      * @return DeepLink
      */
-    public function setUrl(string $url) : DeepLink
+    public function setUrl(string $url): DeepLink
     {
         $this->setAttribute(self::URL, $url);
         return $this;

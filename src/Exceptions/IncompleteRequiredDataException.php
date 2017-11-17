@@ -2,7 +2,8 @@
 
 namespace Combustion\StandardLib\Exceptions;
 
-class MissingRequiredDataException extends \Exception {
+class MissingRequiredDataException extends \Exception
+{
 
     private $missing = [];
 
@@ -10,7 +11,7 @@ class MissingRequiredDataException extends \Exception {
      * @param array $missing
      * @return MissingRequiredDataException
      */
-    public function setMissingFields(array $missing) : MissingRequiredDataException
+    public function setMissingFields(array $missing): MissingRequiredDataException
     {
         $this->missing = $missing;
         return $this;
@@ -19,7 +20,7 @@ class MissingRequiredDataException extends \Exception {
     /**
      * @return array
      */
-    public function getMissingFields() : array
+    public function getMissingFields(): array
     {
         return $this->missing;
     }

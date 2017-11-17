@@ -10,4 +10,6 @@ use Combustion\StandardLib\Exceptions\BaseException;
  * @package Combustion\StandardLib\Services\Data\Exceptions
  * @author  Carlos Granados <cgranados@combustiongroup.com>
  */
-class CompilationException extends BaseException {}
+class CompilationException extends BaseException
+{
+}

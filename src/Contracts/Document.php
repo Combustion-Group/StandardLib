@@ -13,7 +13,7 @@ interface Document
     /**
      * @return array
      */
-    public function toArrayDocument() : array;
+    public function toArrayDocument(): array;
 
     /**
      * @param array $document

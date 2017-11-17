@@ -1,6 +1,7 @@
 <?php
 
 namespace Combustion\StandardLib\Services\SystemEvents;
+
 use Illuminate\Contracts\Queue\ShouldQueue;
 
 /**

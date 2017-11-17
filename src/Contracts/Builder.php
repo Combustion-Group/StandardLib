@@ -18,12 +18,12 @@ abstract class Builder implements BuilderInterface
     /**
      * @var array
      */
-    private $params     = [];
+    private $params = [];
 
     /**
      * @var array
      */
-    private $default    = [];
+    private $default = [];
 
     abstract public function build();
 
@@ -52,7 +52,7 @@ abstract class Builder implements BuilderInterface
     /**
      * @return array
      */
-    public function all() : array
+    public function all(): array
     {
         return $this->params;
     }
@@ -61,7 +61,7 @@ abstract class Builder implements BuilderInterface
      * @param string $param
      * @return bool
      */
-    protected function hasParam(string $param) : bool
+    protected function hasParam(string $param): bool
     {
         return array_key_exists($param, $this->params);
     }
@@ -91,8 +91,7 @@ abstract class Builder implements BuilderInterface
      */
     public function getParam(string $param)
     {
-        if (!$this->hasParam($param))
-        {
+        if (!$this->hasParam($param)) {
             if ($this->hasDefault($param)) {
                 return $this->getDefault($param);
             }
@@ -118,7 +117,7 @@ abstract class Builder implements BuilderInterface
     /**
      * @return array
      */
-    protected function getRequired() : array
+    protected function getRequired(): array
     {
         if (defined('self::PARAMS')) {
             return self::PARAMS;

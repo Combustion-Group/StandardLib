@@ -38,14 +38,14 @@ class Parser
      */
     public function __construct(array $config, SchemaTranslator $translator)
     {
-        $this->translator   = $translator;
-        $this->config       = $this->validateConfig($config);
+        $this->translator = $translator;
+        $this->config = $this->validateConfig($config);
     }
 
     /**
      * @return mixed
      */
-    public function getRequiredConfig() : array
+    public function getRequiredConfig(): array
     {
         return ['author_name', 'author_email'];
     }
@@ -54,13 +54,12 @@ class Parser
      * @param Migration $migration
      * @return ModelSpecification
      */
-    public function parse(Migration $migration) : ModelSpecification
+    public function parse(Migration $migration): ModelSpecification
     {
-        $spec   = $this->getSpec();
-        $table  = $migration->table(new Blueprint($migration->getTableName()));
+        $spec = $this->getSpec();
+        $table = $migration->table(new Blueprint($migration->getTableName()));
 
-        foreach ($table->getColumns() as $column)
-        {
+        foreach ($table->getColumns() as $column) {
             /**
              * @var Fluent $column
              */
@@ -68,8 +67,8 @@ class Parser
         }
 
         $spec->setName($table->getTable())
-             ->setAuthorName($this->config['author_name'])
-             ->setAuthorEmail($this->config['author_email']);
+            ->setAuthorName($this->config['author_name'])
+            ->setAuthorEmail($this->config['author_email']);
 
         return $spec;
     }
@@ -77,7 +76,7 @@ class Parser
     /**
      * @return ModelSpecification
      */
-    private function getSpec() : ModelSpecification
+    private function getSpec(): ModelSpecification
     {
         return new ModelSpecification($this->translator, new Columns);
     }

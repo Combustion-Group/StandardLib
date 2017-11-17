@@ -36,14 +36,14 @@ class Compiler
      */
     public function __construct(array $config, Filesystem $filesystem)
     {
-        $this->filesystem   = $filesystem;
-        $this->config       = $this->validateConfig($config);
+        $this->filesystem = $filesystem;
+        $this->config = $this->validateConfig($config);
     }
 
     /**
      * @return array
      */
-    public function getRequiredConfig() : array
+    public function getRequiredConfig(): array
     {
         return ['temp_path'];
     }
@@ -53,7 +53,7 @@ class Compiler
      * @return string
      * @throws CompilationException
      */
-    public function run(ModelSpecification $specification) : string
+    public function run(ModelSpecification $specification): string
     {
         $command = $this->compile($specification);
 
@@ -70,7 +70,7 @@ class Compiler
      * @param ModelSpecification $modelSpecification
      * @return string
      */
-    private function compile(ModelSpecification $modelSpecification) : string
+    private function compile(ModelSpecification $modelSpecification): string
     {
         $command = "\"{$modelSpecification->getNamespace()}\" \"{$modelSpecification->getName()}\" \"{$modelSpecification->getAuthorName()}\" \"{$modelSpecification->getAuthorEmail()}\"";
 

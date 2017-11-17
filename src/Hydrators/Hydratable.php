@@ -14,5 +14,5 @@ interface Hydratable
      * @param array $data
      * @return Hydratable
      */
-    public function hydrate(array $data) : Hydratable;
+    public function hydrate(array $data): Hydratable;
 }

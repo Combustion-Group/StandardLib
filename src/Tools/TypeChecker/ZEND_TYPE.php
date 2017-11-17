@@ -12,17 +12,17 @@ namespace Combustion\StandardLib\Tools\TypeChecker;
  */
 class ZEND_TYPE
 {
-    const   STRING  = '<*' . ('string') . '*>',
-            INT     = '<*' . ('int')    . '*>',
-            FLOAT   = '<*' . ('float')  . '*>',
-            ARRAY   = '<*' . ('array')  . '*>',
-            OBJECT  = '<*' . ('object') . '*>';
+    const   STRING = '<*' . ('string') . '*>',
+        INT = '<*' . ('int') . '*>',
+        FLOAT = '<*' . ('float') . '*>',
+        ARRAY = '<*' . ('array') . '*>',
+        OBJECT = '<*' . ('object') . '*>';
 
     const   ALL = [
-        self::STRING    => self::STRING,
-        self::INT       => self::INT,
-        self::FLOAT     => self::FLOAT,
-        self::ARRAY     => self::ARRAY,
-        self::OBJECT    => self::OBJECT
+        self::STRING => self::STRING,
+        self::INT => self::INT,
+        self::FLOAT => self::FLOAT,
+        self::ARRAY => self::ARRAY,
+        self::OBJECT => self::OBJECT
     ];
 }

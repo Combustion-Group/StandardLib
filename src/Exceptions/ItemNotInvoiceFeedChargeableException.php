@@ -4,4 +4,6 @@ namespace Combustion\Billing\Exceptions;
 
 use Combustion\StandardLib\Exceptions\BaseException;
 
-class ItemNotInvoiceFeedChargeableException extends BaseException {}
+class ItemNotInvoiceFeedChargeableException extends BaseException
+{
+}

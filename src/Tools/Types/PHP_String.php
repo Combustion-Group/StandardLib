@@ -1,6 +1,7 @@
 <?php
 
 namespace Combustion\StandardLib\Tools\Types;
+
 use Combustion\StandardLib\Tools\TypeChecker\ZEND_TYPE;
 
 /**
@@ -29,7 +30,7 @@ class PHP_String
     /**
      * @return string
      */
-    public function __toString() : string
+    public function __toString(): string
     {
         return $this->value;
     }
@@ -37,7 +38,7 @@ class PHP_String
     /**
      * @return string
      */
-    public function type() : string
+    public function type(): string
     {
         return ZEND_TYPE::STRING;
     }

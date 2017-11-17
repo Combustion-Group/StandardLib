@@ -15,7 +15,7 @@ class Role extends Model
     /**
      * @var bool
      */
-    public $timestamps  = false;
+    public $timestamps = false;
 
     /**
      * @var string
@@ -23,13 +23,13 @@ class Role extends Model
     protected $table = 'acl_roles';
 
     // Columns
-    const   LABEL       = 'label',
-            GROUP_ID    = 'group_id';
+    const   LABEL = 'label',
+        GROUP_ID = 'group_id';
 
     /**
      * @return int
      */
-    public function getId() : int
+    public function getId(): int
     {
         return (int)$this->getAttribute(self::ID);
     }
@@ -37,7 +37,7 @@ class Role extends Model
     /**
      * @return string
      */
-    public function getLabel() : string
+    public function getLabel(): string
     {
         return (string)$this->getAttribute(self::LABEL);
     }
@@ -46,7 +46,7 @@ class Role extends Model
      * @param string $label
      * @return Role
      */
-    public function setLabel(string $label) : Role
+    public function setLabel(string $label): Role
     {
         $this->setAttribute(self::LABEL, $label);
         return $this;
@@ -55,7 +55,7 @@ class Role extends Model
     /**
      * @return int
      */
-    public function getGroupId() : int
+    public function getGroupId(): int
     {
         return (int)$this->getAttribute(self::GROUP_ID);
     }
@@ -64,7 +64,7 @@ class Role extends Model
      * @param int $groupId
      * @return Role
      */
-    public function setGroupId(int $groupId) : Role
+    public function setGroupId(int $groupId): Role
     {
         $this->setAttribute(self::GROUP_ID, $groupId);
         return $this;

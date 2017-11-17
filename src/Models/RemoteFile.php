@@ -43,38 +43,38 @@ class RemoteFile implements \JsonSerializable
     {
     }
 
-    public function __toString() : string
+    public function __toString(): string
     {
         return $this->getFullUrl();
     }
 
-    public function jsonSerialize() : string
+    public function jsonSerialize(): string
     {
         return (string)$this;
     }
 
-    public function getSlug() : string
+    public function getSlug(): string
     {
         return (string)$this->slug;
     }
 
-    public function setFileName() : RemoteFile
+    public function setFileName(): RemoteFile
     {
         return (string)$this->fileName;
     }
 
-    public function getExtension() : string
+    public function getExtension(): string
     {
         return (string)$this->extension;
     }
 
-    public function setExtension(string $ext) : RemoteFile
+    public function setExtension(string $ext): RemoteFile
     {
         $this->extension = $ext;
         return $this;
     }
 
-    public function setFullUrl(string $url) : RemoteFile
+    public function setFullUrl(string $url): RemoteFile
     {
         $this->fullUrl = $url;
         return $this;
@@ -83,23 +83,23 @@ class RemoteFile implements \JsonSerializable
     /**
      * @return string
      */
-    public function getFullUrl() : string
+    public function getFullUrl(): string
     {
         return (string)$this->fullUrl;
     }
 
-    public function setDisk(string $disk) : RemoteFile
+    public function setDisk(string $disk): RemoteFile
     {
         $this->disk = $disk;
         return $this;
     }
 
-    public function getDisk() : string
+    public function getDisk(): string
     {
         return (string)$this->disk;
     }
 
-    public function setBaseUrl(string $baseUrl) : RemoteFile
+    public function setBaseUrl(string $baseUrl): RemoteFile
     {
         $this->baseUrl = $baseUrl;
         return $this;

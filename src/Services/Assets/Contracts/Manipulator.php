@@ -1,4 +1,5 @@
 <?php
+
 namespace Combustion\StandardLib\Services\Assets\Contracts;
 
 use Combustion\StandardLib\Services\Assets\Models\Asset;
@@ -18,6 +19,6 @@ interface Manipulator
      *
      * @return \Illuminate\Http\UploadedFile
      */
-    public function manipulate(UploadedFile $file, array $options=[]) : array;
+    public function manipulate(UploadedFile $file, array $options = []): array;
 
 }

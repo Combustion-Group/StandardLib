@@ -21,9 +21,10 @@ class FileUploader
     public $upload_path = '';
 
 
-    public function __construct(File $file, $disk_type = 's3') {
+    public function __construct(File $file, $disk_type = 's3')
+    {
         // A file must be passed
-        if(empty($file)) {
+        if (empty($file)) {
             throw new \Exception('Must provide a valid file');
         }
         // Set FileUploader properties
@@ -33,10 +34,11 @@ class FileUploader
 
     // upload the file
     // set the disk upload path and permission
-    function uploadFile($upload_path = '') {
+    function uploadFile($upload_path = '')
+    {
         // if no upload path was given, use the class's upload path value
         // otherwise set the class's upload path value
-        if(empty($upload_path)) {
+        if (empty($upload_path)) {
             $upload_path = $this->upload_path;
         } else {
             $this->upload_path = $upload_path;
@@ -50,35 +52,38 @@ class FileUploader
     // e.g. documents/videos
     // testing a theory of mine
 
-    function getUploadPath(){
+    function getUploadPath()
+    {
         return $this->upload_path;
     }
 
     // get the default disk path for file upload
     // currently the default upload path is the temp location of the file
     // e.g. tmp/phpiO5v
-    function getDefaultUploadPath() {
+    function getDefaultUploadPath()
+    {
         return $this->file->getRealPath();
     }
 
     // clear out the local disk after the file has been uploaded to the target disk
-    function clearLocalDisk() {
+    function clearLocalDisk()
+    {
         $local_file_url = $this->file->getRealPath();
         Storage::disk('local')->delete($local_file_url);
     }
 
     // get the Storage disk that the file is going to be stored on
-    function getDisk() {
+    function getDisk()
+    {
         return $this->disk;
     }
 
     // get the full path to the file on the Disk
     // e.g. https://s3.amazonaws.com/kassir/documents/videos/health_tips.mp4
-    function getFileUrlOnDisk() {
+    function getFileUrlOnDisk()
+    {
         return $this->disk->url("$this->upload_path");
     }
-
-
 
 
 }

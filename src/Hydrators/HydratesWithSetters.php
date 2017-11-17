@@ -15,12 +15,12 @@ trait HydratesWithSetters
 
     /**
      * @param array $data
-     * @param bool  $strict
+     * @param bool $strict
      * @throws UnresolvableSetterException
      */
     public function fill(array $data, bool $strict = true)
     {
-        foreach($data as $key => $value) {
+        foreach ($data as $key => $value) {
             $setter = $this->resolveSetter($key, $strict);
             if ($setter === false) {
                 continue;
@@ -31,7 +31,7 @@ trait HydratesWithSetters
 
     /**
      * @param string $key
-     * @param bool   $failIfNotFound
+     * @param bool $failIfNotFound
      * @return mixed
      * @throws UnresolvableSetterException
      */

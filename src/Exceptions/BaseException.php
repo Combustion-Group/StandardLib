@@ -23,24 +23,24 @@ class BaseException extends \Exception
     /**
      * BaseException constructor.
      *
-     * @param string     $message
-     * @param array      $context
-     * @param null       $userMsgCode
-     * @param int        $code
+     * @param string $message
+     * @param array $context
+     * @param null $userMsgCode
+     * @param int $code
      * @param \Exception $previous
      */
     public function __construct($message = "", array $context = [], $userMsgCode = null, $code = 0, \Exception $previous = null)
     {
         parent::__construct($message, $code, $previous);
 
-        $this->context            = $context;
+        $this->context = $context;
         $this->userMessageCode = $userMsgCode;
     }
 
     /**
      * @return mixed
      */
-    public function getContext() : array
+    public function getContext(): array
     {
         return $this->context;
     }
@@ -48,8 +48,8 @@ class BaseException extends \Exception
     /**
      * @return bool
      */
-    public function hasUserMessageCode() : bool
+    public function hasUserMessageCode(): bool
     {
-        return ! ($this->userMessageCode === null);
+        return !($this->userMessageCode === null);
     }
 }

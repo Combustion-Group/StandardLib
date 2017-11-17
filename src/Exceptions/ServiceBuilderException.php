@@ -2,4 +2,6 @@
 
 namespace Combustion\StandardLib\Exceptions;
 
-class ServiceBuilderException extends BaseException {}
+class ServiceBuilderException extends BaseException
+{
+}

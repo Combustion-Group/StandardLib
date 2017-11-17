@@ -14,11 +14,11 @@ interface DataGenerator
      * @param array $data
      * @return \Generator
      */
-    public function generate(array $data) : \Generator;
+    public function generate(array $data): \Generator;
 
     /**
      * @param array $data
      * @return array
      */
-    public function toList(array $data) : array;
+    public function toList(array $data): array;
 }

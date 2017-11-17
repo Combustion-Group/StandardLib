@@ -15,7 +15,7 @@ use Combustion\StandardLib\Contracts\PackageConfig;
  */
 class Config implements PackageConfig
 {
-    public static function all() : array
+    public static function all(): array
     {
         return [
             /*
@@ -33,7 +33,7 @@ class Config implements PackageConfig
             */
 
             // todo: this shit needs to not be here at all.
-            'user-fetch'    => function () {
+            'user-fetch' => function () {
                 return \JWTAuth::parseToken()->authenticate();
             }
         ];

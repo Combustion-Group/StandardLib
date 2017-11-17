@@ -68,7 +68,7 @@ class PaginatedResponse implements CustomResponse
      * @param Paginator $paginationObject
      * @return array
      */
-    public function extractPaginationData(Paginator $paginationObject):array
+    public function extractPaginationData(Paginator $paginationObject): array
     {
         $total = 0;
 
@@ -78,17 +78,16 @@ class PaginatedResponse implements CustomResponse
         // some pagination classes will comeback without it
         // this will prevent an exception but we lose the
         // ability to know how many object we have in total
-        if(method_exists($paginationObject,'total'))
-        {
+        if (method_exists($paginationObject, 'total')) {
             $total = $paginationObject->total();
         }
 
         // make option array
         $options = [
-            "total"         => $total,
-            "per_page"      => $paginationObject->perPage(),
-            "current_page"  => $paginationObject->currentPage(),
-            "last_page"     => ceil($total/$paginationObject->perPage()),
+            "total" => $total,
+            "per_page" => $paginationObject->perPage(),
+            "current_page" => $paginationObject->currentPage(),
+            "last_page" => ceil($total / $paginationObject->perPage()),
             "next_page_url" => $paginationObject->nextPageUrl(),
             "prev_page_url" => $paginationObject->previousPageUrl()
         ];
@@ -100,7 +99,7 @@ class PaginatedResponse implements CustomResponse
      * @param string $url
      * @return PaginatedResponse
      */
-    public function setPrevPageUrl($url) : PaginatedResponse
+    public function setPrevPageUrl($url): PaginatedResponse
     {
         $this->prevPageUrl = $url;
         return $this;
@@ -130,7 +129,7 @@ class PaginatedResponse implements CustomResponse
      * @param int $currentPage
      * @return PaginatedResponse
      */
-    public function setCurrentPage($currentPage) : PaginatedResponse
+    public function setCurrentPage($currentPage): PaginatedResponse
     {
         $this->currentPage = $currentPage;
         return $this;
@@ -140,7 +139,7 @@ class PaginatedResponse implements CustomResponse
      * @param int $perPage
      * @return PaginatedResponse
      */
-    public function setPerPage($perPage) : PaginatedResponse
+    public function setPerPage($perPage): PaginatedResponse
     {
         $this->perPage = $perPage;
         return $this;
@@ -150,7 +149,7 @@ class PaginatedResponse implements CustomResponse
      * @param array $data
      * @return PaginatedResponse
      */
-    public function setData(array $data) : PaginatedResponse
+    public function setData(array $data): PaginatedResponse
     {
         $this->data = $data;
         return $this;
@@ -160,7 +159,7 @@ class PaginatedResponse implements CustomResponse
      * @param int $total
      * @return PaginatedResponse
      */
-    public function setTotal(int $total) : PaginatedResponse
+    public function setTotal(int $total): PaginatedResponse
     {
         $this->total = $total;
         return $this;
@@ -169,7 +168,7 @@ class PaginatedResponse implements CustomResponse
     /**
      * @return array
      */
-    public function getData() : array
+    public function getData(): array
     {
         return $this->data;
     }
@@ -177,14 +176,14 @@ class PaginatedResponse implements CustomResponse
     /**
      * @return array
      */
-    public function getTopLevel() : array
+    public function getTopLevel(): array
     {
         return [
-            'pagination'    => [
-                'total'         => $this->total,
-                'per_page'      => $this->perPage,
-                'current_page'  => $this->currentPage,
-                'last_page'     => $this->lastPage,
+            'pagination' => [
+                'total' => $this->total,
+                'per_page' => $this->perPage,
+                'current_page' => $this->currentPage,
+                'last_page' => $this->lastPage,
                 'next_page_url' => $this->nextPageUrl,
                 'prev_page_url' => $this->prevPageUrl
             ]

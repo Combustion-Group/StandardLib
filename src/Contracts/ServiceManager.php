@@ -5,7 +5,8 @@ namespace Combustion\StandardLib\Contracts;
 use Illuminate\Foundation\Application;
 use InvalidArgumentException;
 
-abstract class ServiceManager {
+abstract class ServiceManager
+{
 
     /**
      * @var Application
@@ -45,12 +46,12 @@ abstract class ServiceManager {
     /**
      * @return string
      */
-    abstract public function getDefaultService() : string;
+    abstract public function getDefaultService(): string;
 
     /**
      * Get a cache store instance by name.
      *
-     * @param  string|null  $name
+     * @param  string|null $name
      * @return mixed
      */
     public function store($name = null)
@@ -73,7 +74,7 @@ abstract class ServiceManager {
     /**
      * Get a cache driver instance.
      *
-     * @param  string  $driver
+     * @param  string $driver
      * @return mixed
      */
     public function driver($driver = null)
@@ -84,7 +85,7 @@ abstract class ServiceManager {
     /**
      * Attempt to get the store from the local cache.
      *
-     * @param  string  $name
+     * @param  string $name
      * @return \Illuminate\Contracts\Cache\Repository
      */
     protected function get($name)
@@ -95,7 +96,7 @@ abstract class ServiceManager {
     /**
      * Resolve the given store.
      *
-     * @param  string  $name
+     * @param  string $name
      * @return \Illuminate\Contracts\Cache\Repository
      *
      * @throws \InvalidArgumentException
@@ -111,7 +112,7 @@ abstract class ServiceManager {
         if (isset($this->customCreators[$config['driver']])) {
             return $this->callCustomCreator($config);
         } else {
-            $driverMethod = 'create'.ucfirst($config['driver']).'Driver';
+            $driverMethod = 'create' . ucfirst($config['driver']) . 'Driver';
 
             if (method_exists($this, $driverMethod)) {
                 return $this->{$driverMethod}($config);
@@ -124,7 +125,7 @@ abstract class ServiceManager {
     /**
      * Call a custom driver creator.
      *
-     * @param  array  $config
+     * @param  array $config
      * @return mixed
      */
     protected function callCustomCreator(array $config)

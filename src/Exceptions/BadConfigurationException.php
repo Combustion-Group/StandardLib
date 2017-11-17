@@ -2,4 +2,6 @@
 
 namespace Combustion\StandardLib\Exceptions;
 
-class BadConfigurationException extends \Exception {}
+class BadConfigurationException extends \Exception
+{
+}

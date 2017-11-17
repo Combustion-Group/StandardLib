@@ -10,4 +10,6 @@ use Combustion\StandardLib\Exceptions\BaseException;
  * @package Combustion\StandardLib\Services\ACL\Exceptions
  * @author  Carlos Granados <cgranados@combustiongroup.com>
  */
-class AclException extends BaseException {}
+class AclException extends BaseException
+{
+}

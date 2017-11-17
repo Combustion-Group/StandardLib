@@ -15,7 +15,7 @@ class MessageBag extends LaravelMessageBag
      * @param $messages
      * @return MessageBag
      */
-    public function mergeWith($key, $messages) : MessageBag
+    public function mergeWith($key, $messages): MessageBag
     {
         if (!isset($this->messages[$key])) {
             $this->messages[$key] = [];

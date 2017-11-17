@@ -8,4 +8,8 @@ namespace Combustion\StandardLib\Exceptions;
  * @package Combustion\StandardLib\Exceptions
  * @author  Carlos Granados <cgranados@combustiongroup.com>
  */
-class BuilderException extends \Exception {};
+class BuilderException extends \Exception
+{
+}
+
+;

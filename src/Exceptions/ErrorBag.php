@@ -34,12 +34,12 @@ class ErrorBag extends \Exception implements \Countable
      */
     public function __construct($messages = [], $code = 0, \Exception $previous = null)
     {
-        parent::__construct('', $code, $previous);
         if (is_array($messages)) {
             $this->errorBag = new MessageBag($messages);
         } elseif ($messages instanceof MessageBag) {
             $this->errorBag = $messages;
         }
+        parent::__construct('', $code, $previous);
     }
 
     /**
@@ -67,7 +67,7 @@ class ErrorBag extends \Exception implements \Countable
     /**
      * @inheritdoc
      */
-    public function __toString() :string
+    public function __toString(): string
     {
         return $this->getMessage();
     }

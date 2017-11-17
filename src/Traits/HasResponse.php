@@ -22,7 +22,7 @@ trait HasResponse
     /**
      * @return bool
      */
-    public function hasResponse() : bool
+    public function hasResponse(): bool
     {
         return $this->hasResponse;
     }
@@ -30,7 +30,7 @@ trait HasResponse
     /**
      * @return array
      */
-    public function getResponse() : array
+    public function getResponse(): array
     {
         return $this->response;
     }
@@ -42,14 +42,14 @@ trait HasResponse
      * @param $code
      * @return HasResponse
      */
-    public function response($body, $status, $message, $code) : self
+    public function response($body, $status, $message, $code): self
     {
-        $this->hasResponse  = true;
-        $this->response     = [
-            'body'      => $body,
-            'status'    => $status,
-            'message'   => $message,
-            'code'      => $code
+        $this->hasResponse = true;
+        $this->response = [
+            'body' => $body,
+            'status' => $status,
+            'message' => $message,
+            'code' => $code
         ];
 
         return $this;

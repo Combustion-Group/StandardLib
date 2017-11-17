@@ -40,7 +40,7 @@ abstract class BaseServiceProvider extends LaravelServiceProvider
     /**
      * @return mixed
      */
-    protected function getConfig() : array
+    protected function getConfig(): array
     {
         return static::$configuration;
     }

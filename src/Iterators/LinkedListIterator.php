@@ -33,8 +33,8 @@ class LinkedListIterator implements \Iterator
      */
     public function __construct(Node $linkedList)
     {
-        $this->root     = $this->head($linkedList);
-        $this->current  = $this->root;
+        $this->root = $this->head($linkedList);
+        $this->current = $this->root;
     }
 
     /**
@@ -42,10 +42,10 @@ class LinkedListIterator implements \Iterator
      * @param Node $linkedList
      * @return Node
      */
-    private function head(Node $linkedList) : Node
+    private function head(Node $linkedList): Node
     {
         // Check if we're at the head or if there's only one transaction
-        if (! $linkedList->hasParent() || (! $linkedList->hasChild() && ! $linkedList->hasParent())) {
+        if (!$linkedList->hasParent() || (!$linkedList->hasChild() && !$linkedList->hasParent())) {
             return $linkedList;
         }
 
@@ -69,7 +69,7 @@ class LinkedListIterator implements \Iterator
     /**
      * @return bool
      */
-    public function valid() : bool
+    public function valid(): bool
     {
         return $this->hasChild;
     }
@@ -85,7 +85,7 @@ class LinkedListIterator implements \Iterator
     /**
      * @return Node
      */
-    public function current() : Node
+    public function current(): Node
     {
         return $this->current;
     }

@@ -1,4 +1,5 @@
 <?php
+
 namespace Combustion\StandardLib\Services\Assets\Support;
 
 use Combustion\StandardLib\Services\Assets\AssetsGateway;
@@ -27,7 +28,7 @@ class AssetServiceProvider extends ServiceProvider
             $config = $app['config']['core.packages'][AssetsGateway::class];
             // build drivers array
             $drivers = array();
-            foreach ($config['drivers'] as $driverName  => $driverInfo) {
+            foreach ($config['drivers'] as $driverName => $driverInfo) {
                 $drivers[$driverName] = $app->make($driverInfo['class']);
             }
             return new AssetsGateway(
@@ -39,7 +40,7 @@ class AssetServiceProvider extends ServiceProvider
             $config = $app['config']['core.packages'][AssetsGateway::class]['drivers'][ImageGateway::DOCUMENT_TYPE]['config'];
             // build drivers array
             $manipulators = array();
-            foreach ($config['manipulators'] as $manipulatorName  => $driverInfo) {
+            foreach ($config['manipulators'] as $manipulatorName => $driverInfo) {
                 $manipulators[$manipulatorName] = $app->make($driverInfo['class']);
             }
             return new ImageGateway(

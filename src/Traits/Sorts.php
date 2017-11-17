@@ -1,6 +1,7 @@
 <?php
 
 namespace Combustion\StandardLib\Traits;
+
 use Combustion\StandardLib\Exceptions\BadConfigurationException;
 
 /**
@@ -46,18 +47,16 @@ trait Sorts
     {
         $init = (int)floor((count($array) - 1) / 2);
 
-        for($i = $init; $i >= 0; $i--)
-        {
+        for ($i = $init; $i >= 0; $i--) {
             $count = count($array) - 1;
 
             $this->buildHeap($array, $i, $count);
         }
 
-        for ($i = (count($array) - 1); $i >= 1; $i--)
-        {
-            $tmp_var    = $array[0];
-            $array[0]   = $array[$i];
-            $array[$i]  = $tmp_var;
+        for ($i = (count($array) - 1); $i >= 1; $i--) {
+            $tmp_var = $array[0];
+            $array[0] = $array[$i];
+            $array[$i] = $tmp_var;
 
             $this->buildHeap($array, 0, $i - 1);
         }
@@ -67,13 +66,14 @@ trait Sorts
      * In the order of O(nk)
      * @param $array
      */
-    public function radixSort(&$array) {
+    public function radixSort(&$array)
+    {
         // Find the number of passes needed to complete the sort
-        $passes     = strlen((string)max($array));
-        $buckets    = [];
+        $passes = strlen((string)max($array));
+        $buckets = [];
 
         // Start the passes
-        for($i = 1; $i <= $passes; $i++) {
+        for ($i = 1; $i <= $passes; $i++) {
             // Create - reinitialize some buckets
             for ($b = 0; $b <= 9; $b++) {
                 $buckets[$b] = [];
@@ -117,18 +117,18 @@ trait Sorts
      */
     protected function buildHeap(&$array, $i, $t)
     {
-        $tmp_var    = $array[$i];
-        $j          = $i * 2 + 1;
+        $tmp_var = $array[$i];
+        $j = $i * 2 + 1;
 
-        while ($j <= $t)  {
-            if($j < $t)
-                if($array[$j] < $array[$j + 1]) {
+        while ($j <= $t) {
+            if ($j < $t)
+                if ($array[$j] < $array[$j + 1]) {
                     $j = $j + 1;
                 }
-            if($tmp_var < $array[$j]) {
-                $array[$i]  = $array[$j];
-                $i          = $j;
-                $j          = 2 * $i + 1;
+            if ($tmp_var < $array[$j]) {
+                $array[$i] = $array[$j];
+                $i = $j;
+                $j = 2 * $i + 1;
             } else {
                 $j = $t + 1;
             }

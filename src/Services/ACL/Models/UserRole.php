@@ -15,7 +15,7 @@ class UserRole extends Model
     /**
      * @var bool
      */
-    public $timestamps  = false;
+    public $timestamps = false;
 
     /**
      * @var string
@@ -24,12 +24,12 @@ class UserRole extends Model
 
     // Columns
     const   USER_ID = 'user_id',
-            ROLE_ID = 'role_id';
+        ROLE_ID = 'role_id';
 
     /**
      * @return int
      */
-    public function getId() : int
+    public function getId(): int
     {
         return (int)$this->getAttribute(self::ID);
     }
@@ -37,7 +37,7 @@ class UserRole extends Model
     /**
      * @return int
      */
-    public function getUserId() : int
+    public function getUserId(): int
     {
         return (int)$this->getAttribute(self::USER_ID);
     }
@@ -46,7 +46,7 @@ class UserRole extends Model
      * @param int $userId
      * @return UserRole
      */
-    public function setUserId(int $userId) : UserRole
+    public function setUserId(int $userId): UserRole
     {
         $this->setAttribute(self::USER_ID, $userId);
         return $this;
@@ -55,7 +55,7 @@ class UserRole extends Model
     /**
      * @return int
      */
-    public function getRoleId() : int
+    public function getRoleId(): int
     {
         $this->getAttribute(self::ROLE_ID);
     }
@@ -64,7 +64,7 @@ class UserRole extends Model
      * @param int $roleId
      * @return UserRole
      */
-    public function setRoleId(int $roleId) : UserRole
+    public function setRoleId(int $roleId): UserRole
     {
         $this->setAttribute(self::ROLE_ID, $roleId);
         return $this;

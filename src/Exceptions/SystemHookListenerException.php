@@ -2,4 +2,6 @@
 
 namespace Combustion\StandardLib\Exceptions;
 
-class SystemHookListenerException extends \Exception {}
+class SystemHookListenerException extends \Exception
+{
+}

@@ -2,4 +2,6 @@
 
 namespace Combustion\StandardLib\Tools\TypeChecker;
 
-class TypeValidationException extends \Exception {}
+class TypeValidationException extends \Exception
+{
+}

@@ -15,29 +15,29 @@ class EloquentTranslator implements SchemaTranslator
 {
     protected $dictionary = [
         'bigIncrements' => 'int',
-        'bigInteger'    => 'int',
-        'binary'        => null,
-        'boolean'       => 'bool',
-        'char'          => 'string',
-        'date'          => 'string',
-        'dateTime'      => 'string',
-        'dateTimeTz'    => 'string',
-        'decimal'       => 'float',
-        'double'        => 'float',
-        'enum'          => null,
-        'float'         => 'float',
-        'ipAddress'     => 'string',
-        'json'          => 'string',
-        'string'        => 'string',
-        'text'          => 'text',
-        'time'          => 'string',
-        'timestamp'     => 'string'
+        'bigInteger' => 'int',
+        'binary' => null,
+        'boolean' => 'bool',
+        'char' => 'string',
+        'date' => 'string',
+        'dateTime' => 'string',
+        'dateTimeTz' => 'string',
+        'decimal' => 'float',
+        'double' => 'float',
+        'enum' => null,
+        'float' => 'float',
+        'ipAddress' => 'string',
+        'json' => 'string',
+        'string' => 'string',
+        'text' => 'text',
+        'time' => 'string',
+        'timestamp' => 'string'
     ];
 
     /**
      * @return string
      */
-    public function __toString() : string
+    public function __toString(): string
     {
         return 'eloquent';
     }
@@ -46,7 +46,7 @@ class EloquentTranslator implements SchemaTranslator
      * @param string $name
      * @return string
      */
-    public function translateType(string $name) : string
+    public function translateType(string $name): string
     {
         if (!array_key_exists($name, $this->dictionary)) {
             throw new TranslationException("Invalid/unrecognized type {$name}");

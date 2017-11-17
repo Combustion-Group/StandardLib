@@ -1,4 +1,5 @@
 <?php
+
 namespace Combustion\StandardLib\Services\Assets\Traits;
 
 
@@ -17,17 +18,17 @@ trait HasAssets
     /**
      * Get all of the assets for the post.
      */
-    public function assets() : MorphToMany
+    public function assets(): MorphToMany
     {
-        return $this->morphToMany(Asset::class,'resource','resource_asset','resource_id','asset_id')->withPivot('primary','resource_type')->withTimestamps();
+        return $this->morphToMany(Asset::class, 'resource', 'resource_asset', 'resource_id', 'asset_id')->withPivot('primary', 'resource_type')->withTimestamps();
     }
 
     /**
      * @return mixed
      */
-    public function primaryAsset() : MorphToMany
+    public function primaryAsset(): MorphToMany
     {
-        return $this->assets()->wherePivot('primary',1);
+        return $this->assets()->wherePivot('primary', 1);
     }
 
     /**
@@ -42,20 +43,17 @@ trait HasAssets
      * @param bool $primary
      * @return HasAssetsInterface
      */
-    public function attachAsset(Asset $asset,bool $primary = false) : HasAssetsInterface
+    public function attachAsset(Asset $asset, bool $primary = false): HasAssetsInterface
     {
         // otherwise attach the asset to the resource
-        if($primary)
-        {
+        if ($primary) {
             // check if the current document can be adder as a primary asset
             $this->takeOutExistingPrimaryAsset();
             // take out existing primary asset if any and save new asset at primary
-            $this->assets()->save($asset,['primary' => true]);
+            $this->assets()->save($asset, ['primary' => true]);
             // once save as primary we can trigger the listener
             $this->bringPrimaryAssetUrlToTopLevelOfModel();
-        }
-        else
-        {
+        } else {
             $this->assets()->save($asset);
         }
         return $this;
@@ -64,13 +62,12 @@ trait HasAssets
     /**
      *
      */
-    public function takeOutExistingPrimaryAsset() : bool
+    public function takeOutExistingPrimaryAsset(): bool
     {
         // fetch the primary asset
         $primary_asset = $this->primaryAsset()->first();
         // if its found
-        if($primary_asset)
-        {
+        if ($primary_asset) {
             // take out primary
             $primary_asset->pivot->primary = false;
             // save
@@ -85,12 +82,11 @@ trait HasAssets
      * brings it to the to p level of the
      * model
      */
-    public function bringPrimaryAssetUrlToTopLevelOfModel() : bool
+    public function bringPrimaryAssetUrlToTopLevelOfModel(): bool
     {
         // if the model implementing hasAssetsInterface has primaryAssetsField
-        if(isset($this->primaryAssetsField))
-        {
-            $fieldName=$this->primaryAssetsField;
+        if (isset($this->primaryAssetsField)) {
+            $fieldName = $this->primaryAssetsField;
             // put all urls on the top level
             $this->$fieldName = [
                 'original' => $this->primaryAsset()->get()->first()->document->image_file->url,
@@ -100,9 +96,8 @@ trait HasAssets
             ];
         }
         // if the object has primary assetField
-        if(isset($this->primaryAssetField))
-        {
-            $fieldName=$this->primaryAssetField;
+        if (isset($this->primaryAssetField)) {
+            $fieldName = $this->primaryAssetField;
             // just place the original image
             $this->$fieldName = $this->primaryAsset()->get()->first()->document->image_file->url;
         }

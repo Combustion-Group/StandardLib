@@ -2,8 +2,9 @@
 
 namespace Combustion\StandardLib\Contracts;
 
-interface PackageConfig {
+interface PackageConfig
+{
 
-    public static function all() : array;
+    public static function all(): array;
 
 }

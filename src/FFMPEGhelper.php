@@ -1,4 +1,5 @@
 <?php
+
 namespace Combustion\StandardLib;
 
 use Combustion\StandardLib\Exceptions\InvalidThumbnailFileFormat;
@@ -56,14 +57,14 @@ class FFMPEGhelper
         $this->buildFilesArray();
         // get binaries for ffmpeg and ffmprobe
         $this->ffmpeg = FFMpeg::create(array(
-            'ffmpeg.binaries'  => exec('which ffmpeg'),
+            'ffmpeg.binaries' => exec('which ffmpeg'),
             'ffprobe.binaries' => exec('which ffprobe')
         ));
         // set storage to storage path give or make one in
         $this->storagePath = $storagePath ? $storagePath : storage_path();
-        $this->videosPath = $storagePath ? $storagePath : $this->storagePath.'/app/tmp/videos/';
-        $this->thumbnailsPath = $storagePath ? $storagePath : $this->storagePath.'/app/tmp/thumbnails/';
-        $this->checkForPaths([$this->storagePath,$this->videosPath,$this->thumbnailsPath]);
+        $this->videosPath = $storagePath ? $storagePath : $this->storagePath . '/app/tmp/videos/';
+        $this->thumbnailsPath = $storagePath ? $storagePath : $this->storagePath . '/app/tmp/thumbnails/';
+        $this->checkForPaths([$this->storagePath, $this->videosPath, $this->thumbnailsPath]);
     }
 
     /**
@@ -73,13 +74,11 @@ class FFMPEGhelper
     private function checkForPaths(array $driArray)
     {
         // for each directory
-        foreach ($driArray as $dir)
-        {
+        foreach ($driArray as $dir) {
             // check if the file exists (It checks for directory)
-            if(!file_exists($dir))
-            {
+            if (!file_exists($dir)) {
                 // if not found throw exception
-                throw new LocalDirectoryNotFoundException($dir.' was not found, create directory and run again.');
+                throw new LocalDirectoryNotFoundException($dir . ' was not found, create directory and run again.');
             }
         }
     }
@@ -105,7 +104,7 @@ class FFMPEGhelper
      * @param null $videoFormat
      * @return $this
      */
-    public function convert($fileName , $finalPath = null, $format = null , $videoFormat = null)
+    public function convert($fileName, $finalPath = null, $format = null, $videoFormat = null)
     {
         $this->checkForCurrentVideo();
         // check if video format is available for converting
@@ -113,7 +112,7 @@ class FFMPEGhelper
         // get current video
         $videoCurrentPath = $this->currentVideoPath;
         // make final path
-        $finalPath = $finalPath ? $finalPath.$fileName.'.'.$format : $this->videosPath.$fileName.'.'.$format;
+        $finalPath = $finalPath ? $finalPath . $fileName . '.' . $format : $this->videosPath . $fileName . '.' . $format;
         // user ffmpeg CLI to convert video to mp4
         exec("ffmpeg -i $videoCurrentPath -vcodec copy -acodec copy $finalPath");
         // push data to files array
@@ -129,13 +128,13 @@ class FFMPEGhelper
      * @param null $size
      * @return $this
      */
-    public function thumbnail($second , $fileName , $format = null , $size = null)
+    public function thumbnail($second, $fileName, $format = null, $size = null)
     {
         $this->checkForCurrentVideo();
         // check image format
         $format = $this->checkImageFormat($format);
         // make path of the thumbnail
-        $finalPath = $this->thumbnailsPath.$fileName.'.'.$format;
+        $finalPath = $this->thumbnailsPath . $fileName . '.' . $format;
         // make video thumbnail
         $this->video->frame(TimeCode::fromSeconds($second))->save($finalPath);
         // push to files array
@@ -184,25 +183,21 @@ class FFMPEGhelper
     public function cleanUp($original = false)
     {
         // clean all converted videos
-        foreach ($this->filesArray['converted'] as $file)
-        {
+        foreach ($this->filesArray['converted'] as $file) {
             $this->deleteFile($file);
         }
         // clean reference array
         $this->cleanConverted();
         // clean all converted thumbnails
-        foreach ($this->filesArray['thumbnails'] as $file)
-        {
+        foreach ($this->filesArray['thumbnails'] as $file) {
             $this->deleteFile($file);
         }
         // clean reference array
         $this->cleanThumbnails();
         // if original is set to be deleted
-        if($original)
-        {
+        if ($original) {
             // clean all original videos
-            foreach ($this->filesArray['videos'] as $file)
-            {
+            foreach ($this->filesArray['videos'] as $file) {
                 $this->deleteFile($file);
             }
             // clean reference array
@@ -219,7 +214,7 @@ class FFMPEGhelper
      */
     private function deleteFile($file)
     {
-        exec('rm -rf '.$file);
+        exec('rm -rf ' . $file);
     }
 
     /**
@@ -227,8 +222,7 @@ class FFMPEGhelper
      */
     private function checkForCurrentVideo()
     {
-        if(!$this->currentVideoPath)
-        {
+        if (!$this->currentVideoPath) {
             throw new MissingVideoException('Use the video function to add a video');
         }
     }

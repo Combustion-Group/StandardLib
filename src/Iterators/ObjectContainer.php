@@ -30,7 +30,7 @@ abstract class ObjectContainer implements \Iterator, \ArrayAccess
     /**
      * @return array
      */
-    protected function & getIterable() : array
+    protected function & getIterable(): array
     {
         return $this->data;
     }

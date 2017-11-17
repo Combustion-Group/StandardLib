@@ -15,7 +15,7 @@ class TableAliasResolver
 
     }
 
-    public function resolve(string $table) : string
+    public function resolve(string $table): string
     {
         return $table;
     }

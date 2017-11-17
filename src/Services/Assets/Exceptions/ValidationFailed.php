@@ -8,4 +8,6 @@ namespace Combustion\StandardLib\Services\Assets\Exceptions;
  * @package Combustion\StandardLib\Services\Assets\Exceptions
  * @author Luis A. Perez <lperez@combustiongroup.com>
  */
-class ValidationFailed extends \Exception{}
+class ValidationFailed extends \Exception
+{
+}

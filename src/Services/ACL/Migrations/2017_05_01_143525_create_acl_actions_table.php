@@ -13,7 +13,7 @@ class CreateAclActionsTable extends Migration
      */
     public function up()
     {
-        Schema::create('acl_actions', function (Blueprint $table){
+        Schema::create('acl_actions', function (Blueprint $table) {
             $table->increments('id');
             $table->string('label')->index();
         });

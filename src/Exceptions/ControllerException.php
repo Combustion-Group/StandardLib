@@ -2,4 +2,6 @@
 
 namespace Combustion\StandardLib\Exceptions;
 
-class ControllerException extends BaseException {}
+class ControllerException extends BaseException
+{
+}

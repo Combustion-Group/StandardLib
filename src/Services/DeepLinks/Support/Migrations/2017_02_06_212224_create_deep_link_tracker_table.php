@@ -13,8 +13,7 @@ class CreateDeepLinkTrackerTable extends Migration
      */
     public function up()
     {
-        Schema::create('deep_link_tracker', function (Blueprint $table)
-        {
+        Schema::create('deep_link_tracker', function (Blueprint $table) {
             $table->increments('id');
             $table->string('action')->unique();
             $table->text('url');

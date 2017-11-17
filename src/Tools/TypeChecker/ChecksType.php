@@ -17,7 +17,7 @@ trait ChecksType
      * @param        $item
      * @return bool
      */
-    public function validateType(string $type, $item) : bool
+    public function validateType(string $type, $item): bool
     {
         // Check if we want zend type
         if (array_key_exists($type, ZEND_TYPE::ALL)) {
@@ -37,7 +37,7 @@ trait ChecksType
      * @return bool
      * @throws TypeValidationException
      */
-    public function checkZendType(string $type, $item) : bool
+    public function checkZendType(string $type, $item): bool
     {
         $result = false;
 

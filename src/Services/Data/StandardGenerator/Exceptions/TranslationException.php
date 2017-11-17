@@ -10,4 +10,6 @@ use Combustion\StandardLib\Exceptions\BaseException;
  * @package Combustion\StandardLib\Services\Data\ModelGenerator\Exceptions
  * @author  Carlos Granados <cgranados@combustiongroup.com>
  */
-class TranslationException extends BaseException {}
+class TranslationException extends BaseException
+{
+}

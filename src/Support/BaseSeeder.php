@@ -15,7 +15,7 @@ abstract class BaseSeeder extends Seeder
     /**
      * @return string
      */
-    abstract public function getPackage() : string;
+    abstract public function getPackage(): string;
 
     /**
      * @param array $source String list
@@ -23,10 +23,10 @@ abstract class BaseSeeder extends Seeder
      * @param string $column Column to unique on in the $data array
      * @return array
      */
-    protected function dictionaryFilterList(array $source, array $data, string $column) : array
+    protected function dictionaryFilterList(array $source, array $data, string $column): array
     {
-        $new 	= array_column($data, $column);
-        $keep 	= array_diff($new, $source);
+        $new = array_column($data, $column);
+        $keep = array_diff($new, $source);
 
         return array_intersect_key($data, $keep);
     }
@@ -35,11 +35,11 @@ abstract class BaseSeeder extends Seeder
      * @return array
      * @throws BadSeederException
      */
-    protected function getEntries() : array
+    protected function getEntries(): array
     {
-        $seeder     = get_called_class();
-        $package    = $this->getPackage();
-        $data       = \Config::get("{$package}.seeders.{$seeder}");
+        $seeder = get_called_class();
+        $package = $this->getPackage();
+        $data = \Config::get("{$package}.seeders.{$seeder}");
 
         if (!$data) {
             throw new BadSeederException("There is no data configured for seeder {$seeder}");

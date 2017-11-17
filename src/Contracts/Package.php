@@ -13,15 +13,15 @@ interface Package
     /**
      * @return string
      */
-    public static function name() : string;
+    public static function name(): string;
 
     /**
      * @return array
      */
-    public function getServiceProviders() : array;
+    public function getServiceProviders(): array;
 
     /**
      * @return string
      */
-    public static function getPackagePath() : string;
+    public static function getPackagePath(): string;
 }

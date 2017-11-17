@@ -28,7 +28,7 @@ class Migration extends BaseMigration
     // Component Generators
     const COMPONENT = [
         'model' => 'model',
-        'repo'  => 'repo'
+        'repo' => 'repo'
     ];
 
     /**
@@ -76,7 +76,7 @@ class Migration extends BaseMigration
      * @return string
      * @throws DatabaseMigrationException
      */
-    public function getDestinationPath() : string
+    public function getDestinationPath(): string
     {
         $this->undefined(__FUNCTION__);
     }
@@ -85,7 +85,7 @@ class Migration extends BaseMigration
      * @return string
      * @throws DatabaseMigrationException
      */
-    public function getTableName() : string
+    public function getTableName(): string
     {
         $this->undefined(__FUNCTION__);
     }
@@ -105,7 +105,7 @@ class Migration extends BaseMigration
     /**
      * @return \Closure
      */
-    public function getCreator() : \Closure
+    public function getCreator(): \Closure
     {
         return function (Blueprint $table) {
             return $this->table($table);

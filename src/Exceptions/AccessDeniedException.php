@@ -8,4 +8,6 @@ namespace Combustion\StandardLib\Exceptions;
  * @package Combustion\StandardLib\Exceptions
  * @author  Carlos Granados <cgranados@combustiongroup.com>
  */
-class AccessDeniedException extends BaseException {}
+class AccessDeniedException extends BaseException
+{
+}

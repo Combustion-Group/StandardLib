@@ -2,4 +2,6 @@
 
 namespace Combustion\StandardLib\Exceptions;
 
-class UnresolvableSetterException extends \Exception {}
+class UnresolvableSetterException extends \Exception
+{
+}

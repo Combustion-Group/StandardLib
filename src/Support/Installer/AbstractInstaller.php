@@ -25,12 +25,12 @@ abstract class AbstractInstaller extends Command
     /**
      * @var string
      */
-    protected $signature    = null;
+    protected $signature = null;
 
     /**
      * @var string
      */
-    protected $packageName  = null;
+    protected $packageName = null;
 
     /**
      * @var array
@@ -102,13 +102,14 @@ abstract class AbstractInstaller extends Command
         Log $log,
         Filesystem $filesystem,
         Connection $database
-    ) {
+    )
+    {
         parent::__construct();
 
-        $this->kernel       = $application;
-        $this->database     = $database;
-        $this->filesystem   = $filesystem;
-        $this->signature    = "c-install:{$this->packageName}";
+        $this->kernel = $application;
+        $this->database = $database;
+        $this->filesystem = $filesystem;
+        $this->signature = "c-install:{$this->packageName}";
     }
 
     public function handle()
@@ -228,7 +229,7 @@ abstract class AbstractInstaller extends Command
     protected function export(array $files = null)
     {
         $missing = [];
-        $bar     = $this->createProgressBar(count($this->exports));
+        $bar = $this->createProgressBar(count($this->exports));
 
         $bar->display();
 
@@ -247,14 +248,13 @@ abstract class AbstractInstaller extends Command
             throw new MigrationNotFoundException("The following files could not be found: " . implode(', ', $missing));
         }
 
-        $bar     = $this->createProgressBar(count($this->exports));
+        $bar = $this->createProgressBar(count($this->exports));
 
         $bar->display();
 
         $this->info("Copying installation files");
 
-        foreach ($this->exports as $origin => $destination)
-        {
+        foreach ($this->exports as $origin => $destination) {
             $this->filesystem->copy($origin, $destination);
             $this->exported[] = $destination;
             $bar->advance();
@@ -318,7 +318,7 @@ abstract class AbstractInstaller extends Command
      * @param int $numberOfItems
      * @return \Symfony\Component\Console\Helper\ProgressBar
      */
-    private function createProgressBar(int $numberOfItems) : ProgressBar
+    private function createProgressBar(int $numberOfItems): ProgressBar
     {
         $bar = $this->output->createProgressBar($numberOfItems);
         $bar->setFormat(' %current%/%max% [%bar%] %percent:3s%% %message%');

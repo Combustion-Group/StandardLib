@@ -15,22 +15,22 @@ use Combustion\StandardLib\Services\ACL\Models\Action;
 interface AccessManager
 {
     /**
-     * @param int    $userId
+     * @param int $userId
      * @param string $action
      * @return bool
      */
-    public function hasAccess(int $userId, string $action) : bool;
+    public function hasAccess(int $userId, string $action): bool;
 
     /**
      * @param string $name
      * @return Group
      */
-    public function createGroup(string $name) : Group;
+    public function createGroup(string $name): Group;
 
     /**
      * @param string $name
-     * @param int    $groupId
+     * @param int $groupId
      * @return Role
      */
-    public function createRole(string $name, int $groupId) : Role;
+    public function createRole(string $name, int $groupId): Role;
 }

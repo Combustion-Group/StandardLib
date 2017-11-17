@@ -15,10 +15,9 @@ trait HydratesObject
      * @param array $data
      * @return Object[]  $data
      */
-    public function hydrateMany(string $class, array $data) : array
+    public function hydrateMany(string $class, array $data): array
     {
-        foreach ($data as &$item)
-        {
+        foreach ($data as &$item) {
             $item = new $class($item);
         }
 
@@ -30,8 +29,7 @@ trait HydratesObject
      */
     public function hydrateProperties(array $data)
     {
-        foreach ($data as $key => $value)
-        {
+        foreach ($data as $key => $value) {
             $key = $this->snakeToCamel($key);
 
             if (property_exists($this, $key)) {

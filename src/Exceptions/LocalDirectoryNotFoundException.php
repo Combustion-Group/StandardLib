@@ -1,4 +1,5 @@
 <?php
+
 namespace Combustion\StandardLib\Exceptions;
 
 

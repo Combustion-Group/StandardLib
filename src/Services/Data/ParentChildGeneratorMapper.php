@@ -21,23 +21,22 @@ class ParentChildGeneratorMapper
     /**
      * @param \Generator $parent
      * @param \Generator $child
-     * @param string     $parentIdentifierGetter
-     * @param string     $childParentForeignKeyGetter
-     * @param string     $parentChildSetter
-     * @param string     $order
+     * @param string $parentIdentifierGetter
+     * @param string $childParentForeignKeyGetter
+     * @param string $parentChildSetter
+     * @param string $order
      * @return \Generator
      */
-    public function map(\Generator $parent, \Generator $child, string $parentIdentifierGetter, string $childParentForeignKeyGetter, string $parentChildSetter, string $order = 'desc') : \Generator
+    public function map(\Generator $parent, \Generator $child, string $parentIdentifierGetter, string $childParentForeignKeyGetter, string $parentChildSetter, string $order = 'desc'): \Generator
     {
-        while ($parent->valid())
-        {
+        while ($parent->valid()) {
             $currentParent = $parent->current();
 
             if ($child->valid()) {
-                $currentChild  = $child->current();
+                $currentChild = $child->current();
 
                 $parentId = $currentParent->{$parentIdentifierGetter}();
-                $childId  = $currentChild->{$childParentForeignKeyGetter}();
+                $childId = $currentChild->{$childParentForeignKeyGetter}();
 
                 if ($parentId === $childId) {
                     // Has a child, add child to the parent

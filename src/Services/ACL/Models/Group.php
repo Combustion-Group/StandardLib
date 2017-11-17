@@ -15,20 +15,20 @@ class Group extends Model
     /**
      * @var bool
      */
-    public $timestamps  = false;
+    public $timestamps = false;
 
     /**
      * @var string
      */
-    protected $table    = 'acl_groups';
+    protected $table = 'acl_groups';
 
     // Columns
-    const   LABEL    = 'label';
+    const   LABEL = 'label';
 
     /**
      * @return int
      */
-    public function getId() : int
+    public function getId(): int
     {
         return (int)$this->getAttribute(self::ID);
     }
@@ -36,7 +36,7 @@ class Group extends Model
     /**
      * @return string
      */
-    public function getLabel() : string
+    public function getLabel(): string
     {
         return (string)$this->getAttribute(self::LABEL);
     }
@@ -45,7 +45,7 @@ class Group extends Model
      * @param string $label
      * @return Group
      */
-    public function setLabel(string $label) : Group
+    public function setLabel(string $label): Group
     {
         $this->setAttribute(self::LABEL, $label);
         return $this;

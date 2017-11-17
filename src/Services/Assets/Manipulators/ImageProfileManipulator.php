@@ -1,4 +1,5 @@
 <?php
+
 namespace Combustion\StandardLib\Services\Assets\Manipulators;
 
 use Combustion\StandardLib\Services\Assets\Contracts\Manipulator;
@@ -30,23 +31,23 @@ class ImageProfileManipulator implements Manipulator
     /**
      * ImageGateway constructor.
      *
-     * @param array                                               $config
+     * @param array $config
      * @param \Combustion\StandardLib\Services\Assets\FileGateway $fileGateway
-     * @param \Illuminate\Filesystem\FilesystemAdapter            $localDriver
+     * @param \Illuminate\Filesystem\FilesystemAdapter $localDriver
      */
     public function __construct(array $config)
     {
-        $this->config  = $this->validatesConfig($config);
+        $this->config = $this->validatesConfig($config);
     }
 
 
     /**
      * @param \Illuminate\Http\UploadedFile $file
-     * @param array                         $options
+     * @param array $options
      *
      * @return array
      */
-    public function manipulate(UploadedFile $file, array $options=[]) : array
+    public function manipulate(UploadedFile $file, array $options = []): array
     {
         $dimensions = $this->checkForDimessions($options);
         // get name
@@ -55,25 +56,23 @@ class ImageProfileManipulator implements Manipulator
         $extension = $file->getExtension();
         // create image bag and add original data
         $imageBag = [
-            'original' => ['folder' => $path,'name' => $name,'extension' => $extension]
+            'original' => ['folder' => $path, 'name' => $name, 'extension' => $extension]
         ];
-        $image = Image::make($path.'/'.$name.'.'.$extension);
-        if(is_array($dimensions))
-        {
-            $image->crop($dimensions['width'],$dimensions['height'],$dimensions['x'],$dimensions['y'])->save($path.'/'.$name.'.'.$extension);
+        $image = Image::make($path . '/' . $name . '.' . $extension);
+        if (is_array($dimensions)) {
+            $image->crop($dimensions['width'], $dimensions['height'], $dimensions['x'], $dimensions['y'])->save($path . '/' . $name . '.' . $extension);
         }
-        foreach ($this->config['sizes'] as $size => $imageSize)
-        {
+        foreach ($this->config['sizes'] as $size => $imageSize) {
             // get name
-            $sizeName = md5(time().$size.'-'.$file->getClientOriginalName());
+            $sizeName = md5(time() . $size . '-' . $file->getClientOriginalName());
             // append size to the name
-            $imagePath = $path.'/'.$sizeName.'.'.$extension;
+            $imagePath = $path . '/' . $sizeName . '.' . $extension;
             // make data for array
-            $imageData = [$size => ['folder' => $path,'name' => $sizeName,'extension' => $extension]];
+            $imageData = [$size => ['folder' => $path, 'name' => $sizeName, 'extension' => $extension]];
             // push data in
-            $imageBag = array_merge($imageBag,$imageData);
+            $imageBag = array_merge($imageBag, $imageData);
             // manipulate image
-            $image->fit($imageSize['x'],$imageSize['y'], function (Constraint $constraint) {
+            $image->fit($imageSize['x'], $imageSize['y'], function (Constraint $constraint) {
                 $constraint->aspectRatio();
                 $constraint->upsize();
                 // save once done
@@ -88,18 +87,17 @@ class ImageProfileManipulator implements Manipulator
      * @return array
      * @throws \Combustion\StandardLib\Services\Assets\Exceptions\ValidationFailed
      */
-    public function validatesConfig(array $config) : array
+    public function validatesConfig(array $config): array
     {
         $validationRules = [
-            "sizes"     => "required|array",
-            "sizes.*"   => "required|array",
-            "sizes.*.y"   => "required|numeric|nullable",
-            "sizes.*.x"   => "required|numeric|nullable",
+            "sizes" => "required|array",
+            "sizes.*" => "required|array",
+            "sizes.*.y" => "required|numeric|nullable",
+            "sizes.*.x" => "required|numeric|nullable",
         ];
-        $validation = Validator::make($config,$validationRules);
-        if($validation->fails())
-        {
-            throw new ValidationFailed("Validation for ".self::class." config array failed.");
+        $validation = Validator::make($config, $validationRules);
+        if ($validation->fails()) {
+            throw new ValidationFailed("Validation for " . self::class . " config array failed.");
         }
         return $config;
     }
@@ -120,14 +118,14 @@ class ImageProfileManipulator implements Manipulator
      */
     private function checkForDimessions(array $options)
     {
-        $data=[
-            'width'=>isset($options['width'])?$options['width']:0,
-            'height'=>isset($options['height'])?$options['height']:0,
-            'x'=>isset($options['x'])?$options['x']:0,
-            'y'=>isset($options['y'])?$options['y']:0,
+        $data = [
+            'width' => isset($options['width']) ? $options['width'] : 0,
+            'height' => isset($options['height']) ? $options['height'] : 0,
+            'x' => isset($options['x']) ? $options['x'] : 0,
+            'y' => isset($options['y']) ? $options['y'] : 0,
         ];
-        foreach ($data as $coordinates=>$value) if($value===0) return false;
-        if((int)$data['width']!=(int)$data['height']) throw new InvalidAspectRatio("Height adn Width given are not 4:4 aspect ratio");
+        foreach ($data as $coordinates => $value) if ($value === 0) return false;
+        if ((int)$data['width'] != (int)$data['height']) throw new InvalidAspectRatio("Height adn Width given are not 4:4 aspect ratio");
         return $data;
     }
 

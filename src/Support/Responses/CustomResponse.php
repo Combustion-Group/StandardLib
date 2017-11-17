@@ -13,10 +13,10 @@ interface CustomResponse
     /**
      * @return array
      */
-    public function getData() : array;
+    public function getData(): array;
 
     /**
      * @return array
      */
-    public function getTopLevel() : array;
+    public function getTopLevel(): array;
 }

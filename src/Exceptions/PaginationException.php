@@ -2,4 +2,6 @@
 
 namespace Combustion\StandardLib\Exceptions;
 
-class PaginationException extends BaseException {}
+class PaginationException extends BaseException
+{
+}

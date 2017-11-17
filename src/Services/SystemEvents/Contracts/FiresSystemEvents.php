@@ -2,4 +2,6 @@
 
 namespace Combustion\StandardLib\Services\SystemEvents\Contracts;
 
-interface FiresSystemEvents extends \SplSubject { }
+interface FiresSystemEvents extends \SplSubject
+{
+}

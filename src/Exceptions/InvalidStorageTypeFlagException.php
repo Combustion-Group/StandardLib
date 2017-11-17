@@ -2,4 +2,6 @@
 
 namespace Combustion\StandardLib\Exceptions;
 
-class InvalidStorageTypeFlagException extends \Exception {}
+class InvalidStorageTypeFlagException extends \Exception
+{
+}

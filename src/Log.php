@@ -15,14 +15,14 @@ use Combustion\StandardLib\Contracts\UserInterface;
 class Log extends Writer
 {
     // Log constants
-    const   DEBUG       = 'debug',
-            INFO        = 'info',
-            NOTICE      = 'notice',
-            WARNING     = 'warning',
-            ERROR       = 'error',
-            CRITICAL    = 'critical',
-            ALERT       = 'alert',
-            EMERGENCY   = 'emergency';
+    const   DEBUG = 'debug',
+        INFO = 'info',
+        NOTICE = 'notice',
+        WARNING = 'warning',
+        ERROR = 'error',
+        CRITICAL = 'critical',
+        ALERT = 'alert',
+        EMERGENCY = 'emergency';
 
     /**
      * @var string
@@ -53,10 +53,10 @@ class Log extends Writer
      */
     public function prepareContext(array $context)
     {
-        $context['_request']             = [];
-        $context['_request']['body']     = Input::all();
-        $context['_request']['token']    = $this->getToken();
-        $context['_request']['user']     = $this->getUserInfo();
+        $context['_request'] = [];
+        $context['_request']['body'] = Input::all();
+        $context['_request']['token'] = $this->getToken();
+        $context['_request']['user'] = $this->getUserInfo();
 
         return $context;
     }
@@ -121,7 +121,7 @@ class Log extends Writer
 
     /**
      * @param string $message
-     * @param array  $context
+     * @param array $context
      * @return Log
      */
     public function debug($message, array $context = [])
@@ -131,7 +131,7 @@ class Log extends Writer
 
     /**
      * @param string $message
-     * @param array  $context
+     * @param array $context
      * @return Log
      */
     public function info($message, array $context = [])
@@ -141,7 +141,7 @@ class Log extends Writer
 
     /**
      * @param string $message
-     * @param array  $context
+     * @param array $context
      * @return Log
      */
     public function notice($message, array $context = [])
@@ -151,7 +151,7 @@ class Log extends Writer
 
     /**
      * @param string $message
-     * @param array  $context
+     * @param array $context
      * @return Log
      */
     public function warning($message, array $context = [])
@@ -161,7 +161,7 @@ class Log extends Writer
 
     /**
      * @param string $message
-     * @param array  $context
+     * @param array $context
      * @return Log
      */
     public function error($message, array $context = [])
@@ -171,7 +171,7 @@ class Log extends Writer
 
     /**
      * @param string $message
-     * @param array  $context
+     * @param array $context
      * @return Log
      */
     public function critical($message, array $context = [])
@@ -181,7 +181,7 @@ class Log extends Writer
 
     /**
      * @param string $message
-     * @param array  $context
+     * @param array $context
      * @return Log
      */
     public function alert($message, array $context = [])
@@ -191,7 +191,7 @@ class Log extends Writer
 
     /**
      * @param string $message
-     * @param array  $context
+     * @param array $context
      * @return Log
      */
     public function emergency($message, array $context = [])

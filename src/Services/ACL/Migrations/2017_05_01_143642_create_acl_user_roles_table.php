@@ -13,8 +13,7 @@ class CreateAclUserRolesTable extends Migration
      */
     public function up()
     {
-        Schema::create('acl_user_roles', function (Blueprint $table)
-        {
+        Schema::create('acl_user_roles', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('user_id')->index();
             $table->integer('role_id')->index();

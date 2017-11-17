@@ -29,31 +29,28 @@ class StdServiceProvider extends ServiceProvider
 {
     public function register()
     {
-        $this->app->singleton(UploadManager::class, function (Application $app, array $params = []) : UploadManager
-        {
-            $config     = $app['config']['uploads.upload-manager'];
-            $storage    = $app->make(FilesystemManager::class);
+        $this->app->singleton(UploadManager::class, function (Application $app, array $params = []): UploadManager {
+            $config = $app['config']['uploads.upload-manager'];
+            $storage = $app->make(FilesystemManager::class);
 
             return new UploadManager($config, $storage->cloud(), $app->make(Log::class));
         });
 
-        $this->app->singleton(Log::class, function (Application $app, array $params = []) : Log
-        {
-            $monolog   = $app->make(\Illuminate\Log\Writer::class)->getMonolog();
-            $syslog    = new \Monolog\Handler\SyslogUdpHandler("logs5.papertrailapp.com", 11586);
+        $this->app->singleton(Log::class, function (Application $app, array $params = []): Log {
+            $monolog = $app->make(\Illuminate\Log\Writer::class)->getMonolog();
+            $syslog = new \Monolog\Handler\SyslogUdpHandler("logs5.papertrailapp.com", 11586);
             $formatter = new \Monolog\Formatter\LineFormatter('%channel%.%level_name%: %message% %extra%');
 
             $syslog->setFormatter($formatter);
             $monolog->pushHandler($syslog);
 
-            $configurator   = new LogConfigurator();
-            $log            = new Log($monolog, $app['events']);
+            $configurator = new LogConfigurator();
+            $log = new Log($monolog, $app['events']);
 
             return $configurator->configure($log, $app);
         });
 
-        $this->app->singleton(SystemEventsService::class, function (Application $app, array $params) : SystemEventsService
-        {
+        $this->app->singleton(SystemEventsService::class, function (Application $app, array $params): SystemEventsService {
             $e = new SystemEventsService($app);
             $l = $app['config']['events'] ?: [];
 
@@ -67,18 +64,15 @@ class StdServiceProvider extends ServiceProvider
             return $e;
         });
 
-        $this->app->singleton(DeepLinkService::class, function (Application $app, array $params) : DeepLinkService
-        {
+        $this->app->singleton(DeepLinkService::class, function (Application $app, array $params): DeepLinkService {
             return new DeepLinkService();
         });
 
-        $this->app->bind(OneToMany::class, function (Application $app, array $params) : OneToMany
-        {
+        $this->app->bind(OneToMany::class, function (Application $app, array $params): OneToMany {
             return new OneToMany();
         });
 
-        $this->app->bind(OneToManyRelationshipGenerator::class, function (Application $app, array $params) : OneToManyRelationshipGenerator
-        {
+        $this->app->bind(OneToManyRelationshipGenerator::class, function (Application $app, array $params): OneToManyRelationshipGenerator {
             if (!array_key_exists('builder', $params)) {
                 throw new ServiceBuilderException("Cannot build OneToManyRelationshipBuilder, missing required param 'builder'");
             }
@@ -86,50 +80,43 @@ class StdServiceProvider extends ServiceProvider
             return new OneToManyRelationshipGenerator($app->make(DatabaseManager::class)->connection(), $params['builder']);
         });
 
-        $this->app->bind(Parser::class, function (Application $app, array $params = []) : Parser
-        {
+        $this->app->bind(Parser::class, function (Application $app, array $params = []): Parser {
             $config = $app['config']['standardlib.author'];
-            $trans  = $app->make(SchemaTranslator::class);
+            $trans = $app->make(SchemaTranslator::class);
 
             return new Parser($config, $trans);
         });
 
-        $this->app->bind(SchemaTranslator::class, function (Application $app, array $params = []) : SchemaTranslator
-        {
+        $this->app->bind(SchemaTranslator::class, function (Application $app, array $params = []): SchemaTranslator {
             return new EloquentTranslator();
         });
 
-        $this->app->bind(Compiler::class, function (Application $app, array $params = []) : Compiler
-        {
+        $this->app->bind(Compiler::class, function (Application $app, array $params = []): Compiler {
             $config = $app['config']['standardlib.temp_path'];
-            $fs     = $app->make(Filesystem::class);
+            $fs = $app->make(Filesystem::class);
 
             return new Compiler($config, $fs);
         });
 
-        $this->app->bind(Generator::class, function (Application $app, array $params = []) : Generator
-        {
-            $parser     = $app->make(Parser::class);
-            $migrator   = $app->make(Migrator::class);
-            $compiler   = $app->make(Compiler::class);
+        $this->app->bind(Generator::class, function (Application $app, array $params = []): Generator {
+            $parser = $app->make(Parser::class);
+            $migrator = $app->make(Migrator::class);
+            $compiler = $app->make(Compiler::class);
 
             return new Generator($parser, $migrator, $compiler);
         });
 
-        $this->app->bind(ValidationService::class, function (Application $app, array $params = []) : ValidationService
-        {
+        $this->app->bind(ValidationService::class, function (Application $app, array $params = []): ValidationService {
             $factory = $app->make(Factory::class);
 
             return new ValidationService($factory);
         });
 
-        $this->app->bind(TableAliasResolver::class, function (Application $app, array $params = [])
-        {
+        $this->app->bind(TableAliasResolver::class, function (Application $app, array $params = []) {
             return new TableAliasResolver();
         });
 
-        $this->app->bind(ACL::class, function (Application $app, array $params = [])
-        {
+        $this->app->bind(ACL::class, function (Application $app, array $params = []) {
             $con = $app->make(DatabaseManager::class)->connection();
 
             return new ACL($con);

@@ -33,12 +33,12 @@ class DeepLinkController extends Controller
      * @param Request $request
      * @return View
      */
-    public function handle(Request $request) : View
+    public function handle(Request $request): View
     {
-        $params     = $request->all();
-        $headers    = $request->header();
-        $view       = 'redirector';
-        $data       = [];
+        $params = $request->all();
+        $headers = $request->header();
+        $view = 'redirector';
+        $data = [];
 
         try {
             $data = $this->deepLinkService->handle($params, $headers);

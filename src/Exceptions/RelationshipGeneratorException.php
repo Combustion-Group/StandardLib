@@ -2,4 +2,6 @@
 
 namespace Combustion\StandardLib\Exceptions;
 
-class RelationshipGeneratorException extends BaseException {}
+class RelationshipGeneratorException extends BaseException
+{
+}

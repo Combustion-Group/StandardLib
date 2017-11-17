@@ -42,7 +42,7 @@ class Generator
      */
     public function __construct(Parser $parser, Migrator $migrator, Compiler $compiler)
     {
-        $this->parser   = $parser;
+        $this->parser = $parser;
         $this->migrator = $migrator;
         $this->compiler = $compiler;
     }
@@ -59,14 +59,14 @@ class Generator
 
             try {
                 // Resolve the instance of the database migration
-                $instance   = $this->resolve($migration);
+                $instance = $this->resolve($migration);
             } catch (DatabaseMigrationException $e) {
                 $this->skipped[] = $migration;
                 continue;
             }
 
             // Generate interpreted fields
-            $spec       = $this->parser->parse($instance);
+            $spec = $this->parser->parse($instance);
 
             $this->compiler->run($spec);
         }
@@ -77,7 +77,7 @@ class Generator
      * @return Migration
      * @throws DatabaseMigrationException
      */
-    private function resolve(string $file) : Migration
+    private function resolve(string $file): Migration
     {
         $instance = $this->migrator->resolve($file);
 

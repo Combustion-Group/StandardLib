@@ -43,10 +43,10 @@ class ModelBuilder extends Builder
     private $buildStyle = self::BUILD_SLICED;
 
     const   // Builds one dimensional object.
-            BUILD_LINEAR = 1,
+        BUILD_LINEAR = 1,
 
-            // Build object that has children objects.
-            BUILD_SLICED = 2;
+        // Build object that has children objects.
+        BUILD_SLICED = 2;
 
     /**
      * ModelFactory constructor.
@@ -57,7 +57,7 @@ class ModelBuilder extends Builder
     public function __construct(Model $prototype = null, string $prefix = "")
     {
         $this->prototype = $prototype;
-        $this->prefix    = $prefix;
+        $this->prefix = $prefix;
     }
 
     /**
@@ -66,11 +66,11 @@ class ModelBuilder extends Builder
      * @param string $prefix
      * @return ModelBuilder
      */
-    public function setPrototypes(array $prototypes, string $column = 'type', string $prefix = "") : ModelBuilder
+    public function setPrototypes(array $prototypes, string $column = 'type', string $prefix = ""): ModelBuilder
     {
-        $this->prototypes           = $prototypes;
-        $this->prototypeTypeColumn  = $column;
-        $this->prefix               = $prefix;
+        $this->prototypes = $prototypes;
+        $this->prototypeTypeColumn = $column;
+        $this->prefix = $prefix;
 
         return $this;
     }
@@ -79,7 +79,7 @@ class ModelBuilder extends Builder
      * @param string $prefix
      * @return ModelBuilder
      */
-    public function setPrefix(string $prefix) : ModelBuilder
+    public function setPrefix(string $prefix): ModelBuilder
     {
         $this->prefix = $prefix;
         return $this;
@@ -89,7 +89,7 @@ class ModelBuilder extends Builder
      * @param int $style
      * @return ModelBuilder
      */
-    public function setBuildStyle(int $style) : ModelBuilder
+    public function setBuildStyle(int $style): ModelBuilder
     {
         $this->buildStyle = $style;
         return $this;
@@ -105,18 +105,14 @@ class ModelBuilder extends Builder
     {
         // prototype    - for when there is only one implementation of this object
         // prototype(s) - for when this builds an abstract and there are one or more implementations
-        if (!is_null($this->prototype))
-        {
+        if (!is_null($this->prototype)) {
             $model = clone $this->prototype;
 
             return $this->hydrate($model, $data, $this->buildStyle);
-        }
-        elseif (count($this->prototypes))
-        {
+        } elseif (count($this->prototypes)) {
             $column = $this->prefix . $this->prototypeTypeColumn;
 
-            if (array_key_exists($column, $data))
-            {
+            if (array_key_exists($column, $data)) {
                 if (array_key_exists($data[$column], $this->prototypes)) {
                     $model = clone $this->prototypes[$data[$column]];
                     return $this->hydrate($model, $data, $this->buildStyle);
@@ -134,11 +130,11 @@ class ModelBuilder extends Builder
     /**
      * @param Model $model
      * @param array $data
-     * @param int   $style
+     * @param int $style
      * @return Model $model
      * @throws ModelBuilderException
      */
-    private function hydrate(Model $model, array $data = [], int $style) : Model
+    private function hydrate(Model $model, array $data = [], int $style): Model
     {
         switch ($style) {
             case self::BUILD_LINEAR:

@@ -34,44 +34,44 @@ class AclService implements AccessManager
     }
 
     /**
-     * @param int    $userId
+     * @param int $userId
      * @param string $action
      * @return bool
      */
-    public function hasAccess(int $userId, string $action) : bool
+    public function hasAccess(int $userId, string $action): bool
     {
         return (bool)$this->database->table('acl_policies as a')
-                                    ->join('acl_actions as c', 'a.action_id', '=', 'c.id')
-                                    ->join('acl_user_roles as d', 'a.role_id', '=', 'd.role_id')
-                                    ->where('d.user_id', '=', $userId)
-                                    ->where('c.label', '=', $action)
-                                    ->exists();
+            ->join('acl_actions as c', 'a.action_id', '=', 'c.id')
+            ->join('acl_user_roles as d', 'a.role_id', '=', 'd.role_id')
+            ->where('d.user_id', '=', $userId)
+            ->where('c.label', '=', $action)
+            ->exists();
     }
 
     /**
      * @param string $name
      * @return Group
      */
-    public function createGroup(string $name) : Group
+    public function createGroup(string $name): Group
     {
         $g = new Group();
         $g->setLabel($name)
-          ->save();
+            ->save();
 
         return $g;
     }
 
     /**
      * @param string $name
-     * @param int    $groupId
+     * @param int $groupId
      * @return Role
      */
-    public function createRole(string $name, int $groupId) : Role
+    public function createRole(string $name, int $groupId): Role
     {
         $r = new Role;
         $r->setLabel($name)
-          ->setGroupId($groupId)
-          ->save();
+            ->setGroupId($groupId)
+            ->save();
 
         return $r;
     }
@@ -81,12 +81,12 @@ class AclService implements AccessManager
      * @param int $roleId
      * @return UserRole
      */
-    public function assignRole(int $userId, int $roleId) : UserRole
+    public function assignRole(int $userId, int $roleId): UserRole
     {
         $ur = new UserRole();
         $ur->setUserId($userId)
-           ->setRoleId($roleId)
-           ->save();
+            ->setRoleId($roleId)
+            ->save();
 
         return $ur;
     }
@@ -96,12 +96,12 @@ class AclService implements AccessManager
      * @param int $actionId
      * @return Policy
      */
-    public function addToPolicy(int $roleId, int $actionId) : Policy
+    public function addToPolicy(int $roleId, int $actionId): Policy
     {
         $p = new Policy();
         $p->setRoleId($roleId)
-          ->setActionId($actionId)
-          ->save();
+            ->setActionId($actionId)
+            ->save();
 
         return $p;
     }
@@ -110,24 +110,24 @@ class AclService implements AccessManager
      * @param int $userId
      * @return array
      */
-    public function getUserRoles(int $userId) : array
+    public function getUserRoles(int $userId): array
     {
         return $this->database->table('acl_user_roles as a')
-                              ->join('users as b', 'a.user_id', '=', 'b.id')
-                              ->join('acl_roles as c', 'c.id', '=', 'a.role_id')
-                              ->where('a.user_id', '=', $userId)
-                              ->get(['c.id as role_id', 'c.label'])->all();
+            ->join('users as b', 'a.user_id', '=', 'b.id')
+            ->join('acl_roles as c', 'c.id', '=', 'a.role_id')
+            ->where('a.user_id', '=', $userId)
+            ->get(['c.id as role_id', 'c.label'])->all();
     }
 
     /**
      * @param string $label
      * @return Action
      */
-    public function createAction(string $label) : Action
+    public function createAction(string $label): Action
     {
         $a = new Action();
         $a->setLabel($label)
-          ->save();
+            ->save();
 
         return $a;
     }

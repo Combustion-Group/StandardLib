@@ -35,18 +35,18 @@ trait StoresObjects
      * @return int
      * @throws InvalidOperationException
      */
-    protected function store($object, int $key = null) : int
+    protected function store($object, int $key = null): int
     {
         if (!is_object($object)) {
             throw new InvalidOperationException("Cannot use ObjectStorage for storing non objects. Type: " . gettype($object));
         }
 
-        $class              = get_class($object);
+        $class = get_class($object);
 
         if (!is_null($key)) {
-            $this->storage[$key]    = $object;
+            $this->storage[$key] = $object;
         } else {
-            $this->storage[]        = $object;
+            $this->storage[] = $object;
         }
 
         end($this->storage);
@@ -78,7 +78,7 @@ trait StoresObjects
 
     /**
      * @param string $type
-     * @param int    $key
+     * @param int $key
      * @return int
      */
     private function track(string $type, int $key)
@@ -96,7 +96,7 @@ trait StoresObjects
      * @param int $key
      * @return string
      */
-    protected function hash(int $key) : string
+    protected function hash(int $key): string
     {
         return md5($key);
     }
@@ -105,10 +105,9 @@ trait StoresObjects
      * Iterates returning $type and $object when used in $key => $value form respectively.
      * @return \Generator
      */
-    public function iterate() : \Generator
+    public function iterate(): \Generator
     {
-        foreach ($this->storage as $key => $objects)
-        {
+        foreach ($this->storage as $key => $objects) {
             return $this->storage;
         }
     }
@@ -124,7 +123,7 @@ trait StoresObjects
     /**
      * @return array
      */
-    public function getAll() : array
+    public function getAll(): array
     {
         return $this->storage;
     }
@@ -146,14 +145,14 @@ trait StoresObjects
      * @param string $type
      * @return bool
      */
-    public function hasType(string $type) : bool
+    public function hasType(string $type): bool
     {
         return array_key_exists($type, $this->tracker);
     }
 
     /**
      * @param string $type
-     * @param int    $key
+     * @param int $key
      * @return mixed
      */
     protected function fetchItem(int $key)

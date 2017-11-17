@@ -55,8 +55,8 @@ class ModelSpecification
      */
     public function __construct(SchemaTranslator $translator, Columns $columns)
     {
-        $this->translator   = $translator;
-        $this->columns      = $columns;
+        $this->translator = $translator;
+        $this->columns = $columns;
     }
 
     /**
@@ -64,7 +64,7 @@ class ModelSpecification
      * @param string $name
      * @return ModelSpecification
      */
-    public function addColumn(string $type, string $name) : ModelSpecification
+    public function addColumn(string $type, string $name): ModelSpecification
     {
         $this->columns->add(
             $this->translator->translateType($type), $name
@@ -77,7 +77,7 @@ class ModelSpecification
      * @param string $author
      * @return ModelSpecification
      */
-    public function setAuthorName(string $author) : ModelSpecification
+    public function setAuthorName(string $author): ModelSpecification
     {
         $this->author = $author;
         return $this;
@@ -86,7 +86,7 @@ class ModelSpecification
     /**
      * @return string
      */
-    public function getAuthorName() : string
+    public function getAuthorName(): string
     {
         return (string)$this->author;
     }
@@ -95,7 +95,7 @@ class ModelSpecification
      * @param string $email
      * @return ModelSpecification
      */
-    public function setAuthorEmail(string $email) : ModelSpecification
+    public function setAuthorEmail(string $email): ModelSpecification
     {
         $this->email = $email;
         return $this;
@@ -104,7 +104,7 @@ class ModelSpecification
     /**
      * @return string
      */
-    public function getAuthorEmail() : string
+    public function getAuthorEmail(): string
     {
         return (string)$this->email;
     }
@@ -112,7 +112,7 @@ class ModelSpecification
     /**
      * @return string
      */
-    public function getLanguage() : string
+    public function getLanguage(): string
     {
         return (string)$this->translator;
     }
@@ -121,7 +121,7 @@ class ModelSpecification
      * @param string $name
      * @return ModelSpecification
      */
-    public function setName(string $name) : ModelSpecification
+    public function setName(string $name): ModelSpecification
     {
         $this->name = $name;
         return $this;
@@ -130,7 +130,7 @@ class ModelSpecification
     /**
      * @return string
      */
-    public function getName() : string
+    public function getName(): string
     {
         return (string)$this->name;
     }
@@ -139,7 +139,7 @@ class ModelSpecification
      * @param Columns $columns
      * @return ModelSpecification
      */
-    public function setColumns(Columns $columns) : ModelSpecification
+    public function setColumns(Columns $columns): ModelSpecification
     {
         $this->columns = $columns;
         return $this;
@@ -148,7 +148,7 @@ class ModelSpecification
     /**
      * @return Columns
      */
-    public function getColumns() : Columns
+    public function getColumns(): Columns
     {
         return $this->columns;
     }
@@ -157,7 +157,7 @@ class ModelSpecification
      * @param string $namespace
      * @return ModelSpecification
      */
-    public function setNamespace(string $namespace) : ModelSpecification
+    public function setNamespace(string $namespace): ModelSpecification
     {
         $this->namespace = $namespace;
         return $this;
@@ -167,7 +167,7 @@ class ModelSpecification
      * @param array $component
      * @return ModelSpecification
      */
-    public function setComponents(array $component) : ModelSpecification
+    public function setComponents(array $component): ModelSpecification
     {
         $this->components = $component;
         return $this;
@@ -176,7 +176,7 @@ class ModelSpecification
     /**
      * @return array
      */
-    public function getComponents() : array
+    public function getComponents(): array
     {
         return $this->components;
     }
@@ -184,7 +184,7 @@ class ModelSpecification
     /**
      * @return string
      */
-    public function getNamespace() : string
+    public function getNamespace(): string
     {
         return $this->namespace;
     }

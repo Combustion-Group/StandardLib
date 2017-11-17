@@ -30,9 +30,9 @@ abstract class TypeSafeObjectStorage extends \SplObjectStorage implements Arraya
 
     // Interface
     const   INTERFACE = 1,
-            CONCRETE  = 2,
-            SUBCLASS  = 3,
-            TRAIT     = 4;
+        CONCRETE = 2,
+        SUBCLASS = 3,
+        TRAIT = 4;
 
     /**
      * TypeSafeObjectStorage constructor.
@@ -41,8 +41,7 @@ abstract class TypeSafeObjectStorage extends \SplObjectStorage implements Arraya
      */
     protected function __construct(array $data = [])
     {
-        foreach ($data as $item)
-        {
+        foreach ($data as $item) {
             $this->attach($item);
         }
     }
@@ -50,7 +49,7 @@ abstract class TypeSafeObjectStorage extends \SplObjectStorage implements Arraya
     /***
      * @return array
      */
-    public function toArray() : array
+    public function toArray(): array
     {
         $data = [];
 
@@ -69,17 +68,17 @@ abstract class TypeSafeObjectStorage extends \SplObjectStorage implements Arraya
      * @param $obj
      * @return bool
      */
-    protected function is_arrayable($obj) : bool
+    protected function is_arrayable($obj): bool
     {
         return in_array(Arrayable::class, class_implements($obj));
     }
 
     /**
      * @param object $object
-     * @param null   $data
+     * @param null $data
      * @return TypeSafeObjectStorage
      */
-    public function attach($object, $data = null) : TypeSafeObjectStorage
+    public function attach($object, $data = null): TypeSafeObjectStorage
     {
         $this->validateType($object);
 
@@ -90,13 +89,13 @@ abstract class TypeSafeObjectStorage extends \SplObjectStorage implements Arraya
 
     /**
      * @param string $type
-     * @param int    $checkType
+     * @param int $checkType
      * @return $this
      */
     protected function setContainerType(string $type, int $checkType = self::INTERFACE)
     {
-        $this->checkType        = $checkType;
-        $this->containerType    = $type;
+        $this->checkType = $checkType;
+        $this->containerType = $type;
 
         return $this;
     }
@@ -105,7 +104,7 @@ abstract class TypeSafeObjectStorage extends \SplObjectStorage implements Arraya
      * @return string
      * @throws ObjectStorageException
      */
-    public function getContainerType() : string
+    public function getContainerType(): string
     {
         if (is_null($this->containerType)) {
             throw new ObjectStorageException("The type to check for has not been set in this container.");
@@ -118,7 +117,7 @@ abstract class TypeSafeObjectStorage extends \SplObjectStorage implements Arraya
      * @param string $class
      * @return TypeSafeObjectStorage
      */
-    private function markSafe(string $class) : TypeSafeObjectStorage
+    private function markSafe(string $class): TypeSafeObjectStorage
     {
         $child = get_called_class();
 
@@ -126,15 +125,15 @@ abstract class TypeSafeObjectStorage extends \SplObjectStorage implements Arraya
             // Create cache container for subclass
             static::$safe[$child] = [];
         }
-        static::$safe[$child][$class] =  $class;
+        static::$safe[$child][$class] = $class;
         return $this;
-}
+    }
 
     /**
      * @param string $class
      * @return bool
      */
-    private function isSafe(string $class) : bool
+    private function isSafe(string $class): bool
     {
         return array_key_exists($class, static::$safe);
     }
@@ -150,7 +149,7 @@ abstract class TypeSafeObjectStorage extends \SplObjectStorage implements Arraya
 
         switch ($this->checkType) {
             case self::INTERFACE:
-                if ($this->isSafe($className) || isset(class_implements($object)[$this->containerType])){
+                if ($this->isSafe($className) || isset(class_implements($object)[$this->containerType])) {
                     return $this->markSafe($className);
                 }
 

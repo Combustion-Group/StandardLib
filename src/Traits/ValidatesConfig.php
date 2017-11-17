@@ -15,7 +15,7 @@ trait ValidatesConfig
     /**
      * @return array
      */
-    protected abstract function getRequiredConfig() : array;
+    protected abstract function getRequiredConfig(): array;
 
     /**
      * @param array $config

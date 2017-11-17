@@ -24,7 +24,7 @@ class InjectablePipeline
     /**
      * Constructor.
      *
-     * @param callable[]         $stages
+     * @param callable[] $stages
      * @param InjectableProcessor $processor
      *
      * @throws InvalidArgumentException
@@ -37,8 +37,8 @@ class InjectablePipeline
             }
         }
 
-        $this->stages       = $stages;
-        $this->processor    = $processor ?: new InjectableProcessor();
+        $this->stages = $stages;
+        $this->processor = $processor ?: new InjectableProcessor();
     }
 
     /**

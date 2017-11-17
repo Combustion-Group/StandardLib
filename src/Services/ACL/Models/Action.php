@@ -15,12 +15,12 @@ class Action extends Model
     /**
      * @var string
      */
-    protected $table    = 'acl_actions';
+    protected $table = 'acl_actions';
 
     /**
      * @var bool
      */
-    public $timestamps  = false;
+    public $timestamps = false;
 
     // Columns
     const LABEL = 'label';
@@ -28,7 +28,7 @@ class Action extends Model
     /**
      * @return int
      */
-    public function getId() : int
+    public function getId(): int
     {
         return (int)$this->getAttribute(self::ID);
     }
@@ -36,7 +36,7 @@ class Action extends Model
     /**
      * @return string
      */
-    public function getLabel() : string
+    public function getLabel(): string
     {
         return (string)$this->getAttribute(self::LABEL);
     }
@@ -45,7 +45,7 @@ class Action extends Model
      * @param string $label
      * @return Action
      */
-    public function setLabel(string $label) : Action
+    public function setLabel(string $label): Action
     {
         $this->setAttribute(self::LABEL, $label);
         return $this;

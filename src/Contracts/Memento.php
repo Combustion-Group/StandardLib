@@ -8,4 +8,6 @@ namespace Combustion\StandardLib\Contracts;
  * @package Combustion\StandardLib\Contracts
  * @author  Carlos Granados <cgranados@combustiongroup.com>
  */
-interface Memento extends \IteratorAggregate, Document {}
+interface Memento extends \IteratorAggregate, Document
+{
+}

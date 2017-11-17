@@ -1,8 +1,9 @@
 <?php
+
 namespace Combustion\StandardLib\Exceptions;
 
 
-class InvalidVideoFileFormat extends  \Exception
+class InvalidVideoFileFormat extends \Exception
 {
 
 }

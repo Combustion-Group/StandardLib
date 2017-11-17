@@ -1,4 +1,5 @@
 <?php
+
 namespace Combustion\StandardLib\Services\Assets\Traits;
 
 
@@ -28,7 +29,7 @@ trait BaseModel
     /**
      * @var array
      */
-    private $default_operations = ['=','<','>','>=','<=','!=','like'];
+    private $default_operations = ['=', '<', '>', '>=', '<=', '!=', 'like'];
 
 
     /**
@@ -46,26 +47,21 @@ trait BaseModel
      * @param array|null $errors
      * @return $this
      */
-    public function appendActionErrorMessages(array $errors = null) 
+    public function appendActionErrorMessages(array $errors = null)
     {
         // set status to failed
         $this->setActionFailed();
         // if there was an error sent
-        if(is_array($errors))
-        {
+        if (is_array($errors)) {
             // iterate trough them
-            foreach($errors as $key => $error)
-            {
+            foreach ($errors as $key => $error) {
                 // if the index already exist
-                if(isset($this->actionMessages[$key]))
-                {
+                if (isset($this->actionMessages[$key])) {
                     // push the new message
-                    array_push($this->actionMessages[$key],$error);
-                }
-                else
-                {
+                    array_push($this->actionMessages[$key], $error);
+                } else {
                     // create the key and set the error message inside an array
-                    array_push($this->actionMessages,[$key=>[$error]]);
+                    array_push($this->actionMessages, [$key => [$error]]);
                 }
             }
         }
@@ -99,7 +95,6 @@ trait BaseModel
     }
 
 
-
     /**
      *  Made to be used as in chain
      *  $user = User::all()->transform();
@@ -112,7 +107,7 @@ trait BaseModel
         // get current array
         $item = $this->convertToArray();
         // return transformer value
-        return $this->performTransformation($transformerName,$item);
+        return $this->performTransformation($transformerName, $item);
     }
 
     /**
@@ -123,15 +118,13 @@ trait BaseModel
         // get current collection or array
         $item = $this;
         // check if array
-        if(is_array($item))
-        {
+        if (is_array($item)) {
             // if true return array
             return $item;
         }
         // else convert to array
         return $item->toArray();
     }
-
 
 
     /**
@@ -158,7 +151,7 @@ trait BaseModel
     {
         $start = Carbon::parse($start)->startOfDay();
         $end = Carbon::parse($end)->endOfDay();
-        return $query->where($this->table.'created_at', '>=', $start)->where($this->table.'created_at', '<=', $end);
+        return $query->where($this->table . 'created_at', '>=', $start)->where($this->table . 'created_at', '<=', $end);
     }
 
     /**
@@ -173,7 +166,7 @@ trait BaseModel
     {
         $start = Carbon::parse($start)->startOfDay();
         $end = Carbon::parse($end)->endOfDay();
-        return $query->where($this->table.'updated_at', '>=', $start)->where($this->table.'updated_at', '<=', $end);
+        return $query->where($this->table . 'updated_at', '>=', $start)->where($this->table . 'updated_at', '<=', $end);
     }
 
 
@@ -192,9 +185,8 @@ trait BaseModel
      */
     public function scopeActive($query)
     {
-        if($this->activeField)
-        {
-            return $query->where($this->activeField,1);
+        if ($this->activeField) {
+            return $query->where($this->activeField, 1);
         }
         return $query;
     }
@@ -206,8 +198,7 @@ trait BaseModel
      */
     public function scopeLoadWith($query, $with)
     {
-        if($with)
-        {
+        if ($with) {
             return $query->with($with);
         }
         return $query;
@@ -220,7 +211,7 @@ trait BaseModel
      */
     public function scopeCustomSort($query, $field, $order)
     {
-        $query->SortQueryBy($field,$order);
+        $query->SortQueryBy($field, $order);
     }
 
     /**
@@ -234,28 +225,23 @@ trait BaseModel
     public function scopeSortQueryBy($query, $string = null, $order = null, $throw_exception = false)
     {
         // get default values if none are sent
-        if(!$order) $order = 'DESC';
-        if(!$string) $string = 'created_at';
+        if (!$order) $order = 'DESC';
+        if (!$string) $string = 'created_at';
         // if the string is part of the fillable array
-        if(in_array($string,$this->fillable) || $string == 'created_at')
-        {
+        if (in_array($string, $this->fillable) || $string == 'created_at') {
             // preform order by $string
-            $string = $this->table.'.'.$string;
-            $query->orderBy($string,$order);
-        }
-        else
-        {
+            $string = $this->table . '.' . $string;
+            $query->orderBy($string, $order);
+        } else {
             // else look for a custom scope
-            if(method_exists($this,'scope'.$string))
-            {
+            if (method_exists($this, 'scope' . $string)) {
                 // if found preform the custom sort
                 return $query->$string($order);
             }
             // if throw exception if custom order by is not found
-            if($throw_exception)
-            {
+            if ($throw_exception) {
                 $error = [
-                    'sort' => "Sort function $string was not found in " . str_replace('App\\',"",get_class($this)),
+                    'sort' => "Sort function $string was not found in " . str_replace('App\\', "", get_class($this)),
                     "message" => "Unable to preform sort by $string"
                 ];
                 throw new Exception(json_encode($error));
@@ -269,50 +255,42 @@ trait BaseModel
      * @return mixed
      * @throws Exception
      */
-    public function scopeFilter($query, $string=null)
+    public function scopeFilter($query, $string = null)
     {
-        if(!$string) return $query;
+        if (!$string) return $query;
         // if it was found explode it
         $filters = $this->getFilters($string);
-        foreach ($filters as $filter)
-        {
+        foreach ($filters as $filter) {
             // get filter name and operation
             $filter = $this->filterName($filter);
             $filter_name = $filter['name'];
             // check if the filter name is in the main table
-            $original_table_fields = array_merge($this-> fillable,['created_at','updated_at','id']);
-            if(in_array($filter_name,$original_table_fields))
-            {
+            $original_table_fields = array_merge($this->fillable, ['created_at', 'updated_at', 'id']);
+            if (in_array($filter_name, $original_table_fields)) {
                 // get the operation and variables
                 $filter = $this->filterOperationAndVariables($filter['operation']);
                 $filter_operation = $filter['operation'];
                 $filter_variables = $filter['variables'];
-                if(!isset($filter_variables[0]))
-                {
+                if (!isset($filter_variables[0])) {
                     throw new Exception(json_encode(
                         [
-                            'message'=>'Filter variable invalid!',
-                            'filter'=>'Filter variable was now found or was invalid!'
+                            'message' => 'Filter variable invalid!',
+                            'filter' => 'Filter variable was now found or was invalid!'
                         ]));
                 }
                 // if the filter belongs to the main table
                 $table = $this->getTable();
-                $query->where($table.'.'.$filter_name,$filter_operation,$filter_variables[0]);
-            }
-            else
-            {
+                $query->where($table . '.' . $filter_name, $filter_operation, $filter_variables[0]);
+            } else {
                 // custom filter
-                if(method_exists($this,'scope'.$filter_name))
-                {
+                if (method_exists($this, 'scope' . $filter_name)) {
                     // get variables for filter
                     $filter_variables = $this->customFilterVariables($filter['operation']);
                     // perform filter
                     $query->$filter_name($filter_variables);
-                }
-                else
-                {
+                } else {
                     $error = [
-                        'Filter' => "Filter function $filter_name was not found n " . str_replace('App\\',"",get_class($this)),
+                        'Filter' => "Filter function $filter_name was not found n " . str_replace('App\\', "", get_class($this)),
                         "message" => "Unable to preform filter by $filter_name"
                     ];
                     throw new Exception(json_encode($error));
@@ -329,7 +307,7 @@ trait BaseModel
      */
     public function getFilters($string)
     {
-        $exploded = explode('|',$string);
+        $exploded = explode('|', $string);
         return $exploded;
     }
 
@@ -340,16 +318,13 @@ trait BaseModel
     public function filterName($string)
     {
         // explode string using the :
-        $exploded = explode(':',$string,2);
+        $exploded = explode(':', $string, 2);
         // the first object found will be the name
         $final ['name'] = $exploded[0];
         // the second object found will be operation and variables
-        if(isset($exploded[1]))
-        {
+        if (isset($exploded[1])) {
             $final ['operation'] = $exploded[1];
-        }
-        else
-        {
+        } else {
             $final ['operation'] = null;
         }
         return $final;
@@ -364,15 +339,14 @@ trait BaseModel
     public function filterOperationAndVariables($string, $throw_exception = true)
     {
         // explode string to get operation and variables
-        $exploded = explode(',',$string,2);
+        $exploded = explode(',', $string, 2);
         $final ['operation'] = $exploded[0];
         // if the operation is not in the default operation array
         // and the throw exception is set to true
-        if(!in_array($final ['operation'],$this->default_operations) && $throw_exception)
-        {
+        if (!in_array($final ['operation'], $this->default_operations) && $throw_exception) {
             $error = [
                 'message' => 'Filter operation is invalid!',
-                'Operation' => "operation has to be one in ['".implode("','",$this->default_operations)."']"
+                'Operation' => "operation has to be one in ['" . implode("','", $this->default_operations) . "']"
             ];
             // a new exception will be displayed
             throw  new Exception(json_encode($error));
@@ -382,13 +356,11 @@ trait BaseModel
         unset($exploded[0]);
         // collapse the left over variables to avoid having keys on the array
         $variables = [];
-        foreach ($exploded as $key => $value)
-        {
-            array_push($variables,$value);
+        foreach ($exploded as $key => $value) {
+            array_push($variables, $value);
         }
         $final ['variables'] = $variables;
-        if(sizeof($final ['variables']) < 1 && $throw_exception)
-        {
+        if (sizeof($final ['variables']) < 1 && $throw_exception) {
             $error = [
                 'message' => 'Filter variables are invalid!',
                 'Variables' => "Variables were not found in the request or are invalid"
@@ -406,7 +378,7 @@ trait BaseModel
     public function customFilterVariables($string)
     {
         // explode string to get operation and variables
-        $exploded = explode(',',$string);
+        $exploded = explode(',', $string);
         return $exploded;
     }
 
@@ -423,19 +395,15 @@ trait BaseModel
         // get the request information and make into array
         $content = $request->all();
         // throw exception if not sent
-        if(!$content)
-        {
+        if (!$content) {
             $errors = [
                 "Request" => "Request body is empty!"
             ];
             throw new Exception(json_encode($errors));
         }
-        if($model)
-        {
-            $data = $this->validateFromModel($model,$validates);
-        }
-        else
-        {
+        if ($model) {
+            $data = $this->validateFromModel($model, $validates);
+        } else {
             $data = $this->validateForRequired($validates);
         }
         return $data;
@@ -451,25 +419,22 @@ trait BaseModel
         // get all data send in request
         $data = Input::all();
         $rules = [];
-        foreach($validates as $rule)
-        {
+        foreach ($validates as $rule) {
             $rules[$rule] = 'required';
         }
         unset($data['validate']);
-        $validation = Validator::make($data,$rules);
+        $validation = Validator::make($data, $rules);
         // if failed
-        if($validation->fails())
-        {
+        if ($validation->fails()) {
             // throw exception
             $errors = $validation->messages()->toArray();
             throw new Exception(json_encode($errors));
         }
         // create empty array to hold data set for validation
         $data_to_validate = [];
-        foreach($rules as $field => $rule)
-        {
+        foreach ($rules as $field => $rule) {
             // copy over the data to a final validate array
-            $data_to_validate[$field]=$data[$field];
+            $data_to_validate[$field] = $data[$field];
         }
         // make validation
         // return data that passed validation
@@ -486,32 +451,27 @@ trait BaseModel
     public function validateFromModel(Model $model, array $validates)
     {
         // if the validation rules are empty
-        if(empty($validates))
-        {
+        if (empty($validates)) {
             // get all of the rules
             $validation_rules = $model->getValidationRules();
-        }
-        else
-        {
+        } else {
             // if its not fetch only the rules requested
             $validation_rules = $model->fetchRulesNeeded($validates);
         }
         // get all data send in request
         $data = Input::all();
-        $validation = Validator::make($data,$validation_rules);
+        $validation = Validator::make($data, $validation_rules);
         // if failed
-        if($validation->fails())
-        {
+        if ($validation->fails()) {
             // throw exception
             $errors = $validation->messages()->toArray();
             throw new Exception(json_encode($errors));
         }
         // create empty array to hold data set for validation
         $data_to_validate = [];
-        foreach($validation_rules as $field => $rule)
-        {
+        foreach ($validation_rules as $field => $rule) {
             // copy over the data to a final validate array
-            $data_to_validate[$field]=$data[$field];
+            $data_to_validate[$field] = $data[$field];
         }
         // make validation
         // return data that passed validation
@@ -523,13 +483,12 @@ trait BaseModel
      * @return mixed
      * @throws Exception
      */
-    public function getValidationRules() : array
+    public function getValidationRules(): array
     {
         $model = $this;
-        if(!method_exists($model,'validationRules'))
-        {
+        if (!method_exists($model, 'validationRules')) {
             $errors = [
-                "Validation" => "Validation rules don't exist in ".get_class($model)." model",
+                "Validation" => "Validation rules don't exist in " . get_class($model) . " model",
             ];
             throw new Exception(json_encode($errors));
         }
@@ -540,18 +499,14 @@ trait BaseModel
      * @param array $rules
      * @return array
      */
-    public function fetchRulesNeeded($rules = []) : array
+    public function fetchRulesNeeded($rules = []): array
     {
         $model = $this;
         $final = [];
-        foreach($rules as $rule)
-        {
-            if(!method_exists($model,'validationRules'))
-            {
+        foreach ($rules as $rule) {
+            if (!method_exists($model, 'validationRules')) {
                 $final[$rule] = 'required';
-            }
-            else
-            {
+            } else {
                 $final[$rule] = $model->validationRules()[$rule];
             }
         }
@@ -566,8 +521,7 @@ trait BaseModel
      */
     public function scopeSearch($query, $variables)
     {
-        if(!isset($variables[0]))
-        {
+        if (!isset($variables[0])) {
             $errors = [
                 'messages' => "Could not user search filter",
                 'search' => "The string sent as variable is invalid"
@@ -575,14 +529,12 @@ trait BaseModel
             throw new Exception(json_encode($errors));
         }
         $cleaned = $this->clean_strings($variables[0]);
-        $strings_exploded = explode('-',$cleaned);
+        $strings_exploded = explode('-', $cleaned);
         $table = $this->getTable();
-        $query->where(function(Builder $query)use($strings_exploded,$table){
-            foreach ($strings_exploded as $string)
-            {
-                foreach ($this->fillable as $filed)
-                {
-                    $query->orWhere($table.'.'.$filed,'like',"%$string%");
+        $query->where(function (Builder $query) use ($strings_exploded, $table) {
+            foreach ($strings_exploded as $string) {
+                foreach ($this->fillable as $filed) {
+                    $query->orWhere($table . '.' . $filed, 'like', "%$string%");
                 }
             }
         });
@@ -592,15 +544,15 @@ trait BaseModel
      * Add a string to the Select Statement
      * @param string $select
      */
-    public function appendToSelect(string $select) : this
+    public function appendToSelect(string $select): this
     {
-        array_push($this->selectStatement ,$select);
+        array_push($this->selectStatement, $select);
         return $this;
     }
 
     /**
      * @param \Illuminate\Database\Eloquent\Builder $query
-     * @param string                                $select
+     * @param string $select
      */
     public function scopeAppendToSelect(Builder $query, string $select)
     {
@@ -614,43 +566,40 @@ trait BaseModel
      */
     public function scopePullSelectInQuery(Builder $query, $raw = true)
     {
-        $selectString = implode(',',$this->selectStatement);
-        if($raw)
-        {
+        $selectString = implode(',', $this->selectStatement);
+        if ($raw) {
             $query->select(DB::raw($selectString));
-        }
-        else
-        {
+        } else {
             $query->select($selectString);
         }
     }
 
     /**
      * @param \Illuminate\Database\Eloquent\Builder $query
-     * @param int                                   $time
+     * @param int $time
      */
     public function scopeDateFrom(Builder $query, int $time)
     {
         $table = $this->getTable();
         $date = Carbon::createFromTimestamp($time)->timezone('UTC')->toDateTimeString();
-        $query->where($table.'.created_at','>',$date);
+        $query->where($table . '.created_at', '>', $date);
     }
 
     /**
      * @param \Illuminate\Database\Eloquent\Builder $query
-     * @param int                                   $time
+     * @param int $time
      */
     public function scopeDateTo(Builder $query, int $time)
     {
         $table = $this->getTable();
         $date = Carbon::createFromTimestamp($time)->timezone('UTC')->toDateTimeString();
-        $query->where($table.'.created_at','<',$date);
+        $query->where($table . '.created_at', '<', $date);
     }
 
     /**
      * @return mixed
      */
-    public function  getTimezone() : Carbon
+    public function getTimezone(): Carbon
     {
         return Config::get('app.timezone');
     }
@@ -659,16 +608,16 @@ trait BaseModel
      * @param $string
      * @return mixed
      */
-    public function clean_strings($string) : string
+    public function clean_strings($string): string
     {
         // trim leading spaces, period, or breaks
         $trimmed = trim($string, ' .');
         // make string lower case
         $lower = strtolower($trimmed);
         // replace any spaces with a das "-"
-        $clean_commas = str_replace(',',' ',$lower);
+        $clean_commas = str_replace(',', ' ', $lower);
         // replace any spaces with a das "-"
-        $clean = str_replace(' ','-',$clean_commas);
+        $clean = str_replace(' ', '-', $clean_commas);
         // return cleaned string
         return $clean;
     }

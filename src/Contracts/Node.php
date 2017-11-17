@@ -15,34 +15,34 @@ interface Node extends IteratorAggregate, Prototype
     /**
      * @return Node
      */
-    public function getParentNode() : Node;
+    public function getParentNode(): Node;
 
     /**
      * @return Node
      */
-    public function getChildNode() : Node;
+    public function getChildNode(): Node;
 
     /**
      * @return bool
      */
-    public function hasParent() : bool;
+    public function hasParent(): bool;
 
     /**
      * @return bool
      */
-    public function hasChild() : bool;
+    public function hasChild(): bool;
 
     /**
      * @param Node $node
      * @return Node
      */
-    public function setChildNode(Node $node) : Node;
+    public function setChildNode(Node $node): Node;
 
     /**
      * @param Node $node
      * @return Node
      */
-    public function setParentNode(Node $node) : Node;
+    public function setParentNode(Node $node): Node;
 
     /**
      * @param array $attributes

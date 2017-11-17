@@ -10,4 +10,6 @@ use Combustion\StandardLib\Exceptions\BaseException;
  * @package Combustion\StandardLib\Services\Data\Exceptions
  * @author  Carlos Granados <cgranados@combustiongroup.com>
  */
-class DatabaseMigrationException extends BaseException {}
+class DatabaseMigrationException extends BaseException
+{
+}

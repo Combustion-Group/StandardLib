@@ -18,7 +18,7 @@ abstract class MultiServiceProvider extends BaseServiceProvider
     /**
      * @return string[]
      */
-    public function getServiceProviders() : array
+    public function getServiceProviders(): array
     {
         return $this->providers;
     }
@@ -26,7 +26,7 @@ abstract class MultiServiceProvider extends BaseServiceProvider
     /**
      * @return MultiServiceProvider
      */
-    public function register() : MultiServiceProvider
+    public function register(): MultiServiceProvider
     {
         foreach ($this->getServiceProviders() as $provider) {
             $this->app->register($provider);

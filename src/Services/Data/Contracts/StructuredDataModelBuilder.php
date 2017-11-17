@@ -12,5 +12,5 @@ use Combustion\StandardLib\Contracts\BuilderInterface;
  */
 interface StructuredDataModelBuilder extends BuilderInterface
 {
-    public function setData(array $data) : StructuredDataModelBuilder;
+    public function setData(array $data): StructuredDataModelBuilder;
 }

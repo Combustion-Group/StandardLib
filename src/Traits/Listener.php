@@ -18,7 +18,7 @@ trait Listener
     /**
      * @return bool
      */
-    public function async() : bool
+    public function async(): bool
     {
         return (bool)$this->async;
     }

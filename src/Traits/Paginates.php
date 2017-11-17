@@ -23,11 +23,11 @@ trait Paginates
      * @return LengthAwarePaginator
      * @throws PageOutOfRangeException
      */
-    protected function paginate($data, int $total, int $perPage, int $page) : LengthAwarePaginator
+    protected function paginate($data, int $total, int $perPage, int $page): LengthAwarePaginator
     {
-        $totalPages     = ceil($total / $perPage);
+        $totalPages = ceil($total / $perPage);
 
-        if ($total === 0){
+        if ($total === 0) {
             return new LengthAwarePaginatorImpl([], 0, $perPage);
         }
 
@@ -46,14 +46,14 @@ trait Paginates
      * @return int[]
      * @throws PaginationException
      */
-    public function buildLimits(int $page, int $perPage) : array
+    public function buildLimits(int $page, int $perPage): array
     {
         if ($page < 1) {
             throw new PaginationException("Page number cannot be negative.");
         }
 
         $offset = ($page - 1) * $perPage;
-        $limit  = $offset + $perPage;
+        $limit = $offset + $perPage;
 
         return [$offset, $limit];
     }
@@ -63,10 +63,9 @@ trait Paginates
      * @return mixed
      * @throws PaginationException
      */
-    protected function unpackData($data) : array
+    protected function unpackData($data): array
     {
-        switch ($data)
-        {
+        switch ($data) {
             case is_array($data):
                 return $data;
             case $data instanceof \Traversable:

@@ -23,7 +23,7 @@ class Columns implements Iterator
     /**
      * @return &array
      */
-    protected function & getIterable() : array
+    protected function & getIterable(): array
     {
         return $this->data;
     }
@@ -33,7 +33,7 @@ class Columns implements Iterator
      * @param string $name
      * @return Columns
      */
-    public function add(string $type, string $name) : Columns
+    public function add(string $type, string $name): Columns
     {
         $this->data[$name] = $type;
         return $this;

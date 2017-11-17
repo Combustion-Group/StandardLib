@@ -45,9 +45,9 @@ class OneToMany implements DataGenerator, Relationship
      */
     private $missing = [
         'parentBuilder' => ModelBuilder::class,
-        'childBuilder'  => ModelBuilder::class,
-        'parentPrefix'  => ZEND_TYPE::STRING,
-        'childPrefix'   => ZEND_TYPE::STRING
+        'childBuilder' => ModelBuilder::class,
+        'parentPrefix' => ZEND_TYPE::STRING,
+        'childPrefix' => ZEND_TYPE::STRING
     ];
 
     /**
@@ -63,28 +63,26 @@ class OneToMany implements DataGenerator, Relationship
      * This function allows you to pass the an inner joined one to many result set,
      * it's expected that the columns are aliased to differentiate otherwise ambiguous fields (e.g. id field).
      *
-     * @param array  $data
+     * @param array $data
      * @return \Generator|Model[]
      */
-    public function generate(array $data) : \Generator
+    public function generate(array $data): \Generator
     {
         $this->checkMissing();
 
-        $totalRecords   = count($data);
+        $totalRecords = count($data);
 
         if (!$totalRecords) return [];
 
-        $parentIdField  = $this->parentPrefix . 'id';
+        $parentIdField = $this->parentPrefix . 'id';
 
         // Runs in O(n), this is not a quadratic approach. Both loops run
         // on the same control variable.
-        for ($i = 0; $i < $totalRecords; $i++)
-        {
+        for ($i = 0; $i < $totalRecords; $i++) {
             $record = $data[$i];
             $parent = $this->parentBuilder->build($record);
 
-            for (; $i < $totalRecords; $i++)
-            {
+            for (; $i < $totalRecords; $i++) {
                 $record = $data[$i];
 
                 $child = $this->childBuilder->build($record);
@@ -92,7 +90,7 @@ class OneToMany implements DataGenerator, Relationship
                 $parent->addLineItem($child);
 
                 $curId = $data[$i][$parentIdField];
-                $next  = $i + 1;
+                $next = $i + 1;
 
                 if ((array_key_exists($next, $data) && $curId != $data[$next][$parentIdField]) || !array_key_exists($next, $data)) {
                     yield $parent;
@@ -106,7 +104,7 @@ class OneToMany implements DataGenerator, Relationship
      * @param ModelBuilder $modelFactory
      * @return OneToMany
      */
-    public function setParentBuilder(ModelBuilder $modelFactory) : OneToMany
+    public function setParentBuilder(ModelBuilder $modelFactory): OneToMany
     {
         unset($this->missing['parentBuilder']);
         $this->parentBuilder = $modelFactory;
@@ -120,7 +118,7 @@ class OneToMany implements DataGenerator, Relationship
      * @param ModelBuilder $modelFactory
      * @return OneToMany
      */
-    public function setChildBuilder(ModelBuilder $modelFactory) : OneToMany
+    public function setChildBuilder(ModelBuilder $modelFactory): OneToMany
     {
         unset($this->missing['childBuilder']);
         $this->childBuilder = $modelFactory;
@@ -134,7 +132,7 @@ class OneToMany implements DataGenerator, Relationship
      * @param string $prefix
      * @return OneToMany
      */
-    public function setParentPrefix(string $prefix) : OneToMany
+    public function setParentPrefix(string $prefix): OneToMany
     {
         unset($this->missing['parentPrefix']);
         $this->parentPrefix = $prefix;
@@ -145,7 +143,7 @@ class OneToMany implements DataGenerator, Relationship
      * @param string $prefix
      * @return OneToMany
      */
-    public function setChildPrefix(string $prefix) : OneToMany
+    public function setChildPrefix(string $prefix): OneToMany
     {
         unset($this->missing['childPrefix']);
         $this->childPrefix = $prefix;
@@ -166,7 +164,7 @@ class OneToMany implements DataGenerator, Relationship
      * @param array $data
      * @return array
      */
-    public function toList(array $data) : array
+    public function toList(array $data): array
     {
         return iterator_to_array($this->generate($data));
     }

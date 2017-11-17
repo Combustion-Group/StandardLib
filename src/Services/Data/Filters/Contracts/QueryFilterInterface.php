@@ -12,5 +12,5 @@ use Illuminate\Database\Query\Builder;
  */
 interface QueryFilterInterface
 {
-    public function applyFilter(Builder $query) : Builder;
+    public function applyFilter(Builder $query): Builder;
 }

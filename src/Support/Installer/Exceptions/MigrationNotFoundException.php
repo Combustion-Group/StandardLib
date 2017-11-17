@@ -2,4 +2,6 @@
 
 namespace Combustion\StandardLib\Support\Installer\Exceptions;
 
-class MigrationNotFoundException extends \Exception {}
+class MigrationNotFoundException extends \Exception
+{
+}

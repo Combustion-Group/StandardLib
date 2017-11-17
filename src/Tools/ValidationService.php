@@ -37,7 +37,7 @@ class ValidationService
      * @param array $rules
      * @return ValidationService
      */
-    public function with(array $rules) : ValidationService
+    public function with(array $rules): ValidationService
     {
         $this->rules = $rules;
         return $this;
