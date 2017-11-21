@@ -60,6 +60,7 @@ class PaginatedResponse implements CustomResponse
     public function __construct(Paginator $paginationObject = null, bool $strict = false)
     {
         if (!is_null($paginationObject)) {
+            $this->setData($paginationObject->getCollection()->toArray());
             $this->fill($this->extractPaginationData($paginationObject), $strict);
         }
     }
