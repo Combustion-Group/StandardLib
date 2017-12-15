@@ -24,6 +24,9 @@ abstract class Controller extends BaseController
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
 
+    /**
+     *
+     */
     const OK = 'OK';
     const ERROR = 'ERROR';
 
@@ -31,15 +34,10 @@ abstract class Controller extends BaseController
      * @var array
      */
     protected $validationRules = [];
+    public $headers = [];
 
-    /**
-     * @param mixed $data
-     * @param string $status
-     * @param string|string[] $messages
-     * @param int $code
-     * @return \Illuminate\Http\JsonResponse
-     */
-    public static function respond($data = [], string $status = self::OK, $messages = [], int $code = null, $warnings = []): JsonResponse
+
+    public static function respond($data = [], string $status = self::OK, $messages = [], int $code = null, $warnings = [], array $headers = []): JsonResponse
     {
         // You can specify the HTTP response code you wish
         // to send back, but if no code is set and the status
@@ -61,7 +59,32 @@ abstract class Controller extends BaseController
         {
             $response['deployment_sha']=env("GIT_SHA");
         }
-        return response()->json(self::buildResponse($response), $code);
+        return response()->json(self::buildResponse($response), $code, $headers);
+    }
+
+    public function respondAPI($data = [], string $status = self::OK, $messages = [], int $code = null, $warnings = [])
+    {
+        // You can specify the HTTP response code you wish
+        // to send back, but if no code is set and the status
+        // is not OK then it is automatically turned into a 400 (Bad Request).
+        if ($status != self::OK && $code == null) {
+            $code = 400;
+        } elseif ($code == null) {
+            $code = 200;
+        }
+
+        // Standard API response
+        $response = [
+            'status' => $status,
+            'messages' => self::formatErrorMessages($messages),
+            'data' => $data
+        ];
+
+        if(!is_null(env("GIT_SHA")))
+        {
+            $response['deployment_sha']=env("GIT_SHA");
+        }
+        return response()->json(self::buildResponse($response), $code, $this->headers);
     }
 
     /**

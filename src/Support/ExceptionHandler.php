@@ -95,14 +95,14 @@ class ExceptionHandler extends Handler
                 }
             }
 
-            return Controller::respond('', Controller::ERROR, $data['message'], $code);
+            return Controller::respondAPI('', Controller::ERROR, $data['message'], $code);
         }
 
         // We only want to send the actual exception message if debug mode is enabled
         $message = Controller::getExceptionMessage($e);
         $code = $e instanceof HttpException ? $e->getStatusCode() : 500;
         // Send standard error message
-        return Controller::respond('', Controller::ERROR, $message, $code);
+        return Controller::respondAPI('', Controller::ERROR, $message, $code);
     }
 
     /**
