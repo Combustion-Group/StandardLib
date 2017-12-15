@@ -64,27 +64,7 @@ abstract class Controller extends BaseController
 
     public function respondAPI($data = [], string $status = self::OK, $messages = [], int $code = null, $warnings = [])
     {
-        // You can specify the HTTP response code you wish
-        // to send back, but if no code is set and the status
-        // is not OK then it is automatically turned into a 400 (Bad Request).
-        if ($status != self::OK && $code == null) {
-            $code = 400;
-        } elseif ($code == null) {
-            $code = 200;
-        }
-
-        // Standard API response
-        $response = [
-            'status' => $status,
-            'messages' => self::formatErrorMessages($messages),
-            'data' => $data
-        ];
-
-        if(!is_null(env("GIT_SHA")))
-        {
-            $response['deployment_sha']=env("GIT_SHA");
-        }
-        return response()->json(self::buildResponse($response), $code, $this->headers);
+       return self::respond($data,$status,$messages,$code,$warnings,$this->headers);
     }
 
     /**
