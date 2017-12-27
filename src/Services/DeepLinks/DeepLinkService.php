@@ -191,10 +191,24 @@ class DeepLinkService
      */
     private function resolveFallbackUrl($os): string
     {
+        switch(env('APP_NAME',"")){
+            case "wavework":
+                $ios = "https://itunes.apple.com/us/app/wavework-live-event-networking/id1074576367?mt=8";
+                $android = "https://play.google.com/store/apps/details?id=com.combustiongroup.wavework&hl=en";
+                break;
+            case "snack-tracker":
+                $ios = "https://itunes.apple.com/us/app/snacktracker-track-trucks/id1202605260?mt=8";
+                $android = "https://play.google.com/store/apps/details?id=com.combustiongroup.snacktracker";
+                break;
+            default:
+                $ios = "https://itunes.apple.com/us/app/snacktracker-track-trucks/id1202605260?mt=8";
+                $android = "https://play.google.com/store/apps/details?id=com.combustiongroup.snacktracker";
+                break;
+        }
         if ($os == self::IPHONE) {
-            return "https://itunes.apple.com/us/app/wavework-live-event-networking/id1074576367?mt=8";
+            return $ios;
         } elseif ($os === self::ANDROID) {
-            return "https://play.google.com/store/apps/details?id=com.combustiongroup.wavework&hl=en";
+            return $android;
         }
 
         return (string)url('');
