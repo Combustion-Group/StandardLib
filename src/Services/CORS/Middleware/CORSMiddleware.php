@@ -34,7 +34,9 @@ class CORSMiddleware
         ];
 
         $response->headers->add($headers);
-
+        if ($request->getMethod() === "OPTIONS") {
+            return response('');
+        }
         return $response;
     }
 }
